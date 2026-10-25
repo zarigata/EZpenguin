@@ -61,6 +61,14 @@ BASE_LIST="$HERE/../config/packages-base.list"
 while IFS= read -r pkg; do
     pkg="${pkg%%#*}"; pkg="${pkg// /}"; pkg="${pkg//$'\t'/}"
     case "$pkg" in ''|*[!a-zA-Z0-9.+-]*) [[ "$pkg" =~ ^[a-zA-Z0-9][a-zA-Z0-9.+-]*$ ]] || continue ;; esac
+    # mirror rootfs.sh arch mapping
+    if [[ "$ARCH" == "arm64" ]]; then
+        case "$pkg" in
+            linux-image-amd64)   pkg=linux-image-arm64 ;;
+            grub-efi-amd64-bin)  pkg=grub-efi-arm64-bin ;;
+            grub-pc-bin)         continue ;;  # BIOS grub: amd64-only
+        esac
+    fi
     t "L2 installed: $pkg" chr "dpkg -s '$pkg' >/dev/null 2>&1"
 done < "$BASE_LIST"
 

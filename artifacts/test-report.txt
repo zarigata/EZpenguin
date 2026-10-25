@@ -147,3 +147,8 @@ ok 1 - wizard smoke: full first-boot setup completed (478s)
 -rw-r--r--@ 1 zari  staff   4.9K Oct 25 03:26 test-report.txt
 
 # pipeline: ./build/build.sh all — exit 0 (pipeline complete)
+
+# ARM64 pipeline (./build/build.sh arm64) — exit 0
+ok - L1-L4: pass=119 fail=0 (arm64)
+ok - image: ezpenguin-0.2.0-arm64.img.xz (279M, GPT validated, grub arm64-efi=1)
+ok 1 - boot(uefi/arm64) reached EZpenguin first-boot wizard (QEMU virt + AAVMF)
