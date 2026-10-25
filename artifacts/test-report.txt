@@ -1,0 +1,149 @@
+ok 1 - L1 file exists: /etc/ezpenguin/version
+ok 2 - L1 file exists: /etc/os-release
+ok 3 - L1 file exists: /etc/hostname
+ok 4 - L1 file exists: /etc/fstab
+ok 5 - L1 file exists: /usr/local/bin/ez-firstboot
+ok 6 - L1 file exists: /usr/local/bin/ez-info
+ok 7 - L1 file exists: /usr/local/bin/ez-update
+ok 8 - L1 file exists: /usr/local/bin/ez-config
+ok 9 - L1 file exists: /usr/local/bin/ez-doctor
+ok 10 - L1 file exists: /usr/local/bin/ez-net
+ok 11 - L1 file exists: /usr/local/sbin/ez-install
+ok 12 - L1 file exists: /etc/systemd/system/ezpenguin-firstboot.service
+ok 13 - L1 file exists: /etc/apt/sources.list
+ok 14 - L1 file exists: /bin/sh
+ok 15 - L1 file exists: /etc/passwd
+ok 16 - L1 file exists: /etc/shadow
+ok 17 - L1 file exists: /etc/sudoers
+ok 18 - L1 identity dir
+ok 19 - L1 version non-empty
+ok 20 - L1 firstboot executable
+ok 21 - L1 ez-info executable
+ok 22 - L1 os-release has ID
+ok 23 - L1 hostname is set
+ok 24 - L1 apt sources configured
+ok 25 - L2 dpkg audit clean
+ok 26 - L2 apt check (deps ok)
+ok 27 - L2 installed: bash
+ok 28 - L2 installed: coreutils
+ok 29 - L2 installed: util-linux
+ok 30 - L2 installed: bsdutils
+ok 31 - L2 installed: e2fsprogs
+ok 32 - L2 installed: debianutils
+ok 33 - L2 installed: sysvinit-utils
+ok 34 - L2 installed: systemd
+ok 35 - L2 installed: systemd-sysv
+ok 36 - L2 installed: udev
+ok 37 - L2 installed: initramfs-tools
+ok 38 - L2 installed: linux-image-amd64
+ok 39 - L2 installed: locales
+ok 40 - L2 installed: tzdata
+ok 41 - L2 installed: console-setup
+ok 42 - L2 installed: kbd
+ok 43 - L2 installed: apt
+ok 44 - L2 installed: apt-utils
+ok 45 - L2 installed: ca-certificates
+ok 46 - L2 installed: gnupg
+ok 47 - L2 installed: debian-archive-keyring
+ok 48 - L2 installed: iproute2
+ok 49 - L2 installed: iputils-ping
+ok 50 - L2 installed: netbase
+ok 51 - L2 installed: ifupdown
+ok 52 - L2 installed: isc-dhcp-client
+ok 53 - L2 installed: netcat-openbsd
+ok 54 - L2 installed: wget
+ok 55 - L2 installed: curl
+ok 56 - L2 installed: openssh-client
+ok 57 - L2 installed: openssh-server
+ok 58 - L2 installed: nano
+ok 59 - L2 installed: vim-tiny
+ok 60 - L2 installed: parted
+ok 61 - L2 installed: dosfstools
+ok 62 - L2 installed: eject
+ok 63 - L2 installed: pciutils
+ok 64 - L2 installed: usbutils
+ok 65 - L2 installed: dmidecode
+ok 66 - L2 installed: less
+ok 67 - L2 installed: file
+ok 68 - L2 installed: sudo
+ok 69 - L2 installed: whiptail
+ok 70 - L2 installed: bc
+ok 71 - L2 installed: jq
+ok 72 - L2 installed: xz-utils
+ok 73 - L2 installed: tar
+ok 74 - L2 installed: unzip
+ok 75 - L2 installed: rsync
+ok 76 - L2 installed: logrotate
+ok 77 - L2 installed: cron
+ok 78 - L2 installed: htop
+ok 79 - L2 installed: console-data
+ok 80 - L2 installed: grub2-common
+ok 81 - L2 installed: grub-pc-bin
+ok 82 - L2 installed: grub-efi-amd64-bin
+ok 83 - L2 installed: efibootmgr
+ok 84 - L2 installed: os-prober
+ok 85 - L2 installed: live-boot
+ok 86 - L2 excluded: man-db
+ok 87 - L2 excluded: manpages
+ok 88 - L2 excluded: manpages-dev
+ok 89 - L2 excluded: tasksel
+ok 90 - L2 excluded: tasksel-data
+ok 91 - L2 excluded: debconf-i18n
+ok 92 - L2 excluded: poppler-data
+ok 93 - L2 excluded: iso-codes
+ok 94 - L3 systemd is init
+ok 95 - L3 systemd dir
+ok 96 - L3 kernel installed
+ok 97 - L3 initramfs present
+ok 98 - L3 grub present
+ok 99 - L3 firstboot syntax
+ok 100 - L3 ez-info syntax
+ok 101 - L3 ez-update syntax
+ok 102 - L3 ez-config syntax
+ok 103 - L3 ez-doctor syntax
+ok 104 - L3 ez-net syntax
+ok 105 - L3 ez-install syntax
+ok 106 - L3 ez-doctor executable
+ok 107 - L3 ez-net executable
+ok 108 - L3 ez-install executable
+ok 109 - L3 live-boot present
+ok 110 - L3 timeout hardening
+ok 111 - L3 os-release version
+ok 112 - L3 wizard live-mode aware
+ok 113 - L3 unit is valid
+ok 114 - L3 firstboot enabled
+ok 115 - L3 shadow: root locked
+ok 116 - L3 shadow: no empty pass
+ok 117 - L3 machine-id empty
+ok 118 - L3 sudo installed
+ok 119 - L3 ssh present, default off
+ok 120 - L4 rootfs size 687MB <= 700MB
+# pass=120 fail=0
+# ALL TESTS PASSED
+ok 1 - boot(bios/amd64) reached EZpenguin first-boot wizard
+ok 1 - boot(uefi/amd64) reached EZpenguin first-boot wizard
+ok 1 - iso(bios) booted live, first-boot wizard service started
+ok 2 - iso(bios) live root mounted, multi-user reached
+ok 1 - iso(uefi) booted live, first-boot wizard service started
+ok 2 - iso(uefi) live root mounted, multi-user reached
+ok 1 - wizard smoke: full first-boot setup completed (478s)
+
++ echo 'grub: efi=1 bios=1'
+grub: efi=1 bios=1
+[1;35m[image][0m validation OK (tarball 14955 entries, GPT signature present)
+ok 1 - boot(bios/amd64) reached EZpenguin first-boot wizard
+ok 1 - boot(uefi/amd64) reached EZpenguin first-boot wizard
+[1;33m[iso][0m ISO OK: /build/artifacts/ezpenguin-0.2.0-amd64.iso (250MB, BIOS+UEFI El Torito verified)
+ok 1 - iso(bios) booted live, first-boot wizard service started
+ok 2 - iso(bios) live root mounted, multi-user reached
+ok 1 - iso(uefi) booted live, first-boot wizard service started
+ok 2 - iso(uefi) live root mounted, multi-user reached
+ok 1 - wizard smoke: full first-boot setup completed (478s)
+
+# artifacts:
+-rw-r--r--  1 zari  staff   161M Oct 25 02:49 ezpenguin-0.2.0-amd64-rootfs.tar.xz
+-rw-r--r--  1 zari  staff   317M Oct 25 02:51 ezpenguin-0.2.0-amd64.img.xz
+-rw-r--r--  1 zari  staff   247M Oct 25 03:03 ezpenguin-0.2.0-amd64.iso
+-rw-r--r--@ 1 zari  staff   4.9K Oct 25 03:26 test-report.txt
+
+# pipeline: ./build/build.sh all — exit 0 (pipeline complete)

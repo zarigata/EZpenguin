@@ -1,0 +1,146 @@
+#!/usr/bin/env bash
+# ez-install — EZpenguin installer, runs from the live ISO (or any running
+# EZpenguin) to install the system onto a target disk.
+# Usage: ez-install [target-disk]   (interactive picker when omitted)
+set -euo pipefail
+
+log() { printf '\033[1;36m[install]\033[0m %s\n' "$*" >&2; }
+die() { printf '\033[1;31m[install] ERROR:\033[0m %s\n' "$*" >&2; exit 1; }
+
+[[ $EUID -eq 0 ]] || die "run as root (sudo ez-install)"
+
+VERSION="$(cat /etc/ezpenguin/version 2>/dev/null || echo unknown)"
+LIVE=0
+grep -q 'boot=live' /proc/cmdline 2>/dev/null && LIVE=1
+
+# ------------------------------------------------------------- pick disk ---
+list_disks() {
+    lsblk -dnpo NAME,SIZE,MODEL,TYPE 2>/dev/null | awk '$4=="disk"{print $1"  "$2"  "$3}'
+}
+
+TARGET_DISK="${1:-}"
+if [[ -z "$TARGET_DISK" ]]; then
+    DISKS=$(list_disks)
+    [[ -n "$DISKS" ]] || die "no disks found"
+    if [[ -x /usr/bin/whiptail ]]; then
+        MENU=()
+        while read -r d sz model; do
+            MENU+=("$d" "${sz} ${model}")
+        done <<< "$DISKS"
+        TARGET_DISK=$(whiptail --title "EZpenguin $VERSION installer" \
+            --menu "Select target disk (WILL BE ERASED)" 16 70 6 \
+            "${MENU[@]}" 3>&1 1>&2 2>&3) || die "aborted"
+    else
+        echo "$DISKS" >&2
+        read -r -p "Target disk (e.g. /dev/sda): " TARGET_DISK
+    fi
+fi
+
+[[ -b "$TARGET_DISK" ]] || die "$TARGET_DISK is not a block device"
+DISK_ID=$(lsblk -dno SIZE,MODEL "$TARGET_DISK" 2>/dev/null | tr -s ' ')
+
+# ------------------------------------------------------------- confirm ----
+log "target: $TARGET_DISK ($DISK_ID)"
+if [[ -x /usr/bin/whiptail ]]; then
+    whiptail --yesno "This will ERASE EVERYTHING on:\n\n  $TARGET_DISK ($DISK_ID)\n\nProceed?" 12 64 3>&1 1>&2 2>&3 \
+        || die "aborted by user"
+else
+    echo -n "Type 'YES' to wipe $TARGET_DISK: "; read -r REPLY
+    [[ "$REPLY" == "YES" ]] || die "aborted"
+fi
+
+# do not touch the disk we are running from (installed-system safety)
+ROOT_DISK=$(lsblk -no pkname "$(findmnt -n -o SOURCE /)" 2>/dev/null || true)
+if [[ -n "$ROOT_DISK" && "/dev/$ROOT_DISK" == "$TARGET_DISK" && "$LIVE" != "1" ]]; then
+    die "refusing to install onto the running system disk"
+fi
+
+umount "$TARGET_DISK"* 2>/dev/null || true
+swapoff "$TARGET_DISK"* 2>/dev/null || true
+
+# ---------------------------------------------------------- partitions ---
+log "partitioning $TARGET_DISK (BIOS-boot 1M + ESP 260MB + root)"
+sgdisk -Z "$TARGET_DISK"
+sgdisk -n 1:0:+1M    -t 1:ef02 -c 1:BIOSBOOT "$TARGET_DISK"
+sgdisk -n 2:0:+260M  -t 2:ef00 -c 2:ESP "$TARGET_DISK"
+sgdisk -n 3:0:0      -t 3:8300 -c 3:root "$TARGET_DISK"
+partprobe "$TARGET_DISK" 2>/dev/null || true; sleep 2
+
+if   [[ -e "${TARGET_DISK}3" && -e "${TARGET_DISK}2" ]]; then ESP="${TARGET_DISK}2"; ROOT="${TARGET_DISK}3"
+elif [[ -e "${TARGET_DISK}p3" && -e "${TARGET_DISK}p2" ]]; then ESP="${TARGET_DISK}p2"; ROOT="${TARGET_DISK}p3"
+else die "cannot find partitions on $TARGET_DISK"; fi
+
+log "formatting"
+mkfs.vfat -F32 -n EZP_BOOT "$ESP"
+mkfs.ext4 -L EZP_ROOT -q -E lazy_itable_init=0 "$ROOT"
+
+MNT=$(mktemp -d)
+cleanup() { umount -R "$MNT" 2>/dev/null || true; rm -rf "$MNT"; }
+trap cleanup EXIT
+mount "$ROOT" "$MNT"; mkdir -p "$MNT/boot/efi"
+mount "$ESP" "$MNT/boot/efi"
+
+# ------------------------------------------------------------- payload ----
+# Source: the running live root (overlayfs merges the squashfs for us).
+log "copying system to disk (this takes a few minutes)"
+if [[ "$LIVE" == "1" ]]; then
+    SRC="/"
+    EXCLUDES=(--exclude='/proc/*' --exclude='/sys/*' --exclude='/dev/*'
+              --exclude='/run/*' --exclude='/tmp/*' --exclude='/live/*'
+              --exclude='/var/lib/live/*')
+else
+    SRC="/"
+    EXCLUDES=(--exclude='/proc/*' --exclude='/sys/*' --exclude='/dev/*'
+              --exclude='/run/*' --exclude='/tmp/*')
+fi
+rsync -aHAX --numeric-ids --info=progress2 "${EXCLUDES[@]}" "$SRC" "$MNT/"
+
+cat > "$MNT/etc/fstab" <<EOF
+LABEL=EZP_ROOT  /           ext4  defaults,noatime  0 1
+LABEL=EZP_BOOT  /boot/efi   vfat  defaults          0 2
+tmpfs           /tmp        tmpfs defaults,nosuid   0 0
+EOF
+
+# ---------------------------------------------------------- bootloader ---
+for d in dev proc sys; do mount --bind "/$d" "$MNT/$d"; done
+
+ROOT_UUID=$(blkid -s UUID -o value "$ROOT")
+[[ -n "$ROOT_UUID" ]] || die "cannot determine root UUID"
+KVER=$(basename "$(ls "$MNT"/boot/vmlinuz-* | sort -V | tail -1)" | sed 's/vmlinuz-//')
+log "root UUID: $ROOT_UUID  kernel: $KVER"
+
+log "installing GRUB (BIOS + UEFI)"
+chroot "$MNT" /usr/bin/env -i PATH=/usr/sbin:/usr/bin:/sbin:/bin \
+    DEBIAN_FRONTEND=noninteractive /bin/bash -exc '
+        efi_ok=1; bios_ok=1
+        grub-install --target=x86_64-efi --efi-directory=/boot/efi --boot-directory=/boot --no-nvram --removable || efi_ok=0
+        grub-install --target=i386-pc --boot-directory=/boot '"$TARGET_DISK"' || bios_ok=0
+        [ "$efi_ok" = 1 ] || [ "$bios_ok" = 1 ] || { echo "both grub installs failed" >&2; exit 1; }
+        echo "grub: efi=$efi_ok bios=$bios_ok" >&2
+    ' >&2
+
+# static, deterministic grub.cfg (mirrors build/image.sh)
+mkdir -p "$MNT/boot/grub"
+cat > "$MNT/boot/grub/grub.cfg" <<GRUBCFG
+set default=0
+set timeout=3
+serial --unit=0 --speed=115200
+terminal_input console serial
+terminal_output console serial
+menuentry "EZpenguin GNU/Linux" {
+    search --no-floppy --fs-uuid --set=root $ROOT_UUID
+    linux /boot/vmlinuz-$KVER root=UUID=$ROOT_UUID rw console=tty0 console=ttyS0,115200n8
+    initrd /boot/initrd.img-$KVER
+}
+menuentry "EZpenguin GNU/Linux (recovery mode)" {
+    search --no-floppy --fs-uuid --set=root $ROOT_UUID
+    linux /boot/vmlinuz-$KVER root=UUID=$ROOT_UUID rw single console=tty0 console=ttyS0,115200n8
+    initrd /boot/initrd.img-$KVER
+}
+GRUBCFG
+grep -q "root=UUID=$ROOT_UUID" "$MNT/boot/grub/grub.cfg" || die "grub.cfg sanity check failed"
+
+umount "$MNT/dev" "$MNT/proc" "$MNT/sys"; sync
+
+log "installation complete: EZpenguin $VERSION on $TARGET_DISK"
+log "reboot and remove the install medium — the first-boot wizard will start"

@@ -1,0 +1,9 @@
+# EZpenguin network: DHCP on all wired interfaces (predictable names incl.)
+[Match]
+Name=en* Name=eth*
+
+[Network]
+DHCP=yes
+
+[DHCP]
+RouteMetric=100

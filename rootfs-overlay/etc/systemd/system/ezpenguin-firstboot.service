@@ -1,0 +1,21 @@
+# EZpenguin first-boot wizard — runs on tty1, mirrors progress to serial console.
+[Unit]
+Description=EZpenguin First-Boot Wizard
+Wants=network-online.target
+After=network-online.target systemd-user-sessions.service systemd-networkd-wait-online.service
+ConditionPathExists=!/etc/ezpenguin/.configured
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/ez-firstboot
+StandardInput=tty
+TTYPath=/dev/tty1
+TTYReset=yes
+TTYVHangup=yes
+StandardOutput=journal+console
+StandardError=journal+console
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

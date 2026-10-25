@@ -1,0 +1,142 @@
+#!/usr/bin/env bash
+# ez-doctor — EZpenguin system health check.
+# Usage: ez-doctor [-v]   (extra detail with -v)
+set -uo pipefail
+
+VERSION="$(cat /etc/ezpenguin/version 2>/dev/null || echo unknown)"
+VERBOSE=0
+[[ "${1:-}" == "-v" ]] && VERBOSE=1
+
+OK=0; WARN=0; FAIL=0
+
+head()  { printf '\n\033[1;36m== %s ==\033[0m\n' "$*"; }
+good()  { printf '  \033[1;32mOK\033[0m   %s\n' "$*"; OK=$((OK+1)); }
+warn()  { printf '  \033[1;33mWARN\033[0m %s\n' "$*"; WARN=$((WARN+1)); }
+bad()   { printf '  \033[1;31mFAIL\033[0m %s\n' "$*"; FAIL=$((FAIL+1)); }
+
+echo "EZpenguin $VERSION — health check $(date '+%Y-%m-%d %H:%M:%S')"
+
+# --- system ---------------------------------------------------------------
+head "System"
+if [[ -r /proc/uptime ]]; then
+    UP=$(cut -d. -f1 /proc/uptime)
+    printf '  uptime: %dd %02dh %02dm\n' $((UP/86400)) $((UP%86400/3600)) $((UP%3600/60))
+else
+    warn "cannot read /proc/uptime"
+fi
+if [[ -r /proc/loadavg ]]; then
+    printf '  load:   %s\n' "$(cut -d' ' -f1-3 /proc/loadavg)"
+fi
+
+# --- memory ---------------------------------------------------------------
+head "Memory"
+if [[ -r /proc/meminfo ]]; then
+    MEMTOTAL=$(awk '/^MemTotal:/{print $2}' /proc/meminfo)
+    MEMAVAIL=$(awk '/^MemAvailable:/{print $2}' /proc/meminfo)
+    if [[ -n "$MEMTOTAL" && -n "$MEMAVAIL" ]]; then
+        PCT=$(( 100 * MEMAVAIL / MEMTOTAL ))
+        printf '  available: %sMB of %sMB (%d%%)\n' $((MEMAVAIL/1024)) $((MEMTOTAL/1024)) "$PCT"
+        (( PCT < 10 )) && bad "memory critically low (${PCT}% available)" || good "memory healthy"
+    fi
+else
+    warn "cannot read /proc/meminfo"
+fi
+if [[ -r /proc/swaps ]] && grep -q '^/' /proc/swaps 2>/dev/null; then
+    good "swap active"
+else
+    warn "no swap configured (fine for live/embedded use)"
+fi
+
+# --- storage --------------------------------------------------------------
+head "Storage"
+ROOTUSE=$(df -P / 2>/dev/null | awk 'NR==2{gsub("%","",$5); print $5}')
+if [[ -n "${ROOTUSE:-}" ]]; then
+    printf '  root fs usage: %s%%\n' "$ROOTUSE"
+    (( ROOTUSE > 90 )) && bad "root filesystem ${ROOTUSE}% full" \
+        || { (( ROOTUSE > 80 )) && warn "root filesystem ${ROOTUSE}% full" || good "root filesystem usage ${ROOTUSE}%"; }
+else
+    warn "cannot determine root fs usage"
+fi
+for fs in /boot /boot/efi; do
+    if mountpoint -q "$fs" 2>/dev/null; then
+        good "$fs mounted"
+    fi
+done
+
+# --- services -------------------------------------------------------------
+head "Services"
+FAILED_UNITS=$(systemctl --failed --no-legend 2>/dev/null | grep -c . || true)
+if [[ "${FAILED_UNITS:-0}" -eq 0 ]]; then
+    good "no failed systemd units"
+else
+    bad "$FAILED_UNITS failed unit(s):"
+    systemctl --failed --no-legend 2>/dev/null | awk '{print "      - " $2}' | head -10
+fi
+if [[ "${VERBOSE}" == 1 ]]; then
+    echo "  notable units:"
+    for u in ezpenguin-firstboot systemd-networkd systemd-resolved ssh; do
+        state=$(systemctl is-active "$u" 2>/dev/null || echo unknown)
+        printf '      %-24s %s\n' "$u" "$state"
+    done
+fi
+
+# --- network --------------------------------------------------------------
+head "Network"
+if ip -br link 2>/dev/null | grep -qv 'LOOPBACK'; then
+    good "network interface present"
+else
+    bad "no network interface"
+fi
+if [[ -r /run/systemd/resolve/stub-resolv.conf ]] || [[ -L /etc/resolv.conf ]]; then
+    good "DNS resolver configured (systemd-resolved)"
+else
+    warn "DNS resolver configuration unclear"
+fi
+if ping -c1 -W3 9.9.9.9 >/dev/null 2>&1; then
+    good "internet reachable (icmp)"
+elif ping -c1 -W3 1.1.1.1 >/dev/null 2>&1; then
+    good "internet reachable (icmp)"
+else
+    warn "no internet (offline? blocked icmp?)"
+fi
+
+# --- security -------------------------------------------------------------
+head "Security"
+if getent shadow root 2>/dev/null | cut -d: -f2 | grep -q '^[!*]'; then
+    good "root account locked"
+else
+    bad "root account has a usable password"
+fi
+if grep -qE '^[^:]+::' /etc/shadow 2>/dev/null; then
+    bad "empty password found in /etc/shadow"
+else
+    good "no empty passwords"
+fi
+if systemctl is-enabled ssh >/dev/null 2>&1; then
+    if grep -qE '^PermitRootLogin\s+no' /etc/ssh/sshd_config 2>/dev/null; then
+        good "ssh enabled, root login disabled"
+    else
+        warn "ssh enabled — verify PermitRootLogin is 'no'"
+    fi
+else
+    good "ssh not auto-enabled"
+fi
+if [[ -f /etc/ezpenguin/.configured ]]; then
+    good "first-boot setup completed"
+else
+    warn "first-boot setup not completed yet"
+fi
+
+# --- summary --------------------------------------------------------------
+head "Summary"
+printf '  OK: %d   WARN: %d   FAIL: %d\n' "$OK" "$WARN" "$FAIL"
+if (( FAIL > 0 )); then
+    echo "  Result: ISSUES FOUND — address FAIL items above."
+    exit 1
+elif (( WARN > 0 )); then
+    echo "  Result: HEALTHY (with warnings)."
+    exit 0
+else
+    echo "  Result: ALL CLEAR."
+    exit 0
+fi

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# ez-update — apply package updates safely
+set -euo pipefail
+
+echo "==> Updating package lists"
+apt-get update
+
+echo "==> Upgrading packages"
+apt-get upgrade -y
+
+echo "==> Removing leftovers"
+apt-get autoremove -y --purge
+
+echo "==> EZpenguin is up to date."

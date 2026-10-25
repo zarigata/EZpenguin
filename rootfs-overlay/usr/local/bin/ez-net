@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# ez-net — EZpenguin network status & diagnostics.
+# Usage: ez-net [check]
+set -uo pipefail
+
+BOLD='\033[1;36m'; RST='\033[0m'
+section() { printf '\n%s== %s ==%s\n' "$BOLD" "$*" "$RST"; }
+
+# --- interfaces -------------------------------------------------------------
+section "Interfaces"
+ip -br address 2>/dev/null || warn "ip command unavailable"
+
+# --- routes -----------------------------------------------------------------
+section "Routes"
+ip route 2>/dev/null | head -10
+
+# --- DNS --------------------------------------------------------------------
+section "DNS"
+if [[ -e /run/systemd/resolve/resolv.conf ]]; then
+    echo "  systemd-resolved servers:"
+    grep -v '^#' /run/systemd/resolve/resolv.conf 2>/dev/null | sed 's/^/    /'
+else
+    grep -v '^#' /etc/resolv.conf 2>/dev/null | sed 's/^/    /'
+fi
+
+# --- listening sockets -------------------------------------------------------
+section "Listening sockets"
+if command -v ss >/dev/null 2>&1; then
+    ss -tulpn 2>/dev/null | head -15 || echo "  (need root for process names)"
+else
+    echo "  ss not available"
+fi
+
+# --- connectivity ------------------------------------------------------------
+section "Connectivity"
+GATEWAY=$(ip route 2>/dev/null | awk '/^default/{print $3; exit}')
+if [[ -n "$GATEWAY" ]]; then
+    if ping -c1 -W2 "$GATEWAY" >/dev/null 2>&1; then
+        echo "  gateway $GATEWAY: reachable"
+    else
+        echo "  gateway $GATEWAY: NOT reachable"
+    fi
+else
+    echo "  no default gateway"
+fi
+for ip in 9.9.9.9 1.1.1.1; do
+    if ping -c1 -W3 "$ip" >/dev/null 2>&1; then
+        echo "  internet ($ip): reachable"
+        break
+    else
+        echo "  internet ($ip): no reply"
+    fi
+done
+if command -v wget >/dev/null 2>&1; then
+    if wget -q --spider --timeout=5 http://deb.debian.org >/dev/null 2>&1; then
+        echo "  http (deb.debian.org): reachable"
+    else
+        echo "  http (deb.debian.org): NOT reachable"
+    fi
+fi
+
+# --- verdict -----------------------------------------------------------------
+if ping -c1 -W3 9.9.9.9 >/dev/null 2>&1; then
+    echo
+    echo "  Result: ONLINE"
+    exit 0
+else
+    echo
+    echo "  Result: OFFLINE or firewalled (check cable/Wi-Fi, then: systemctl status systemd-networkd)"
+    exit 1
+fi

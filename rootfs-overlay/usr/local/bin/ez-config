@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# ez-config — re-run parts of the first-boot wizard
+set -euo pipefail
+
+echo "ez-config: clear /etc/ezpenguin/.configured to re-run full wizard:"
+echo "  sudo rm /etc/ezpenguin/.configured && sudo systemctl start ezpenguin-firstboot"
+echo
+echo "Or change individual settings:"
+echo "  timezone  : sudo timedatectl set-timezone <zone>"
+echo "  locale    : sudo update-locale LANG=<locale>"
+echo "  keymap    : sudo dpkg-reconfigure console-setup"
+echo "  hostname  : sudo hostnamectl set-hostname <name>"
+echo "  user/pass : sudo passwd <user>"

@@ -1,0 +1,21 @@
+# Build artifacts (large binaries — rebuilt via ./build/build.sh)
+artifacts/*
+!artifacts/.gitkeep
+!artifacts/test-report.txt
+
+# Build/test scratch
+*.img
+*.iso
+*.tar.xz
+*.log
+tmp/
+
+# Editor/OS noise
+.DS_Store
+*.swp
+*~
+.idea/
+.vscode/
+
+# Local agent/loop state
+.opencode/

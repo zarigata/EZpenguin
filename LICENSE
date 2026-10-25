@@ -1,0 +1,28 @@
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
+
+EZpenguin — a lightweight Debian-based Linux distribution.
+Copyright (C) 2026 EZpenguin contributors
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+---
+
+EZpenguin is built on Debian GNU/Linux. Debian is a registered trademark
+of Software in the Public Interest, Inc. EZpenguin is not affiliated with
+or endorsed by the Debian Project.
+
+Individual packages retain their upstream licenses (Debian, GPL-2/GPL-3/
+LGPL/MIT/BSD and others — see /usr/share/doc/<package>/copyright in the
+installed system).

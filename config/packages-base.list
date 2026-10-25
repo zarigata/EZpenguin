@@ -1,0 +1,77 @@
+# EZpenguin base packages — one per line, '# reason' comments encouraged.
+# Budget: keep total installed rootfs <= 450MB (see QUALITY.md).
+
+# --- core system ---
+bash                # shell
+coreutils           # basic utils
+util-linux          # mount, fdisk, etc
+bsdutils            # hostname, etc
+e2fsprogs           # ext4 tools
+debianutils         # which, run-parts
+sysvinit-utils      # init helpers
+systemd             # init system
+systemd-sysv        # systemd as init
+udev                # device management
+initramfs-tools     # initramfs generation
+linux-image-amd64   # kernel (meta, pulls latest stable)
+locales             # locale support
+tzdata              # timezone data
+console-setup       # console font/keymap setup
+kbd                 # keyboard tools
+
+# --- package management ---
+apt                 # package manager
+apt-utils           # apt helpers
+ca-certificates     # TLS roots
+gnupg               # key handling
+debian-archive-keyring
+
+# --- networking ---
+iproute2            # ip command
+iputils-ping        # ping
+netbase             # /etc/services etc
+ifupdown            # legacy ifup/down
+isc-dhcp-client     # DHCP
+netcat-openbsd      # network debugging
+wget                # downloads
+curl                # downloads
+openssh-client      # ssh client
+openssh-server      # ssh server (wizard enables service)
+nano                # editor (small, friendly default)
+vim-tiny            # emergency editor
+
+# --- filesystem / hardware tools ---
+parted              # partitioning
+dosfstools          # FAT tools (ESP)
+eject               # removable media
+pciutils            # lspci
+usbutils            # lsusb
+dmidecode           # hardware inventory
+less                # pager
+file                # file type detection
+
+# --- userland niceties (small) ---
+sudo                # privileged ops for wizard user
+whiptail            # dialog UI for wizard/installer
+bc                  # arithmetic for scripts
+jq                  # JSON handling for tools
+xz-utils            # compression
+tar                 # archives
+unzip               # zip extraction
+rsync               # robust copying (installer)
+logrotate           # log maintenance
+cron                # scheduled tasks
+htop                # process viewer
+console-data        # keymap data for wizard
+
+# --- boot ---
+# hybrid BIOS+UEFI: grub2-common provides grub-install dispatcher;
+# the *-bin packages coexist (grub-pc and grub-efi-amd64 conflict).
+grub2-common        # grub-install dispatcher + update-grub
+grub-pc-bin         # BIOS (i386-pc) modules
+grub-efi-amd64-bin  # UEFI (x86_64-efi) modules
+efibootmgr          # UEFI boot management
+os-prober           # detect other OSes (dual boot)
+
+# --- live/installer support ---
+live-boot           # live-system initramfs hooks (ISO boots, install target)

@@ -1,0 +1,11 @@
+# Packages to purge/exclude after base install (pulled in by deps but unwanted).
+# One per line. Each entry must be a real package name (no comments on lines).
+
+man-db
+manpages
+manpages-dev
+tasksel
+tasksel-data
+debconf-i18n
+poppler-data
+iso-codes

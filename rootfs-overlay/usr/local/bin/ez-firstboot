@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+# ez-firstboot — EZpenguin first-boot wizard (DietPi-inspired).
+# Runs via ezpenguin-firstboot.service. Safe to re-run (idempotent).
+set -euo pipefail
+
+VER_FILE="/etc/ezpenguin/version"
+VERSION="$(cat "$VER_FILE" 2>/dev/null || echo 'unknown')"
+LOG_TAG="ez-firstboot"
+
+log()  { echo "[$LOG_TAG] $*" >&2; logger -t "$LOG_TAG" "$*" 2>/dev/null || true; }
+
+banner() {
+    cat <<'EOF'
+
+      ███████╗███████╗████████╗██████╗
+      ██╔════╝██╔════╝╚══██╔══╝██╔══██╗
+      █████╗  █████╗     ██║   ██████╔╝
+      ██╔══╝  ██╔══╝     ██║   ██╔══██╗
+      ███████╗███████╗   ██║   ██║  ██║
+      ╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝
+      EZ  •  PENGUIN
+
+EOF
+    echo "  First-boot setup v$VERSION"
+    echo "  ==============================================="
+    echo "[ez-firstboot] wizard started (v$VERSION)" >&2
+}
+
+# Expand root partition to fill disk (safe if already max size)
+expand_rootfs() {
+    log "expanding root filesystem"
+    ROOT_PART=$(findmnt -n -o SOURCE / 2>/dev/null || true)
+    ROOT_DEV=$(lsblk -no pkname "$ROOT_PART" 2>/dev/null || true)
+    if [[ -n "$ROOT_DEV" && -b "/dev/$ROOT_DEV" && -x /usr/sbin/parted ]]; then
+        parted -s "/dev/$ROOT_DEV" resizepart 1 100% 2>/dev/null || true
+        partprobe "/dev/$ROOT_DEV" 2>/dev/null || true
+        resize2fs "$ROOT_PART" 2>/dev/null || true
+        log "root filesystem expanded"
+    else
+        log "root expansion skipped (unsupported layout)"
+    fi
+}
+
+ask() { # ask VARNAME "Question" "default"
+    local __var="$1" __q="$2" __def="$3" __ans
+    if [[ -x /usr/bin/whiptail ]] && [[ -t 0 ]]; then
+        __ans=$(whiptail --inputbox "$__q" 10 60 "$__def" 3>&1 1>&2 2>&3 || echo "$__def")
+    else
+        read -r -p "$__q [$__def]: " __ans || __ans=""
+        __ans="${__ans:-$__def}"
+    fi
+    printf -v "$__var" '%s' "$__ans"
+}
+
+confirm() {
+    whiptail --yesno "$1" 10 60 3>&1 1>&2 2>&3 2>/dev/null
+}
+
+main() {
+    banner
+
+    # Already configured? offer re-run via ez-config instead
+    if [[ -f /etc/ezpenguin/.configured ]]; then
+        log "already configured — use 'sudo ez-config' to change settings"
+        exit 0
+    fi
+
+    # --- live ISO mode: offer installation to disk first ---
+    if grep -q 'boot=live' /proc/cmdline 2>/dev/null; then
+        log "live mode detected"
+        if [[ -x /usr/local/sbin/ez-install ]]; then
+            if confirm "Install EZpenguin to a disk now? (No = stay in live mode)"; then
+                /usr/local/sbin/ez-install
+                log "installation finished — rebooting"
+                sleep 3
+                systemctl reboot || true
+                exit 0
+            fi
+            log "staying in live mode (run 'sudo ez-install' later if needed)"
+        fi
+    fi
+
+    expand_rootfs
+
+    # --- locale ---
+    local LOCALE KEYMAP TIMEZONE
+    ask LOCALE "Locale (e.g. en_US.UTF-8)" "en_US.UTF-8"
+    if locale -a 2>/dev/null | grep -qi "${LOCALE%%.*}"; then
+        printf 'LANG=%s\n' "$LOCALE" > /etc/default/locale
+        log "locale set: $LOCALE"
+    else
+        log "locale $LOCALE unavailable, keeping C.UTF-8"
+    fi
+
+    # --- timezone ---
+    ask TIMEZONE "Timezone (e.g. America/Sao_Paulo, Europe/Lisbon)" "$(cat /etc/timezone 2>/dev/null || echo UTC)"
+    if [[ -f "/usr/share/zoneinfo/$TIMEZONE" ]]; then
+        ln -snf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
+        printf '%s\n' "$TIMEZONE" > /etc/timezone
+        log "timezone set: $TIMEZONE"
+    else
+        log "timezone $TIMEZONE not found, keeping default"
+    fi
+
+    # --- keymap ---
+    ask KEYMAP "Console keymap (e.g. us, br-abnt2, de)" "us"
+    printf 'KEYMAP=%s\n' "$KEYMAP" > /etc/default/keyboard
+    log "keymap set: $KEYMAP"
+
+    # --- hostname ---
+    local HOSTNAME_NEW
+    ask HOSTNAME_NEW "Hostname" "ezpenguin"
+    printf '%s\n' "$HOSTNAME_NEW" > /etc/hostname
+    sed -i "s/^127\.0\.1\.1.*/127.0.1.1\t$HOSTNAME_NEW/" /etc/hosts 2>/dev/null || true
+    hostname "$HOSTNAME_NEW" 2>/dev/null || true
+    log "hostname set: $HOSTNAME_NEW"
+
+    # --- user ---
+    local USERNAME PASSWORD PASSWORD2
+    ask USERNAME "Create user (name, lowercase)" "penguin"
+    USERNAME=$(echo "$USERNAME" | tr -cd 'a-z0-9_-')
+    if ! id "$USERNAME" &>/dev/null; then
+        useradd -m -s /bin/bash -G sudo "$USERNAME"
+        if [[ -x /usr/bin/whiptail ]] && [[ -t 0 ]]; then
+            while :; do
+                PASSWORD=$(whiptail --passwordbox "Password for $USERNAME" 10 60 3>&1 1>&2 2>&3 || true)
+                PASSWORD2=$(whiptail --passwordbox "Confirm password" 10 60 3>&1 1>&2 2>&3 || true)
+                [[ "$PASSWORD" == "$PASSWORD2" && -n "$PASSWORD" ]] && break
+                whiptail --msgbox "Passwords empty or mismatched, retry." 10 50 2>/dev/null || true
+            done
+            chpasswd <<< "$USERNAME:$PASSWORD"
+        else
+            passwd "$USERNAME"
+        fi
+    fi
+
+    # --- optional ssh ---
+    if [[ -x /usr/sbin/sshd ]] && confirm "Enable SSH server now?"; then
+        systemctl enable --now ssh
+        sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+        log "ssh enabled (root login disabled)"
+    fi
+
+    # --- updates ---
+    log "updating packages (background-safe)"
+    apt-get update 2>&1 | tail -1 >&2 || log "apt update failed (offline?)"
+    apt-get upgrade -y 2>&1 | tail -1 >&2 || log "apt upgrade failed (offline?)"
+
+    touch /etc/ezpenguin/.configured
+    log "first-boot setup complete"
+
+    echo
+    echo "  ==============================================="
+    echo "  Setup complete! Rebooting in 5 seconds..."
+    echo "  (Ctrl+C to cancel and stay in this session)"
+    echo "  ==============================================="
+    sleep 5
+    systemctl reboot || true
+}
+
+main "$@"

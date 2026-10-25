@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# ez-info — system overview for EZpenguin
+set -euo pipefail
+
+VER="$(cat /etc/ezpenguin/version 2>/dev/null || echo unknown)"
+ARCH="$(uname -m)"
+KERNEL="$(uname -r)"
+UPTIME="$(uptime -p 2>/dev/null || echo '?')"
+DISK="$(df -h / | awk 'NR==2 {print $3" used / "$2" total ("$5")"}')"
+MEM="$(free -h 2>/dev/null | awk '/Mem:/ {print $3" used / "$2" total"}')"
+IPADDR="$(hostname -I 2>/dev/null | awk '{print $1}' || echo '?')"
+
+cat <<EOF
+
+  EZpenguin $VER  ($ARCH, kernel $KERNEL)
+  ──────────────────────────────────────
+  Hostname : $(hostname)
+  Uptime   : $UPTIME
+  Disk /   : $DISK
+  Memory   : $MEM
+  IP       : $IPADDR
+  Config   : $([ -f /etc/ezpenguin/.configured ] && echo 'complete' || echo 'pending (first boot)')
+  
+EOF
