@@ -158,3 +158,7 @@ ok 3 - headless: VM rebooted by itself (completion path)
 -rw-r--r--  1 zari  staff   247M Oct 26 14:40 ezpenguin-0.3.0-amd64.iso
 
 # pipeline: ./build/build.sh all stages green (amd64)
+
+# ARM64 pipeline (./build/build.sh arm64) — exit 0
+ok - L1-L4: pass=130 fail=0 (arm64)
+ok 1 - boot(uefi/arm64) reached EZpenguin first-boot wizard (QEMU virt + AAVMF)
