@@ -3,6 +3,29 @@
 All notable changes to EZpenguin. Format follows Keep-a-Changelog;
 versioning is SemVer. Dates are YYYY-MM-DD.
 
+## [0.3.0] — 2026-10-25
+
+DietPi-parity UX release: software catalog, headless installs, full
+configuration and backup tooling.
+
+### Added
+- `ez-software` — software catalog (25 curated entries: servers, VPNs,
+  monitoring, desktop): TUI checklist installer, `list`/`search`/
+  `install <id>` CLI modes; catalog data at
+  `/etc/ezpenguin/software-catalog.list` (single source: `config/`)
+- Headless first-boot: drop `firstboot.conf` (key=value) into
+  `/boot/` — wizard configures everything unattended (locale, timezone,
+  keymap, hostname, user+password, SSH enable, optional upgrade+reboot);
+  value charset strictly validated before use
+- `ez-config` — full system configuration tool: whiptail menu +
+  one-shot commands (hostname/timezone/locale/keymap/ssh/password/wizard)
+- `ez-backup` — configuration backup/restore (tarball of /etc state +
+  EZpenguin identity), with content preview before restore
+- Headless smoke test (`tests/test_headless_smoke.sh`): injects
+  firstboot.conf into an image copy, boots with ZERO input, verifies
+  unattended completion, user creation, SSH enable, and self-reboot
+- QA suite expanded to 131 checks
+
 ## [0.2.0] — 2026-10-24
 
 Installability release: live ISO installer, ARM64 cross-builds, interactive

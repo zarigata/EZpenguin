@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# ez-software — EZpenguin software catalog installer (DietPi-style).
+# Usage:
+#   ez-software              TUI catalog (checklist, then install)
+#   ez-software list         list catalog entries
+#   ez-software install ID   install one entry
+#   ez-software search TERM  search catalog
+set -euo pipefail
+
+CATALOG="/etc/ezpenguin/software-catalog.list"
+[[ -r "$CATALOG" ]] || { echo "catalog missing: $CATALOG" >&2; exit 1; }
+
+BOLD='\033[1;36m'; RST='\033[0m'
+say() { printf '%b\n' "$*"; }
+
+# parse catalog: id|name|packages|category|description
+parse() { # parse [category-filter]
+    local filter="${1:-}"
+    while IFS='|' read -r id name pkgs cat desc; do
+        [[ "$id" =~ ^#.*$ || -z "$id" ]] && continue
+        [[ -n "$filter" && "$cat" != "$filter" ]] && continue
+        printf '%s\n' "$id|$name|$pkgs|$cat|$desc"
+    done < "$CATALOG"
+}
+
+require_root() {
+    [[ $EUID -eq 0 ]] || { echo "run as root (sudo ez-software ...)" >&2; exit 1; }
+}
+
+install_pkgs() { # install_pkgs "pkg1 pkg2" "name"
+    local pkgs="$1" name="$2"
+    say "${BOLD}== installing:${RST} $name"
+    apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends $pkgs
+    say "${BOLD}== done:${RST} $name"
+}
+
+tui() {
+    require_root
+    local args=() line id name pkgs cat desc
+    while IFS='|' read -r id name pkgs cat desc; do
+        args+=("$id" "$name — $desc" "off")
+    done < <(parse)
+    [[ ${#args[@]} -gt 0 ]] || { echo "catalog empty" >&2; exit 1; }
+
+    if [[ -x /usr/bin/whiptail ]]; then
+        local sel
+        sel=$(whiptail --title "EZpenguin software catalog" \
+            --checklist "Space = select, Enter = install" 22 90 14 \
+            "${args[@]}" 3>&1 1>&2 2>&3) || { echo "cancelled"; exit 0; }
+        [[ -z "$sel" ]] && { echo "nothing selected"; exit 0; }
+        sel=${sel//\"/}
+        for id in $sel; do
+            local line pkgs name
+            line=$(parse | grep -m1 "^$id|") || continue
+            IFS='|' read -r _ name pkgs _ _ <<< "$line"
+            install_pkgs "$pkgs" "$name"
+        done
+    else
+        echo "whiptail not available — use: ez-software install <id>"; exit 1
+    fi
+}
+
+case "${1:-tui}" in
+    tui|"") tui ;;
+    list)
+        say "${BOLD}ID               CATEGORY   NAME${RST}"
+        while IFS='|' read -r id name _ cat desc; do
+            printf '%-16s %-10s %s\n' "$id" "$cat" "$name"
+        done < <(parse)
+        ;;
+    search)
+        [[ -n "${2:-}" ]] || { echo "usage: ez-software search TERM" >&2; exit 1; }
+        parse | grep -i "$2" | while IFS='|' read -r id name pkgs cat desc; do
+            printf '%-16s %-10s %s\n    %s\n    packages: %s\n' "$id" "$cat" "$name" "$desc" "$pkgs"
+        done
+        ;;
+    install)
+        [[ -n "${2:-}" ]] || { echo "usage: ez-software install <id>" >&2; exit 1; }
+        require_root
+        line=$(parse | grep -m1 "^$2|") || { echo "unknown id: $2 (see: ez-software list)" >&2; exit 1; }
+        IFS='|' read -r _ name pkgs _ _ <<< "$line"
+        install_pkgs "$pkgs" "$name"
+        ;;
+    *)
+        echo "usage: ez-software [tui|list|search TERM|install ID]" >&2; exit 1 ;;
+esac

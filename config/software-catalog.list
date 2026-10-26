@@ -1,0 +1,36 @@
+# EZpenguin software catalog — one entry per line.
+# Format: id|display name|packages (space-separated)|category|description
+# Used by `ez-software` (TUI + CLI). Keep packages available in Debian.
+
+# --- server ---
+nginx|Nginx web server|nginx|server|High-performance web server + reverse proxy
+lighttpd|Lighttpd web server|lighttpd|server|Lightweight web server
+mariadb|MariaDB database|mariadb-server|server|Drop-in MySQL replacement
+postgres|PostgreSQL database|postgresql|server|Advanced SQL database
+redis|Redis|redis-server|server|In-memory data store
+docker|Docker|docker.io|server|Container runtime + engine
+podman|Podman|podman|server|Daemonless container engine
+samba|Samba file server|samba|server|Windows-compatible file sharing
+nfs|NFS server|nfs-kernel-server|server|Network file sharing (Linux)
+syncthing|Syncthing|syncthing|server|Continuous file sync between devices
+prometheus-node|Prometheus node exporter|prometheus-node-exporter|server|Machine metrics exporter
+
+# --- remote access / net ---
+wireguard|WireGuard VPN|wireguard-tools|network|Fast modern VPN (kernel module incl.)
+tailscale|Tailscale (repo needed)|tailscale|network|Zero-config VPN (install via script)
+caddy|Caddy web server|caddy|network|HTTPS-by-default web server
+mosh|Mosh|mosh|network|Roaming SSH terminal
+rsync-server|rsync daemon|rsync|network|Classic file sync
+
+# --- tools / monitoring ---
+cockpit|Cockpit web console|cockpit|tools|Web-based system management UI
+htop-full|htop|htop|tools|Interactive process viewer
+tmux|tmux|tmux|tools|Terminal multiplexer
+git|Git|git|tools|Version control
+neofetch|Fastfetch system info|fastfetch|tools|Pretty system summary
+btop|btop++|btop|tools|Resource monitor (better htop)
+ncdu|ncdu disk usage|ncdu|tools|Interactive disk usage analyzer
+iperf3|iperf3|iperf3|tools|Network throughput testing
+
+# --- desktop (optional) ---
+xfce|XFCE desktop|task-xfce-desktop lightdm|desktop|Lightweight full desktop

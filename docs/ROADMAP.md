@@ -19,11 +19,12 @@
 - [x] ez-doctor health check + ez-net diagnostics tools
 - [x] Expanded QA suite + ISO/wizard boot tests in pipeline
 
-## v0.3 — DietPi-parity UX (next)
-- [ ] Interactive software catalog (`ez-software`)
-- [ ] Headless/SSH-first install mode
-- [ ] `ez-config` full system configuration tool
-- [ ] Backup/restore of config (`ez-backup`)
+## v0.3 — DietPi-parity UX (COMPLETE)
+- [x] Interactive software catalog (`ez-software`, 25 entries, TUI + CLI)
+- [x] Headless/SSH-first install mode (`firstboot.conf`, zero-touch)
+- [x] `ez-config` full system configuration tool (menu + one-shot)
+- [x] Backup/restore of config (`ez-backup`)
+- [x] Headless unattended-install boot test in pipeline
 
 ## v0.4 — Hardening & Polish
 - [ ] Automated secure defaults audit (Lynis baseline)

@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# ez-backup — backup/restore EZpenguin configuration.
+# Usage:
+#   sudo ez-backup create [file.tar.gz]     (default: /root/ezpenguin-backup-<date>.tar.gz)
+#   sudo ez-backup restore <file.tar.gz>
+#   ez-backup list <file.tar.gz>
+set -euo pipefail
+
+MODE="${1:?usage: ez-backup [create [file]|restore <file>|list <file>]}"
+
+# what we back up (exists-check happens at runtime)
+PATHS=(
+    /etc/ezpenguin
+    /etc/hostname
+    /etc/hosts
+    /etc/timezone
+    /etc/localtime
+    /etc/default/locale
+    /etc/default/keyboard
+    /etc/network/interfaces
+    /etc/systemd/network
+    /etc/ssh/sshd_config
+    /etc/fstab
+    /var/lib/systemd/random-seed
+)
+
+bcreate() {
+    [[ $EUID -eq 0 ]] || { echo "run as root (sudo ez-backup create)" >&2; exit 1; }
+    local out="${1:-/root/ezpenguin-backup-$(date +%Y%m%d-%H%M%S).tar.gz}"
+    local real=()
+    local p
+    for p in "${PATHS[@]}"; do [[ -e "$p" ]] && real+=("$p"); done
+    (( ${#real[@]} > 0 )) || { echo "nothing to back up" >&2; exit 1; }
+    tar -czf "$out" "${real[@]}"
+    echo "backup written: $out ($(du -h "$out" | cut -f1), ${#real[@]} paths)"
+    echo "contains:"
+    printf '  %s\n' "${real[@]}"
+}
+
+brestore() {
+    [[ $EUID -eq 0 ]] || { echo "run as root (sudo ez-backup restore)" >&2; exit 1; }
+    local file="${1:?usage: ez-backup restore <file.tar.gz>}"
+    [[ -f "$file" ]] || { echo "no such file: $file" >&2; exit 1; }
+    echo "will restore these files (overwrites current versions):"
+    tar -tzf "$file"
+    if command -v whiptail >/dev/null && [[ -x /usr/bin/whiptail ]]; then
+        whiptail --yesno "Restore backup $file ?" 8 60 3>&1 1>&2 2>&3 || { echo "aborted"; exit 0; }
+    else
+        echo -n "Type 'YES' to continue: "; read -r r; [[ "$r" == YES ]] || { echo "aborted"; exit 0; }
+    fi
+    tar -xzf "$file" -C /
+    echo "restored. reboot recommended:"
+    echo "  /etc/ezpenguin/.configured preserved from backup — wizard skipped if it existed there"
+}
+
+blist() {
+    local file="${1:?usage: ez-backup list <file.tar.gz>}"
+    [[ -f "$file" ]] || { echo "no such file: $file" >&2; exit 1; }
+    tar -tzf "$file"
+}
+
+case "$MODE" in
+    create)  shift; bcreate "$@" ;;
+    restore) shift; brestore "$@" ;;
+    list)    shift; blist "$@" ;;
+    *) echo "usage: ez-backup [create [file]|restore <file>|list <file>]" >&2; exit 1 ;;
+esac

@@ -133,7 +133,7 @@ do_smoke() {
     docker_checked
     build_builder
     local arch="${1:-$ARCH_DEFAULT}"
-    log "stage: smoke ($arch) — interactive first-boot wizard walkthrough"
+    log "stage: smoke ($arch) — interactive + headless wizard walkthrough"
     docker run --rm \
         --privileged \
         -v "$ROOT:/build" \
@@ -141,9 +141,13 @@ do_smoke() {
         "$IMAGE_NAME" \
         bash -c "
             xz -d -c '/build/$EZP_ARTIFACT_DIR/ezpenguin-$EZP_VERSION-$arch.img.xz' > /out/smoke.img
-            bash /build/tests/test_wizard_smoke.sh /out/smoke.img 1800
+            bash /build/tests/test_wizard_smoke.sh /out/smoke.img 2400
+            rm -f /out/smoke.img
+            xz -d -c '/build/$EZP_ARTIFACT_DIR/ezpenguin-$EZP_VERSION-$arch.img.xz' > /out/smoke.img
+            bash /build/tests/test_headless_smoke.sh /out/smoke.img 1800
+            rm -f /out/smoke.img
         "
-    log "wizard smoke test OK"
+    log "wizard smoke tests OK (interactive + headless)"
 }
 
 case "$STAGE" in

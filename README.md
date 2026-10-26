@@ -14,7 +14,7 @@
 
 [![Type](https://img.shields.io/badge/type-Linux%20distribution-blue)](https://github.com/zarigata/EZpenguin)
 [![Base](https://img.shields.io/badge/base-Debian%20bookworm-red)](https://www.debian.org)
-[![Version](https://img.shields.io/badge/version-0.2.0-green)](docs/CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.3.0-green)](docs/CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-GPL--3.0-lightgrey)](LICENSE)
 [![Tests](https://img.shields.io/badge/QA-100%25%20automated-brightgreen)](docs/TESTING.md)
 
@@ -29,6 +29,10 @@ EZpenguin is a minimal, appliance-style Linux OS built on **Debian bookworm**:
 - **Live ISO installer** — boot from USB, install to disk with a few keypresses
 - **Self-configuring** — first-boot wizard: locale, timezone, keyboard, hostname,
   user, optional SSH, updates — then it reboots ready to use
+- **Headless installs** — drop `firstboot.conf` on the disk, boot, done:
+  zero-touch SSH-first deployment
+- **Software catalog** — `ez-software`: 25 curated stacks (web servers, DBs,
+  Docker, VPNs, Cockpit, desktop) installed from one TUI
 - **ARM64 support** — same pipeline cross-builds aarch64 images (Pi 4/5 class)
 - **100% reproducible** — Docker-based build; identical artifacts every run
 - **Continuously verified** — every build runs ~130 automated checks plus full
@@ -44,7 +48,7 @@ docker run --rm -it --privileged \
     -v "$PWD/artifacts:/art" \
     debian:bookworm-slim bash -c "
       apt-get update && apt-get install -y qemu-system-x86 xz-utils &&
-      xz -d -c /art/ezpenguin-0.2.0-amd64.img.xz > /tmp/ezp.img &&
+      xz -d -c /art/ezpenguin-0.3.0-amd64.img.xz > /tmp/ezp.img &&
       qemu-system-x86_64 -m 1024 -drive file=/tmp/ezp.img,format=raw,if=virtio \
         -netdev user,id=n0 -device virtio-net-pci,netdev=n0 -nographic"
 ```
@@ -63,8 +67,8 @@ Or build everything from scratch and watch it test itself:
 ### Option 1 — Flash the image (fastest)
 
 ```bash
-xz -d ezpenguin-0.2.0-amd64.img.xz
-sudo dd if=ezpenguin-0.2.0-amd64.img of=/dev/sdX bs=4M status=progress   # USB
+xz -d ezpenguin-0.3.0-amd64.img.xz
+sudo dd if=ezpenguin-0.3.0-amd64.img of=/dev/sdX bs=4M status=progress   # USB
 ```
 
 Boot from USB (BIOS or UEFI). The root partition auto-expands to fill the disk
@@ -72,7 +76,7 @@ on first boot.
 
 ### Option 2 — Live ISO installer
 
-Write `ezpenguin-0.2.0-amd64.iso` to USB (`dd` or Rufus/Etcher), boot it, and the
+Write `ezpenguin-0.3.0-amd64.iso` to USB (`dd` or Rufus/Etcher), boot it, and the
 first-boot wizard offers **Install EZpenguin to a disk** — pick a disk, confirm,
 reboot into your system. The installed system then runs the normal first-boot
 wizard.
@@ -80,20 +84,22 @@ wizard.
 ### Option 3 — From any running Linux (DietPi-style)
 
 ```bash
-sudo ./installer/install.sh /dev/sdX ezpenguin-0.2.0-amd64-rootfs.tar.xz
+sudo ./installer/install.sh /dev/sdX ezpenguin-0.3.0-amd64-rootfs.tar.xz
 ```
 
 ## Ships with
 
 | Tool | Purpose |
 |---|---|
-| `ez-firstboot` | First-boot wizard (runs automatically on tty1) |
+| `ez-firstboot` | First-boot wizard (interactive, live-install, or headless) |
 | `ez-install` | Live-ISO / runtime installer (BIOS+UEFI target install) |
+| `ez-software` | Software catalog — 25 curated stacks, TUI + CLI install |
+| `ez-config` | Full system configuration (menu + one-shot commands) |
+| `ez-backup` | Configuration backup/restore |
 | `ez-doctor` | System health check — memory, disk, services, network, security |
 | `ez-net` | Network status & diagnostics in one command |
 | `ez-info` | System summary |
 | `ez-update` | Update packages |
-| `ez-config` | Re-run configuration |
 
 All tools are plain, auditable bash — no magic.
 
