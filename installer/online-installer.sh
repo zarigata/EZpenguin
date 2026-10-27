@@ -35,12 +35,24 @@ banner() {
 [[ $EUID -eq 0 ]] || die "run as root"
 for cmd in curl tar xz; do command -v "$cmd" >/dev/null || die "missing tool: $cmd"; done
 
-banner
-
 # ---------------------------------------------------------------- detect ----
 IN_DOCKER=0
 [[ -f /.dockerenv || -f /run/.containerenv ]] && IN_DOCKER=1
 grep -qsE 'docker|containerd|kubepods' /proc/1/cgroup 2>/dev/null && IN_DOCKER=1
+
+# idempotent: already converted? (container restart re-runs this installer
+# when it was the container command — become a keep-alive instead)
+if [[ -f /etc/ezpenguin/.install-source ]] && grep -q '^ID=ezpenguin' /etc/os-release 2>/dev/null; then
+    . /etc/os-release
+    say "already EZpenguin ($PRETTY_NAME) — nothing to install."
+    if [[ "$IN_DOCKER" == 1 ]]; then
+        say "keeping container alive (PID1). use: docker exec -it <ctr> bash"
+        exec sleep infinity
+    fi
+    exit 0
+fi
+
+banner
 
 ARCH="${EZP_ARCH:-$(uname -m)}"
 case "$ARCH" in
@@ -199,7 +211,17 @@ else
     say "rebooting now: ${BOLD}$ACTION${RST} → boots into EZpenguin, first-boot wizard starts"
     sleep 2
     if [[ "$IN_DOCKER" == 1 ]]; then
-        kill 1 2>/dev/null || exit 0   # container exit; restart policy / user restarts it
+        # if this installer IS the container command (PID1), exiting stops the
+        # container — the restart policy boots it again into EZpenguin
+        # (idempotent guard above turns the re-run into a keep-alive).
+        # when run via `docker exec`, signal PID1 as a best effort.
+        if [[ $$ -eq 1 ]]; then
+            exit 0
+        else
+            kill -TERM 1 2>/dev/null || kill -KILL 1 2>/dev/null || true
+            say "if still running: docker restart <container>"
+            exit 0
+        fi
     else
         systemctl reboot || reboot || true
     fi
