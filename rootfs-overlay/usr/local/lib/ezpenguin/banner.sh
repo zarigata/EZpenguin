@@ -2,8 +2,8 @@
 # banner.sh — shared EZpenguin ASCII/UX library.
 # Sourced by ez-* tools. Provides: ez_banner, ez_box, ez_hr, colors.
 
-# colors (disabled when not a tty — clean logs/serial captures)
-if [[ -t 1 ]] || grep -aq 'console' /proc/self/fd/1 2>/dev/null; then
+# colors (only when stdout is a real tty — keeps pipes/logs clean)
+if [[ -t 1 ]]; then
     EZC_RESET='\033[0m'; EZC_BOLD='\033[1m'; EZC_DIM='\033[2m'
     EZC_CYAN='\033[1;36m'; EZC_YELLOW='\033[1;33m'
     EZC_GREEN='\033[1;32m'; EZC_RED='\033[1;31m'; EZC_BLUE='\033[1;34m'

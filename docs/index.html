@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EZpenguin — the penguin that installs itself</title>
+<meta name="description" content="Tiny Debian-based Linux distro: boots anywhere (BIOS+UEFI, amd64+arm64), installs itself with one line, 61-stack software catalog, zero-touch headless mode.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
+<style>
+:root{
+  --bg:#0b1220;--panel:#111a2e;--panel2:#0e1626;--text:#dbe6f5;--muted:#8ba0bd;
+  --cyan:#4cc9f0;--green:#4ade80;--yellow:#fbbf24;--pink:#f472b6;--border:#1e2c47;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+header{padding:72px 0 40px;text-align:center;position:relative;overflow:hidden}
+header::before{content:"";position:absolute;inset:0;background:
+ radial-gradient(600px 300px at 20% 0%,rgba(76,201,240,.12),transparent),
+ radial-gradient(600px 300px at 80% 10%,rgba(244,114,182,.08),transparent);pointer-events:none}
+.logo{font-size:13px;line-height:1.25;color:var(--cyan);white-space:pre;display:inline-block;text-align:left}
+h1{font-size:clamp(34px,6vw,54px);margin:18px 0 10px;letter-spacing:-1px}
+.tagline{color:var(--muted);font-size:clamp(16px,2.4vw,21px);max-width:760px;margin:0 auto}
+.badges{margin-top:22px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.badge{border:1px solid var(--border);background:var(--panel);border-radius:999px;padding:4px 14px;font-size:13px;color:var(--muted)}
+.badge b{color:var(--text)}
+section{padding:44px 0}
+h2{font-size:26px;margin-bottom:18px;letter-spacing:-.4px}
+h2 .em{margin-right:8px}
+.grid{display:grid;gap:14px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px}
+.card h3{font-size:17px;margin-bottom:6px}
+.card p{color:var(--muted);font-size:14.5px}
+.card .em{margin-right:6px}
+.oneliner{background:var(--panel2);border:1px solid var(--border);border-radius:14px;padding:6px;margin:16px 0 8px;position:relative}
+.oneliner pre{padding:14px 16px;overflow-x:auto;font-size:14px;color:var(--green)}
+.oneliner .copy{position:absolute;top:8px;right:8px;background:var(--panel);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer}
+.oneliner .copy:hover{color:var(--text)}
+.note{color:var(--muted);font-size:13.5px}
+.term{background:#050a14;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:14px}
+.term .bar{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--panel)}
+.term .dot{width:11px;height:11px;border-radius:50%;background:#f87171}
+.term .dot:nth-child(2){background:#fbbf24}
+.term .dot:nth-child(3){background:#34d399}
+.term pre{padding:18px;font-size:13px;line-height:1.6;color:#b7c6dd;overflow-x:auto}
+.term .c{color:var(--muted)}
+.term .g{color:var(--green)}
+.term .y{color:var(--yellow)}
+.steps{counter-reset:s;list-style:none;display:grid;gap:12px}
+.steps li{counter-increment:s;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px 14px 56px;position:relative;color:var(--muted);font-size:14.5px}
+.steps li b{color:var(--text)}
+.steps li::before{content:counter(s);position:absolute;left:16px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:rgba(76,201,240,.15);color:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+th{color:var(--muted);font-weight:600}
+td b{color:var(--text)}
+.kv{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.stat{text-align:center;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px 10px}
+.stat .n{font-size:26px;font-weight:800;color:var(--cyan)}
+.stat .l{font-size:12.5px;color:var(--muted)}
+footer{border-top:1px solid var(--border);margin-top:30px;padding:34px 0 60px;text-align:center;color:var(--muted);font-size:14px}
+footer .links{margin-top:8px}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-block;padding:12px 22px;border-radius:12px;font-weight:700;font-size:15px}
+.btn.p{background:var(--cyan);color:#04121c}
+.btn.s{border:1px solid var(--border);color:var(--text)}
+.btn:hover{text-decoration:none;filter:brightness(1.1)}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+<div class="logo">
+        .--.
+       |o_o |
+       |:_/ |
+      //   \ \
+     (|     | )
+    /"\_   _/`\
+    \___)=(___/   </div>
+<h1>EZpenguin</h1>
+<p class="tagline">The tiny Debian-based distro that <b>boots anywhere</b>, installs itself
+<b>with one line</b>, and hands you a <b>61-stack software catalog</b> on a silver platter.</p>
+<div class="badges">
+  <span class="badge">base <b>Debian bookworm</b></span>
+  <span class="badge">boot <b>BIOS + UEFI</b></span>
+  <span class="badge">arch <b>amd64 + arm64</b></span>
+  <span class="badge">download <b>~320 MB</b></span>
+  <span class="badge">QA <b>137 automated checks</b></span>
+</div>
+<div class="cta">
+  <a class="btn p" href="#install">🐧 One-liner install</a>
+  <a class="btn s" href="https://github.com/zarigata/EZpenguin/releases">⬇ Releases</a>
+  <a class="btn s" href="https://github.com/zarigata/EZpenguin">★ Source</a>
+</div>
+</header>
+
+<section class="wrap" id="install">
+<h2><span class="em">🚀</span>Install EZpenguin on anything — one line</h2>
+<p class="kv">Works on running Ubuntu/Debian systems <b>and</b> Docker containers.
+No ISO. No USB. Converts in place and reboots into the penguin.</p>
+
+<div class="oneliner">
+<button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('ol').textContent)">copy</button>
+<pre id="ol">bash -c "$(curl -sSfL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh)"</pre>
+</div>
+<p class="note">The installer detects container vs bare-metal, picks amd64/arm64, downloads the
+latest release, converts (or partitions a target disk on metal), and reboots automatically.</p>
+
+<div class="term">
+<div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+<pre><span class="c">$ docker run -d --name demo ubuntu:24.04 sleep infinity</span>
+<span class="c">$ docker exec -it demo bash -c 'apt-get update -qq && apt-get install -y -qq curl xz-utils'</span>
+<span class="c">$ docker exec -it demo bash -c "$(curl -sSfL .../online-installer.sh)"</span>
+<span class="g">       .--.       E Z P E N G U I N — online installer</span>
+<span class="g">      |o_o |</span>
+architecture: amd64  environment: container
+downloading: ezpenguin-0.4.1-amd64-rootfs.tar.xz
+<span class="y">IN-PLACE CONVERSION</span> — this replaces the running system userland.
+extracting EZpenguin over /  (a few minutes)
+<span class="g">Conversion complete — this system is now EZpenguin.</span>
+os-release: EZpenguin 0.4.1
+rebooting now: restart this container → boots into EZpenguin
+<span class="c">$ docker restart demo && docker exec demo ez-info</span>
+<span class="y">  bbefc43ab809 — EZpenguin v0.4.1</span>
+ OS           EZpenguin 0.4.1
+ Setup        pending (first boot)
+ <span class="c">try: ez-software • ez-config • ez-doctor • ez-backup</span></pre>
+</div>
+</section>
+
+<section class="wrap" style="padding-top:0">
+<h2><span class="em">🪄</span>Three ways to penguin</h2>
+<ol class="steps">
+<li><b>One-liner</b> — convert a running system or container in place, DietPi-style. No media needed.</li>
+<li><b>Flash &amp; boot</b> — dd the hybrid image to USB; boots BIOS or UEFI, wizard auto-expands the disk.</li>
+<li><b>Live ISO installer</b> — boot the ISO, pick "Install EZpenguin to a disk", reboot. Done.</li>
+</ol>
+</section>
+
+<section class="wrap" style="padding-top:0">
+<h2><span class="em">📦</span>Software catalog — 61 stacks, one menu</h2>
+<div class="term">
+<div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+<pre><span class="c">$ sudo ez-software</span>
+<span class="y">┌──────────────────────────────────────────┐</span>
+ EZpenguin software — pick a category
+ all        Everything (full checklist)
+ server     18 entries     <span class="c">nginx docker mariadb postgres cockpit samba …</span>
+ dev        14 entries     <span class="c">python+venv nodejs java go rust php build-essential …</span>
+ network     7 entries     <span class="c">wireguard openvpn tailscale nmap tshark …</span>
+ security    6 entries     <span class="c">fail2ban ufw auditd clamav rkhunter …</span>
+ tools      15 entries     <span class="c">btop tmux mc ncdu neofetch inxi tldr …</span>
+ desktop     2 entries     <span class="c">XFCE LXDE</span>
+<span class="c">$ sudo ez-software install docker python java nodejs</span>
+<span class="g">==> installing: Docker engine + CLI   ✔</span>
+<span class="g">==> installing: Python 3 + pip + venv ✔</span></pre>
+</div>
+</section>
+
+<section class="wrap" style="padding-top:0">
+<h2><span class="em">🧙</span>Zero-touch or classic wizard — your call</h2>
+<div class="grid g3">
+<div class="card"><h3><span class="em">🧙</span>Headless firstboot.conf</h3><p>Drop a key=value file on the disk: user, password, SSH, timezone, hostname. Boots, configures itself in <b>80 seconds</b>, reboots ready. No keyboard, no monitor.</p></div>
+<div class="card"><h3><span class="em">🖥️</span>Interactive wizard</h3><p>Classic tty1 walkthrough: locale, timezone, keymap, hostname, user, SSH — with optional DietPi-style <b>global password</b> for user+root.</p></div>
+<div class="card"><h3><span class="em">🔧</span>Full toolset</h3><p><code>ez-doctor</code> health check · <code>ez-net</code> diagnostics · <code>ez-config</code> settings · <code>ez-backup</code> · fastfetch-style <code>ez-info</code>. Plain bash, fully auditable.</p></div>
+</div>
+</section>
+
+<section class="wrap" style="padding-top:0">
+<h2><span class="em">📊</span>The numbers</h2>
+<div class="stats">
+<div class="stat"><div class="n">137</div><div class="l">automated QA checks</div></div>
+<div class="stat"><div class="n">61</div><div class="l">software catalog stacks</div></div>
+<div class="stat"><div class="n">2</div><div class="l">architectures (amd64/arm64)</div></div>
+<div class="stat"><div class="n">4</div><div class="l">firmwares boot-tested</div></div>
+<div class="stat"><div class="n">80s</div><div class="l">headless install-to-ready</div></div>
+<div class="stat"><div class="n">1</div><div class="l">line to convert any host</div></div>
+</div>
+</section>
+
+<section class="wrap" style="padding-top:0">
+<h2><span class="em">🛡️</span>Quality, not promises</h2>
+<table>
+<tr><th>Every build is…</th><th>How it's verified</th></tr>
+<tr><td><b>Structure &amp; packages</b></td><td>131+ static checks: files, symlinks, dpkg audit, catalog validation</td></tr>
+<tr><td><b>Bootable</b></td><td>QEMU full-boot tests: BIOS + UEFI (amd64), AAVMF (arm64), live ISO both firmwares</td></tr>
+<tr><td><b>Usable</b></td><td>Interactive wizard walkthrough via keystroke injection; headless zero-touch proof</td></tr>
+<tr><td><b>Reproducible</b></td><td>Single Docker command rebuilds the entire OS from zero</td></tr>
+<tr><td><b>Honest sizes</b></td><td>Budget-enforced: ≤700 MB installed, ≤300 MB rootfs tarball, ≤400 MB image</td></tr>
+</table>
+</section>
+
+<section class="wrap" style="padding-top:0">
+<h2><span class="em">🗺️</span>Roadmap</h2>
+<table>
+<tr><th>Version</th><th>Theme</th><th>Status</th></tr>
+<tr><td><b>v0.1</b></td><td>foundation — pipeline, hybrid image, QA suite</td><td class="kv">✅ shipped</td></tr>
+<tr><td><b>v0.2</b></td><td>installability — live ISO installer, ARM64, wizard automation</td><td class="kv">✅ shipped</td></tr>
+<tr><td><b>v0.3</b></td><td>DietPi-parity UX — catalog, headless, ez-config/backup</td><td class="kv">✅ shipped</td></tr>
+<tr><td><b>v0.4</b></td><td>software &amp; UX — 61 stacks, global password, ASCII polish</td><td class="kv">✅ shipped</td></tr>
+<tr><td><b>v0.4.1</b></td><td>one-liner online installer (in-place, Docker-proven)</td><td class="kv">✅ shipped</td></tr>
+<tr><td><b>v0.5</b></td><td>hardening — Lynis audit, artifact signing, CI matrix</td><td class="kv">in progress</td></tr>
+<tr><td><b>v1.0</b></td><td>real-hardware boot matrix, user-tested docs, LTS</td><td class="kv">planned</td></tr>
+</table>
+</section>
+
+<footer class="wrap">
+<div>EZpenguin — GPL-3.0 · built on Debian bookworm · made with 🐧 and boring, proven tech</div>
+<div class="links">
+<a href="https://github.com/zarigata/EZpenguin">GitHub</a> ·
+<a href="https://github.com/zarigata/EZpenguin/releases">Releases</a> ·
+<a href="https://github.com/zarigata/EZpenguin/blob/main/docs/CHANGELOG.md">Changelog</a> ·
+<a href="https://github.com/zarigata/EZpenguin/blob/main/docs/INSTALLATION.md">Install docs</a>
+</div>
+</footer>
+
+</body>
+</html>
