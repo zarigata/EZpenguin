@@ -123,6 +123,10 @@ if [[ -d "$WS/rootfs-overlay" ]]; then
     cp -a "$WS/rootfs-overlay/." "$TARGET/"
 fi
 
+# wizard owns tty1 — mask getty@tty1 (built here instead of a repo symlink:
+# absolute /dev/null symlink targets break git checkouts on some runners)
+ln -sfn /dev/null "$TARGET/etc/systemd/system/getty@tty1.service"
+
 # preserve executability of scripts
 [[ -f "$TARGET/usr/local/bin/ez-firstboot" ]] && chmod 755 "$TARGET/usr/local/bin/ez-firstboot"
 for f in "$TARGET"/usr/local/bin/ez-*; do [[ -f "$f" ]] && chmod 755 "$f"; done
