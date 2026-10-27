@@ -7,24 +7,30 @@ VER_FILE="/etc/ezpenguin/version"
 VERSION="$(cat "$VER_FILE" 2>/dev/null || echo 'unknown')"
 LOG_TAG="ez-firstboot"
 
-log()  { echo "[$LOG_TAG] $*" >&2; logger -t "$LOG_TAG" "$*" 2>/dev/null || true; }
+. /usr/local/lib/ezpenguin/banner.sh 2>/dev/null || true
 
 banner() {
-    cat <<'EOF'
+    if declare -F ez_banner >/dev/null 2>&1; then
+        ez_banner "First-boot setup v$VERSION"
+    else
+        cat <<'EOF'
 
       ███████╗███████╗████████╗██████╗
       ██╔════╝██╔════╝╚══██╔══╝██╔══██╗
       █████╗  █████╗     ██║   ██████╔╝
       ██╔══╝  ██╔══╝     ██║   ██╔══██╗
-      ███████╗███████╗   ██║   ██║  ██║
+      ███████╗███████╗   ██║   ██╗  ██╗
       ╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝
       EZ  •  PENGUIN
 
 EOF
-    echo "  First-boot setup v$VERSION"
-    echo "  ==============================================="
+        echo "  First-boot setup v$VERSION"
+        echo "  ==============================================="
+    fi
     echo "[ez-firstboot] wizard started (v$VERSION)" >&2
 }
+
+log()  { echo "[$LOG_TAG] $*" >&2; logger -t "$LOG_TAG" "$*" 2>/dev/null || true; }
 
 # Expand root partition to fill disk (safe if already max size)
 expand_rootfs() {
@@ -56,6 +62,111 @@ confirm() {
     whiptail --yesno "$1" 10 60 3>&1 1>&2 2>&3 2>/dev/null
 }
 
+# --- headless support: /boot/firstboot.conf (key=value) ----------------------
+HEADLESS_CONF=""
+for c in /boot/firstboot.conf /etc/ezpenguin/firstboot.conf; do
+    [[ -r "$c" ]] && HEADLESS_CONF="$c" && break
+done
+
+# whitelist keys AND value charset (eval-safe), strip inline comments
+read_headless_conf() { # echoes sanitized KEY=VALUE lines
+    grep -E '^\s*(EZ_[A-Z_]+)=' "$HEADLESS_CONF" 2>/dev/null \
+      | sed -E 's/[[:space:]]*#.*$//' \
+      | grep -E '^\s*EZ_(LOCALE|TIMEZONE|KEYMAP|HOSTNAME|USERNAME|PASSWORD|GLOBAL_PASSWORD|SSH_ENABLE|SSH_PORT|UPGRADE|REBOOT)=[A-Za-z0-9_.:/+@-]*\s*$' \
+      || true
+}
+
+# DietPi-style global password: same password for the created user AND root
+# (root stays SSH-locked; console login works). Explicit opt-in only.
+maybe_global_password() { # maybe_global_password <password>
+    local pw="$1"
+    [[ -z "$pw" ]] && return 0
+    echo "root:$pw" | chpasswd
+    touch /etc/ezpenguin/.global-password
+    log "global password active: root unlocked with same password as user (DietPi-style)"
+    log "note: SSH root login remains disabled"
+}
+
+headless_apply() {
+    log "headless mode: applying $HEADLESS_CONF"
+    local conf; conf=$(read_headless_conf)
+    if [[ -n "$conf" ]]; then
+        # values were charset-validated by the whitelist+sed above
+        eval "export $conf" 2>/dev/null || true
+    fi
+
+    local LOCALE="${EZ_LOCALE:-en_US.UTF-8}"
+    if locale -a 2>/dev/null | grep -qi "${LOCALE%%.*}"; then
+        printf 'LANG=%s\n' "$LOCALE" > /etc/default/locale
+        log "locale set: $LOCALE"
+    else
+        log "locale $LOCALE unavailable, keeping C.UTF-8"
+    fi
+
+    local TIMEZONE="${EZ_TIMEZONE:-UTC}"
+    if [[ -f "/usr/share/zoneinfo/$TIMEZONE" ]]; then
+        ln -snf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
+        printf '%s\n' "$TIMEZONE" > /etc/timezone
+        log "timezone set: $TIMEZONE"
+    else
+        log "timezone $TIMEZONE not found, keeping default"
+    fi
+
+    printf 'KEYMAP=%s\n' "${EZ_KEYMAP:-us}" > /etc/default/keyboard
+    log "keymap set: ${EZ_KEYMAP:-us}"
+
+    local HOSTNAME_NEW="${EZ_HOSTNAME:-ezpenguin}"
+    printf '%s\n' "$HOSTNAME_NEW" > /etc/hostname
+    sed -i "s/^127\.0\.1\.1.*/127.0.1.1\t$HOSTNAME_NEW/" /etc/hosts 2>/dev/null || true
+    hostname "$HOSTNAME_NEW" 2>/dev/null || true
+    log "hostname set: $HOSTNAME_NEW"
+
+    local USERNAME; USERNAME=$(echo "${EZ_USERNAME:-penguin}" | tr -cd 'a-z0-9_-')
+    if ! id "$USERNAME" &>/dev/null; then
+        useradd -m -s /bin/bash -G sudo "$USERNAME"
+        if [[ -n "${EZ_PASSWORD:-}" ]]; then
+            chpasswd <<< "$USERNAME:$EZ_PASSWORD"
+            log "user created: $USERNAME (password set)"
+            [[ "${EZ_GLOBAL_PASSWORD:-0}" == "1" ]] && maybe_global_password "$EZ_PASSWORD"
+        else
+            passwd -d "$USERNAME" 2>/dev/null || usermod -p '*' "$USERNAME"
+            log "user created: $USERNAME (LOCKED — set password later: sudo passwd $USERNAME)"
+        fi
+    fi
+
+    if [[ "${EZ_SSH_ENABLE:-0}" == "1" && -x /usr/sbin/sshd ]]; then
+        systemctl enable --now ssh
+        sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+        log "ssh enabled (root login disabled)"
+    else
+        log "ssh left disabled"
+    fi
+
+    if [[ "${EZ_UPGRADE:-1}" == "1" ]]; then
+        log "updating packages (headless)"
+        apt-get update 2>&1 | tail -1 >&2 || log "apt update failed (offline?)"
+        apt-get upgrade -y 2>&1 | tail -1 >&2 || log "apt upgrade failed (offline?)"
+    fi
+
+    touch /etc/ezpenguin/.configured
+    log "first-boot setup complete (headless)"
+    mv -f "$HEADLESS_CONF" "$HEADLESS_CONF.applied" 2>/dev/null || true
+
+    echo
+    echo "  ==============================================="
+    echo "  Headless setup complete!${EZ_REBOOT:+}"
+    if [[ "${EZ_REBOOT:-1}" == "1" ]]; then
+        echo "  Rebooting in 5 seconds... (Ctrl+C to cancel)"
+        echo "  ==============================================="
+        sleep 5
+        systemctl reboot || true
+    else
+        echo "  (EZ_REBOOT=0 — staying up)"
+        echo "  ==============================================="
+    fi
+    exit 0
+}
+
 main() {
     banner
 
@@ -78,6 +189,11 @@ main() {
             fi
             log "staying in live mode (run 'sudo ez-install' later if needed)"
         fi
+    fi
+
+    # --- headless: unattended config from firstboot.conf ---
+    if [[ -n "$HEADLESS_CONF" ]]; then
+        headless_apply
     fi
 
     expand_rootfs
@@ -139,6 +255,13 @@ main() {
         systemctl enable --now ssh
         sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
         log "ssh enabled (root login disabled)"
+    fi
+
+    # --- DietPi-style global password (opt-in) ---
+    if confirm "Use this password globally (also unlock root console login, DietPi-style)?"; then
+        maybe_global_password "$PASSWORD"
+    else
+        log "global password skipped (root stays locked)"
     fi
 
     # --- updates ---

@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+# ez-software — EZpenguin software catalog installer (DietPi-style).
+# Catalog: /etc/ezpenguin/software-catalog.list
+#   id|name|packages|category|description|post-install command
+# Usage:
+#   sudo ez-software            TUI: category menu -> checklist -> install
+#   ez-software list            list all entries
+#   ez-software search TERM     search catalog
+#   ez-software install ID...   install one or more entries
+#   ez-software categories      list categories
+set -euo pipefail
+
+CATALOG="/etc/ezpenguin/software-catalog.list"
+[[ -r "$CATALOG" ]] || { echo "catalog missing: $CATALOG" >&2; exit 1; }
+
+BOLD='\033[1;36m'; DIM='\033[2m'; RST='\033[0m'
+say() { printf '%b\n' "$*"; }
+
+# fields (TAB-separated): id, name, pkgs, category, description, postcmd
+# (postcmd may legitimately contain '|' — tab join keeps it intact)
+parse() { # parse [category-filter] [id-filter]
+    awk -F'|' -v cf="${1:-}" -v idf="${2:-}" '
+        /^[[:space:]]*#/ || /^[[:space:]]*$/ { next }
+        {
+            # NB: mawk lacks ERE intervals — write 5 explicit groups
+            post=$0; sub(/^[^|]*\|[^|]*\|[^|]*\|[^|]*\|[^|]*\|/, "", post)
+            if (cf != "" && $4 != cf) next
+            if (idf != "" && $1 != idf) next
+            printf "%s\t%s\t%s\t%s\t%s\t%s\n", $1, $2, $3, $4, $5, post
+        }' "$CATALOG"
+}
+
+require_root() {
+    [[ $EUID -eq 0 ]] || { echo "run as root (sudo ez-software ...)" >&2; exit 1; }
+}
+
+run_post() { # run_post "<snippet>" "<id>"
+    local snippet="$1" id="$2"
+    [[ -n "${snippet// /}" ]] || return 0
+    say "${DIM}  post-install: ${snippet}${RST}"
+    bash -c "$snippet" || say "${DIM}  (post-install step returned non-zero — continuing)${RST}"
+}
+
+install_entry() {
+    local line="$1"
+    local id name pkgs cat desc post
+    IFS=$'\t' read -r id name pkgs cat desc post <<< "$line"
+    post=${post%$'\n'}
+    say "${BOLD}==> installing:${RST} $name ${DIM}[$id]${RST}"
+    apt-get update -qq 2>/dev/null || apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends $pkgs
+    run_post "$post" "$id"
+    say "${BOLD}<== done:${RST} $name"
+}
+
+tui() {
+    require_root
+    # category menu (DietPi-style)
+    local cats
+    cats=$(parse | awk -F'|' '{print $4}' | sort -u)
+    [[ -n "$cats" ]] || { echo "catalog empty" >&2; exit 1; }
+
+    local cargs=() sel_all="all"
+    cargs+=("$sel_all" "Everything (full checklist)")
+    while read -r c; do cargs+=("$c" "$(parse "$c" | wc -l) entries"); done <<< "$cats"
+
+    local cat
+    cat=$(whiptail --title "EZpenguin software — pick a category" \
+        --menu "Categories" 18 60 10 "${cargs[@]}" 3>&1 1>&2 2>&3) || { echo "cancelled"; exit 0; }
+
+    local args=() line id name desc
+    while IFS=$'\t' read -r id name _ _ desc _; do
+        args+=("$id" "$name — $desc" "off")
+    done < <(parse "$cat")
+    [[ ${#args[@]} -gt 0 ]] || { echo "nothing in category"; exit 0; }
+
+    local sel
+    sel=$(whiptail --title "EZpenguin software — ${cat}" \
+        --checklist "Space = select, Enter = install" 24 92 16 \
+        "${args[@]}" 3>&1 1>&2 2>&3) || { echo "cancelled"; exit 0; }
+    [[ -z "$sel" ]] && { echo "nothing selected"; exit 0; }
+    sel=${sel//\"/}
+
+    local id count=0 failed=0
+    for id in $sel; do
+        line=$(parse "" "$id") || continue
+        if install_entry "$line"; then count=$((count+1)); else failed=$((failed+1)); fi
+    done
+    say "${BOLD}installed ${count} item(s)${RST}${failed:+, ${failed} failed}"
+}
+
+case "${1:-tui}" in
+    tui|"") tui ;;
+    list)
+        say "${BOLD}ID               CATEGORY    NAME${RST}"
+        while IFS=$'\t' read -r id name _ cat _ _; do
+            printf '%-17s %-11s %s\n' "$id" "$cat" "$name"
+        done < <(parse)
+        say "${DIM}$(parse | wc -l) entries — install with: sudo ez-software install <id>${RST}"
+        ;;
+    categories)
+        parse | awk -F'|' '{print $4}' | sort | uniq -c | sort -rn
+        ;;
+    search)
+        [[ -n "${2:-}" ]] || { echo "usage: ez-software search TERM" >&2; exit 1; }
+        parse | grep -i -- "$2" | while IFS=$'\t' read -r id name pkgs cat desc post; do
+            printf '%-17s %-11s %s\n    %s\n    packages: %s\n' "$id" "$cat" "$name" "$desc" "$pkgs"
+            [[ -n "${post// /}" ]] && printf '    post: %s\n' "$post"
+        done
+        ;;
+    install)
+        (( ${#@} >= 2 )) || { echo "usage: ez-software install <id> [id...]" >&2; exit 1; }
+        require_root
+        shift
+        id=""; line=""
+        for id in "$@"; do
+            line=$(parse "" "$id")
+            [[ -n "$line" ]] || { echo "unknown id: $id (see: ez-software list)" >&2; rc=1; continue; }
+            install_entry "$line" || rc=1
+        done
+        exit ${rc:-0}
+        ;;
+    *)
+        echo "usage: ez-software [tui|list|categories|search TERM|install ID...]" >&2; exit 1 ;;
+esac

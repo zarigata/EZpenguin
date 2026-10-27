@@ -53,6 +53,35 @@ The script:
 4. installs bootloader (GRUB, BIOS or UEFI as detected)
 5. reboots into first-boot wizard
 
+## D. Headless install (zero-touch)
+
+Write a `firstboot.conf` to the flashed USB/disk before first boot (mount
+the root partition, drop it in `/boot/`). The wizard then configures
+everything unattended and reboots ready-to-use — no keyboard or monitor
+needed:
+
+```ini
+# /boot/firstboot.conf
+EZ_LOCALE=en_US.UTF-8
+EZ_TIMEZONE=Europe/Lisbon
+EZ_KEYMAP=us
+EZ_HOSTNAME=mybox
+EZ_USERNAME=penguin
+EZ_PASSWORD=changeme        # omit to create the user LOCKED
+EZ_SSH_ENABLE=1             # ssh on, root login disabled
+EZ_UPGRADE=1                # apt upgrade during first boot
+EZ_REBOOT=1                 # reboot when done (0 = stay up)
+```
+
+Values accept `[A-Za-z0-9_.:/+@-]` only (validated; anything else is
+ignored). The applied file is renamed `firstboot.conf.applied` so it
+runs exactly once. SSH-first workflow: set `EZ_SSH_ENABLE=1`, boot
+headless, then `ssh penguin@<ip>`.
+
+DietPi-style global password: add `EZ_GLOBAL_PASSWORD=1` (with
+`EZ_PASSWORD`) to unlock root console login with the same password.
+SSH root login remains disabled either way.
+
 ## Virtual machines
 
 | Hypervisor | How |

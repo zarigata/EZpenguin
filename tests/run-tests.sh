@@ -38,7 +38,8 @@ for f in \
     /usr/local/bin/ez-firstboot /usr/local/bin/ez-info \
     /usr/local/bin/ez-update /usr/local/bin/ez-config \
     /usr/local/bin/ez-doctor /usr/local/bin/ez-net \
-    /usr/local/sbin/ez-install \
+    /usr/local/bin/ez-software /usr/local/bin/ez-backup \
+    /usr/local/sbin/ez-install /etc/ezpenguin/software-catalog.list \
     /etc/systemd/system/ezpenguin-firstboot.service \
     /etc/apt/sources.list /bin/sh /etc/passwd /etc/shadow /etc/sudoers; do
     t "L1 file exists: $f" exists "$ROOTFS$f"
@@ -97,6 +98,20 @@ t "L3 ez-install syntax"      bash -n "$ROOTFS/usr/local/sbin/ez-install"
 t "L3 ez-doctor executable"   test -x "$ROOTFS/usr/local/bin/ez-doctor"
 t "L3 ez-net executable"      test -x "$ROOTFS/usr/local/bin/ez-net"
 t "L3 ez-install executable"  test -x "$ROOTFS/usr/local/sbin/ez-install"
+t "L3 ez-software syntax"     bash -n "$ROOTFS/usr/local/bin/ez-software"
+t "L3 ez-software executable" test -x "$ROOTFS/usr/local/bin/ez-software"
+t "L3 ez-backup syntax"       bash -n "$ROOTFS/usr/local/bin/ez-backup"
+t "L3 ez-backup executable"   test -x "$ROOTFS/usr/local/bin/ez-backup"
+t "L3 catalog >= 50 entries"  bash -c "(( \$(grep -cE '^[a-z0-9-]+\|' '$ROOTFS/etc/ezpenguin/software-catalog.list') >= 50 ))"
+t "L3 catalog fields >= 6"    awk -F'|' '/^[a-z0-9-]+\|/ && NF < 6 {exit 1}' "$ROOTFS/etc/ezpenguin/software-catalog.list"
+t "L3 catalog postcmds parse" bash -c "awk -F'|' '/^[a-z0-9-]+\|/{post=\$0; sub(/^[^|]*\|[^|]*\|[^|]*\|[^|]*\|[^|]*\|/,\"\",post); print post}' '$ROOTFS/etc/ezpenguin/software-catalog.list' | grep -v '^[[:space:]]*\$' | while IFS= read -r l; do bash -n -c \"\$l\" || exit 1; done"
+t "L3 banner lib syntax"      bash -n "$ROOTFS/usr/local/lib/ezpenguin/banner.sh"
+t "L3 motd branded"           grep -q 'E Z P E N G U I N' "$ROOTFS/etc/motd"
+t "L3 issue branded"          grep -q 'EZpenguin' "$ROOTFS/etc/issue"
+t "L3 ez-info has logo"       grep -q 'ez_logo_print' "$ROOTFS/usr/local/bin/ez-info"
+t "L3 global password support" grep -q 'maybe_global_password' "$ROOTFS/usr/local/bin/ez-firstboot"
+t "L3 headless conf support"  grep -q 'firstboot.conf' "$ROOTFS/usr/local/bin/ez-firstboot"
+t "L3 headless eval-guard"    grep -q 'A-Za-z0-9_.:/+@-' "$ROOTFS/usr/local/bin/ez-firstboot"
 t "L3 live-boot present"      chr 'dpkg -s live-boot >/dev/null 2>&1'
 t "L3 timeout hardening"      exists "$ROOTFS/etc/systemd/system.conf.d/10-timeouts.conf"
 t "L3 os-release version"     grep -q "VERSION_ID=" "$ROOTFS/etc/os-release"

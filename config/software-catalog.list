@@ -1,0 +1,77 @@
+# EZpenguin software catalog — one entry per line.
+# Format: id|display name|packages|category|description|post-install command
+# post-install: shell snippet run after apt install (no '|' chars allowed).
+# Packages must exist in Debian bookworm main.
+
+# ---------------- servers ----------------
+nginx|Nginx web server|nginx|server|High-performance web server + reverse proxy|systemctl enable --now nginx
+lighttpd|Lighttpd web server|lighttpd|server|Lightweight web server|systemctl enable --now lighttpd
+apache|Apache 2 web server|apache2|server|The classic full-featured web server|systemctl enable --now apache2
+caddy|Caddy web server|caddy|server|Automatic-HTTPS web server|systemctl enable --now caddy
+mariadb|MariaDB database|mariadb-server|server|Drop-in MySQL replacement|systemctl enable --now mariadb
+postgres|PostgreSQL database|postgresql|server|Advanced SQL database|systemctl enable --now postgresql
+redis|Redis|redis-server|server|In-memory data store|systemctl enable --now redis-server
+memcached|Memcached|memcached|server|Distributed memory cache|systemctl enable --now memcached
+docker|Docker engine + CLI|docker.io docker-compose|server|Containers: engine, CLI, compose|systemctl enable --now docker && usermod -aG docker ${SUDO_USER:-root}
+podman|Podman|podman|server|Daemonless container engine|
+samba|Samba file server|samba|server|Windows-compatible file sharing|systemctl enable --now smbd
+nfs|NFS server|nfs-kernel-server|server|Network file sharing (Linux)|systemctl enable --now nfs-server
+syncthing|Syncthing|syncthing|server|Continuous file sync between devices|systemctl enable --now syncthing@${SUDO_USER:-root}
+cockpit|Cockpit web console|cockpit|server|Web-based system management on port 9090|systemctl enable --now cockpit.socket
+prometheus-node|Prometheus node exporter|prometheus-node-exporter|server|Machine metrics exporter|systemctl enable --now prometheus-node-exporter
+gitea-light|Gogs git service|gogs|server|Self-hosted lightweight Git service|systemctl enable --now gogs
+mosquitto|MQTT broker (mosquitto)|mosquitto mosquitto-clients|server|IoT MQTT broker + pub/sub clients|systemctl enable --now mosquitto
+gitdaemon|git daemon|git daemon|server|Serve git repositories over git://|
+
+# ---------------- languages / dev ----------------
+python|Python 3 + pip + venv|python3-full python3-pip python3-venv python3-dev|dev|Python with virtualenv support|
+pipx|pipx isolated CLI apps|pipx|dev|Install python apps in isolated venvs|su - ${SUDO_USER:-root} -c 'pipx ensurepath' || true
+nodejs|Node.js + npm|nodejs npm|dev|JavaScript runtime + package manager|
+java|Java (OpenJDK 17)|default-jdk default-jdk-headless|dev|Java development kit + runtime|
+go|Go toolchain|golang|dev|Go compiler + tools|
+rust|Rust (rustc + cargo)|rustc cargo|dev|Rust language toolchain|
+php|PHP 8 + FPM|php-fpm php-cli php-mysql php-xml php-mbstring|dev|PHP for web applications|systemctl enable --now php8.2-fpm
+ruby|Ruby|ruby-full|dev|Ruby language + gems|
+perl-dev|Perl dev tools|libmodule-build-perl|dev|Extra Perl build tooling|
+build-essential|Build essentials (gcc/make)|build-essential pkg-config|dev|Compiler toolchain for building from source|
+code-help|Shell toolkit (fzf/bat/exa)|fzf bat|dev|Modern CLI niceties|
+
+# ---------------- remote access / vpn ----------------
+wireguard|WireGuard VPN|wireguard-tools|network|Fast modern VPN (tools)|
+openvpn|OpenVPN|openvpn|network|Classic SSL/TLS VPN|
+tailscale|Tailscale|curl|network|Zero-config mesh VPN (official installer)|curl -fsSL https://tailscale.com/install.sh | sh
+mosh|Mosh|mosh|network|Roaming SSH terminal|
+nmap|Nmap scanner|nmap|network|Network discovery + security scanning|
+tshark|Wireshark CLI (tshark)|tshark|network|Packet capture + analysis|
+tcpdump|tcpdump|tcpdump|network|Classic packet sniffer|
+
+# ---------------- security ----------------
+fail2ban|Fail2ban|fail2ban|security|Brute-force protection for services|systemctl enable --now fail2ban
+ufw|UFW firewall|ufw|security|Simple firewall front-end|
+auditd|Audit daemon|auditd|security|Security auditing (auditd)|systemctl enable --now auditd
+clamav|ClamAV antivirus|clamav clamav-daemon|security|Open-source antivirus scanner|
+rkhunter|Rootkit hunter|rkhunter|security|Rootkit detection scanner|
+unattended|Unattended upgrades|unattended-upgrades|security|Automatic security updates|systemctl enable --now unattended-upgrades
+
+# ---------------- monitoring / tools ----------------
+btop|btop++ resource monitor|btop|tools|Beautiful CPU/mem/disk/net monitor|
+htop|htop|htop|tools|Interactive process viewer|
+tmux|tmux|tmux|tools|Terminal multiplexer|
+screen|GNU screen|screen|tools|Classic terminal multiplexer|
+byobu|Byobu|byobu|tools|Enhanced tmux/screen manager|
+mc|Midnight Commander|mc|tools|Twin-panel file manager|
+ncdu|ncdu|ncdu|tools|Interactive disk usage analyzer|
+neofetch|Neofetch|neofetch|tools|Pretty system summary|
+fastfetch-lite|Sysinfo (inxi)|inxi|tools|Full system information report|
+tree|tree|tree|tools|Directory tree viewer|
+tldr|tldr pages|tldr|tools|Simplified man pages|
+iperf3|iperf3|iperf3|tools|Network throughput testing|
+smartmontools|SMART monitoring|smartmontools|tools|Disk health monitoring|systemctl enable --now smartmontools
+lm-sensors|Hardware sensors|lm-sensors|tools|Temperature/voltage sensors|sensors-detect --auto || true
+nvme|NVMe tools|nvme-cli|tools|NVMe SSD management|
+rsync-server|rsync|rsync|tools|Robust file copying/sync|
+git|Git|git|tools|Version control|
+
+# ---------------- desktop ----------------
+xfce|XFCE desktop|task-xfce-desktop lightdm|desktop|Lightweight full desktop|systemctl set-default graphical.target
+lxde|LXDE desktop|task-lxde-desktop lightdm|desktop|Ultra-light desktop|systemctl set-default graphical.target

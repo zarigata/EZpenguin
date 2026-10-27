@@ -1,13 +1,137 @@
 #!/usr/bin/env bash
-# ez-config — re-run parts of the first-boot wizard
+# ez-config — EZpenguin system configuration tool (menu + one-shot commands).
+# Usage: sudo ez-config [setting [value]]
 set -euo pipefail
 
-echo "ez-config: clear /etc/ezpenguin/.configured to re-run full wizard:"
-echo "  sudo rm /etc/ezpenguin/.configured && sudo systemctl start ezpenguin-firstboot"
-echo
-echo "Or change individual settings:"
-echo "  timezone  : sudo timedatectl set-timezone <zone>"
-echo "  locale    : sudo update-locale LANG=<locale>"
-echo "  keymap    : sudo dpkg-reconfigure console-setup"
-echo "  hostname  : sudo hostnamectl set-hostname <name>"
-echo "  user/pass : sudo passwd <user>"
+[[ $EUID -eq 0 ]] || { echo "run as root (sudo ez-config)" >&2; exit 1; }
+BOLD='\033[1;36m'; RST='\033[0m'
+say() { printf '%b\n' "$*"; }
+
+wh() { # wh <title> <prompt> <height> <width> <menuheight> items...
+    whiptail --title "$1" --menu "$2" "$3" "$4" "$5" "${@:6}" 3>&1 1>&2 2>&3
+}
+wi() { # wi <title> <prompt> <default>
+    whiptail --title "$1" --inputbox "$2" 10 60 "$3" 3>&1 1>&2 2>&3
+}
+
+set_hostname() {
+    local new="${1:-$(wi Hostname 'New hostname' "$(cat /etc/hostname)")}"
+    [[ -z "$new" ]] && return 0
+    hostnamectl set-hostname "$new"
+    sed -i "s/^127\.0\.1\.1.*/127.0.1.1\t$new/" /etc/hosts 2>/dev/null || true
+    say "${BOLD}hostname:${RST} $new (applied — log out/in for prompt)"
+}
+
+set_timezone() {
+    local zone="${1:-$(wi Timezone 'Timezone (e.g. Europe/Lisbon)' "$(cat /etc/timezone 2>/dev/null || echo UTC)")}"
+    [[ -z "$zone" ]] && return 0
+    if [[ -f "/usr/share/zoneinfo/$zone" ]]; then
+        timedatectl set-timezone "$zone"
+        say "${BOLD}timezone:${RST} $zone"
+    else
+        say "timezone not found: $zone"
+        return 1
+    fi
+}
+
+set_locale() {
+    local loc="${1:-$(wi Locale 'Locale (e.g. en_US.UTF-8)' "${LANG:-C.UTF-8}")}"
+    [[ -z "$loc" ]] && return 0
+    if locale -a 2>/dev/null | grep -qi "${loc%%.*}"; then
+        update-locale LANG="$loc"
+        say "${BOLD}locale:${RST} $loc (applies on next login)"
+    else
+        say "locale unavailable: $loc (generate with: dpkg-reconfigure locales)"
+        return 1
+    fi
+}
+
+set_keymap() {
+    local km="${1:-$(wi Keymap 'Console keymap (us, br-abnt2, de, ...)' 'us')}"
+    [[ -z "$km" ]] && return 0
+    printf 'KEYMAP=%s\n' "$km" > /etc/default/keyboard
+    setupcon --save 2>/dev/null || true
+    say "${BOLD}keymap:${RST} $km"
+}
+
+toggle_ssh() {
+    if systemctl is-active --quiet ssh; then
+        whiptail --yesno "SSH is RUNNING. Disable and stop it?" 8 60 3>&1 1>&2 2>&3 \
+            && { systemctl disable --now ssh; say "${BOLD}ssh:${RST} disabled"; } || true
+    else
+        whiptail --yesno "SSH is STOPPED. Enable and start it?" 8 60 3>&1 1>&2 2>&3 \
+            && {
+                systemctl enable --now ssh
+                sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+                say "${BOLD}ssh:${RST} enabled (root login disabled)"
+            } || true
+    fi
+}
+
+change_password() {
+    local users=("$@")
+    (( ${#users[@]} == 0 )) && mapfile -t users < <(awk -F: '$3>=1000 && $1!="nobody"{print $1}' /etc/passwd)
+    (( ${#users[@]} == 0 )) && { say "no regular users found"; return 0; }
+    local u
+    if (( ${#users[@]} == 1 )); then u="${users[0]}"; else
+        local args=() i=1
+        for u in "${users[@]}"; do args+=("$i" "$u"); i=$((i+1)); done
+        local n
+        n=$(wh Password 'Change password for' 14 50 6 "${args[@]}") || return 0
+        u="${users[$((n-1))]}"
+    fi
+    passwd "$u"
+}
+
+rerun_wizard() {
+    whiptail --yesno "Re-run the full first-boot wizard?\n(current .configured marker will be cleared)" 9 60 3>&1 1>&2 2>&3 \
+        || return 0
+    rm -f /etc/ezpenguin/.configured
+    say "wizard will run on tty1 — switch with: sudo systemctl start ezpenguin-firstboot"
+    say "(or reboot)"
+}
+
+show_status() {
+    . /usr/local/bin/ez-info 2>/dev/null || true
+}
+
+menu() {
+    while :; do
+        local choice
+        choice=$(wh 'EZpenguin config' 'Choose a setting' 18 64 10 \
+            '1' 'Status / system info' \
+            '2' 'Hostname' \
+            '3' 'Timezone' \
+            '4' 'Locale' \
+            '5' 'Console keymap' \
+            '6' 'SSH server on/off' \
+            '7' 'Change user password' \
+            '8' 'Re-run first-boot wizard' \
+            '9' 'Software catalog (ez-software)' \
+            '0' 'Exit') || break
+        case "$choice" in
+            1) show_status ;;
+            2) set_hostname ;;
+            3) set_timezone ;;
+            4) set_locale ;;
+            5) set_keymap ;;
+            6) toggle_ssh ;;
+            7) change_password ;;
+            8) rerun_wizard ;;
+            9) /usr/local/bin/ez-software ;;
+            0) break ;;
+        esac
+    done
+}
+
+case "${1:-menu}" in
+    menu)   menu ;;
+    hostname) shift; set_hostname "$@" ;;
+    timezone) shift; set_timezone "$@" ;;
+    locale)   shift; set_locale "$@" ;;
+    keymap)   shift; set_keymap "$@" ;;
+    ssh)      toggle_ssh ;;
+    password) shift; change_password "$@" ;;
+    wizard)   rerun_wizard ;;
+    *) echo "usage: sudo ez-config [menu|hostname <n>|timezone <z>|locale <l>|keymap <k>|ssh|password [u]|wizard]" >&2; exit 1 ;;
+esac

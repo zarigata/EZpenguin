@@ -3,6 +3,52 @@
 All notable changes to EZpenguin. Format follows Keep-a-Changelog;
 versioning is SemVer. Dates are YYYY-MM-DD.
 
+## [0.4.0] — 2026-10-26
+
+Software & UX release: DietPi-scale catalog, global password, polished
+terminal experience.
+
+### Added
+- Software catalog scaled to 61 installable entries across 6 categories
+  (servers, languages/dev, network/VPN, security, monitoring/tools,
+  desktops) — docker, python+venv, nodejs, java, go, rust, php, databases,
+  cockpit, fail2ban, tailscale, XFCE/LXDE, and more
+- Per-entry post-install hooks: services enabled, docker group membership,
+  php-fpm started, graphical target set, sensors auto-detected
+- `ez-software` v2: DietPi-style category menu → checklist; postcmd
+  execution; `categories` command; multi-id `install a b c`
+- DietPi-style GLOBAL PASSWORD option: one password for user + root
+  (opt-in, wizard prompt or `EZ_GLOBAL_PASSWORD=1` headless; SSH root
+  login stays disabled; marker `/etc/ezpenguin/.global-password`)
+- Terminal UX: shared banner library (`/usr/local/lib/ezpenguin/banner.sh`)
+  with ASCII penguin, branded `/etc/motd` + `/etc/issue`, redesigned
+  fastfetch-style `ez-info` panel
+- QA suite: catalog field/entry/postcmd-syntax validation, banner/motd
+  checks, global-password wiring checks (135 checks total)
+
+## [0.3.0] — 2026-10-25
+
+DietPi-parity UX release: software catalog, headless installs, full
+configuration and backup tooling.
+
+### Added
+- `ez-software` — software catalog (25 curated entries: servers, VPNs,
+  monitoring, desktop): TUI checklist installer, `list`/`search`/
+  `install <id>` CLI modes; catalog data at
+  `/etc/ezpenguin/software-catalog.list` (single source: `config/`)
+- Headless first-boot: drop `firstboot.conf` (key=value) into
+  `/boot/` — wizard configures everything unattended (locale, timezone,
+  keymap, hostname, user+password, SSH enable, optional upgrade+reboot);
+  value charset strictly validated before use
+- `ez-config` — full system configuration tool: whiptail menu +
+  one-shot commands (hostname/timezone/locale/keymap/ssh/password/wizard)
+- `ez-backup` — configuration backup/restore (tarball of /etc state +
+  EZpenguin identity), with content preview before restore
+- Headless smoke test (`tests/test_headless_smoke.sh`): injects
+  firstboot.conf into an image copy, boots with ZERO input, verifies
+  unattended completion, user creation, SSH enable, and self-reboot
+- QA suite expanded to 131 checks
+
 ## [0.2.0] — 2026-10-24
 
 Installability release: live ISO installer, ARM64 cross-builds, interactive

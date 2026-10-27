@@ -1,24 +1,37 @@
 #!/usr/bin/env bash
-# ez-info — system overview for EZpenguin
-set -euo pipefail
+# ez-info — EZpenguin system summary (fastfetch-style panel).
+set -uo pipefail
+. /usr/local/lib/ezpenguin/banner.sh 2>/dev/null || true
 
-VER="$(cat /etc/ezpenguin/version 2>/dev/null || echo unknown)"
-ARCH="$(uname -m)"
-KERNEL="$(uname -r)"
-UPTIME="$(uptime -p 2>/dev/null || echo '?')"
-DISK="$(df -h / | awk 'NR==2 {print $3" used / "$2" total ("$5")"}')"
-MEM="$(free -h 2>/dev/null | awk '/Mem:/ {print $3" used / "$2" total"}')"
-IPADDR="$(hostname -I 2>/dev/null | awk '{print $1}' || echo '?')"
+VER=$(cat /etc/ezpenguin/version 2>/dev/null || echo '?')
+PRETTY=$(grep -oP 'PRETTY_NAME="\K[^"]*' /etc/os-release 2>/dev/null || echo EZpenguin)
+KERNEL=$(uname -r)
+ARCH=$(uname -m)
+HOST=$(hostname)
+UPT=$(uptime -p 2>/dev/null | sed 's/up //')
+PKGS=$(dpkg -l 2>/dev/null | grep -c '^ii' || echo '?')
+IPADDR=$(ip -4 -br addr show scope global 2>/dev/null | awk '{print $3; exit}' | cut -d/ -f1)
+[[ -z "$IPADDR" ]] && IPADDR="offline"
+DISK=$(df -h / 2>/dev/null | awk 'NR==2{print $3"/"$2" ("$5")"}')
+MEM=$(awk '/MemTotal/{t=$2}/MemAvailable/{a=$2}END{printf "%dMB / %dMB", (t-a)/1024, t/1024}' /proc/meminfo 2>/dev/null)
+LOAD=$(cut -d' ' -f1-3 /proc/loadavg)
+CONF=$([[ -f /etc/ezpenguin/.configured ]] && echo "done" || echo "pending (first boot)")
+GPW=$([[ -f /etc/ezpenguin/.global-password ]] && echo "yes (DietPi-style)" || echo "no")
 
-cat <<EOF
+row() { printf '%b %-12s %b\n' "${EZC_CYAN}" "$1" "${EZC_RESET:-}$2"; }
 
-  EZpenguin $VER  ($ARCH, kernel $KERNEL)
-  ──────────────────────────────────────
-  Hostname : $(hostname)
-  Uptime   : $UPTIME
-  Disk /   : $DISK
-  Memory   : $MEM
-  IP       : $IPADDR
-  Config   : $([ -f /etc/ezpenguin/.configured ] && echo 'complete' || echo 'pending (first boot)')
-  
-EOF
+ez_logo_print
+printf '%b\n' "${EZC_BOLD}  $HOST${EZC_RESET} ${EZC_DIM}— EZpenguin v$VER${EZC_RESET}"
+ez_hr
+row "OS"        "$PRETTY"
+row "Kernel"    "$KERNEL ($ARCH)"
+row "Uptime"    "$UPT"
+row "Packages"  "$PKGS (dpkg)"
+row "Disk /"    "$DISK"
+row "Memory"    "$MEM"
+row "Load"      "$LOAD"
+row "IP"        "$IPADDR"
+row "Setup"     "$CONF"
+row "Global pw" "$GPW"
+ez_hr
+printf '%b\n' "${EZC_DIM}  try: ez-software • ez-config • ez-doctor • ez-backup${EZC_RESET}"

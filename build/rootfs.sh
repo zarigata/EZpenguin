@@ -135,6 +135,11 @@ printf '%s\n' "$EZP_VERSION" > "$TARGET/etc/ezpenguin/version"
 printf '%s\n' "$EZP_NAME $EZP_VERSION ($EZP_SUITE/$ARCH)" > "$TARGET/etc/ezpenguin/pretty-name"
 printf '%s\n' "$ARCH" > "$TARGET/etc/ezpenguin/arch"
 
+# software catalog for ez-software (single source: config/)
+if [[ -f "$WS/config/software-catalog.list" ]]; then
+    cp "$WS/config/software-catalog.list" "$TARGET/etc/ezpenguin/software-catalog.list"
+fi
+
 cat > "$TARGET/etc/os-release" <<EOF
 PRETTY_NAME="$EZP_NAME $EZP_VERSION"
 NAME="$EZP_NAME"
