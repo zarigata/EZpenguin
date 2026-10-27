@@ -56,12 +56,12 @@ TARBALL="${EZP_TARBALL:-}"
 
 if [[ -z "$TARBALL" ]]; then
     say "locating latest release..."
-    read -r TAG TARBALL_URL < <(curl -fsSL "https://api.github.com/repos/$REPO/releases/latest" \
-        | tr -d '"' | awk -v arch="$ARCH" '
-            /"tag_name"/  { tag = substr($2, index($2,":")+1) }
-            /browser_download_url/ && index($2, "-" arch "-rootfs.tar.xz") {
-                print tag, $2; exit }')
-    [[ -n "${TARBALL_URL:-}" ]] || die "no rootfs asset found for $ARCH in latest release"
+    REL_JSON="$TMPDIR_EZP/release.json"
+    curl -fsSL "https://api.github.com/repos/$REPO/releases/latest" -o "$REL_JSON"
+    TAG=$(grep -o '"tag_name": *"[^"]*"' "$REL_JSON" | head -1 | cut -d'"' -f4)
+    TARBALL_URL=$(grep -o '"browser_download_url": *"[^"]*-'"$ARCH"'-rootfs.tar.xz"' "$REL_JSON" \
+        | head -1 | cut -d'"' -f4)
+    [[ -n "$TARBALL_URL" ]] || die "no rootfs asset found for $ARCH in latest release"
     TARBALL="$TMPDIR_EZP/ezpenguin-rootfs.tar.xz"
     say "downloading: ${TARBALL_URL}"
     say "             (tag ${BOLD}${TAG:-?}${RST})"

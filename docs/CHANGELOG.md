@@ -3,6 +3,30 @@
 All notable changes to EZpenguin. Format follows Keep-a-Changelog;
 versioning is SemVer. Dates are YYYY-MM-DD.
 
+## [0.4.1] — 2026-10-27
+
+One-liner online installer + GitHub Pages.
+
+### Added
+- `installer/online-installer.sh` — DietPi-style one-liner:
+  `bash -c "$(curl -sSfL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh)"`
+  - auto-detects container vs bare-metal, amd64/arm64
+  - container/VM mode: IN-PLACE conversion of the running system
+    (Docker DNS/hostname preserved, machine-id regenerated, wizard armed),
+    then reboots (container restart = boot)
+  - bare-metal mode: disk picker, GPT BIOS+ESP+root, GRUB, static grub.cfg
+  - tested end-to-end on ubuntu:24.04 (convert → commit → fresh boot →
+    EZpenguin identity, working apt, wizard pending)
+- GitHub Pages landing site (`docs/index.html` →
+  https://zarigata.github.io/EZpenguin/)
+- README overhaul: one-liner install section, catalog table, roadmap,
+  centered landing layout
+
+### Fixed
+- `banner.sh` tty-detection could deadlock when stdout was a pipe
+  (grep reading its own stdout) — now plain `-t 1` test; installer also
+  hotpatches older tarballs
+
 ## [0.4.0] — 2026-10-26
 
 Software & UX release: DietPi-scale catalog, global password, polished
