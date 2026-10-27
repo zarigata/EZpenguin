@@ -110,26 +110,38 @@ type_str "penguin"; sleep 1; enter
 sleep 6
 type_str "penguin"; sleep 1; enter
 
-# ---- 7. ssh yesno — Enter selects <Yes> ------------------------------------
-step "ssh enable prompt (Enter = Yes)"
-if wait_for 'ssh enabled\|updating packages' 240; then
+# ---- 7. ssh yesno — Enter selects <Yes>; then global-password yesno -------
+step "ssh + global-password prompts (Enter = Yes)"
+if wait_for 'ssh enabled\|updating packages\|global password' 240; then
     grep -aq 'ssh enabled' "$LOG" 2>/dev/null || { sleep 3; enter; }
+    # global-password confirm appears after ssh step
+    if ! grep -aq 'global password\|updating packages' "$LOG" 2>/dev/null; then
+        sleep 5; enter
+    fi
 else
-    step "ssh marker missing — sending Enter anyway"
-    sleep 5; enter
+    step "markers missing — sending Enters anyway"
+    sleep 5; enter; sleep 5; enter
 fi
 
 # ---- 8. completion: wizard touches .configured and reboots -----------------
 # -no-reboot: the guest reboot terminates QEMU (process exits)
+# A yesno may still be pending (whiptail draws on tty1, invisible here) —
+# send a nudge Enter every 45s until 'updating packages' appears (max 4).
 step "waiting for setup completion (apt update/upgrade runs — slow in TCG)"
-DONE=0
+DONE=0 NUDGES=0 LAST_NUDGE=0
 for ((i=0; i<TIMEOUT; i+=5)); do
     if grep -aq 'first-boot setup complete\|Setup complete' "$LOG" 2>/dev/null; then
         DONE=1; echo "# completion marker seen after $(ELAPSED)s"; break
     fi
+    if grep -aq 'updating packages' "$LOG" 2>/dev/null; then
+        LAST_NUDGE=1   # wizard past all prompts — no more nudges
+    elif (( NUDGES < 4 && (i - NUDGES*45) >= 45 )); then
+        step "no 'updating packages' yet — sending nudge Enter ($((NUDGES+1))/4)"
+        enter; NUDGES=$((NUDGES+1))
+    fi
     if ! kill -0 "$QPID" 2>/dev/null; then
         # QEMU exited — under -no-reboot this is the wizard's reboot
-        if grep -aq 'updating packages\|ez-firstboot' "$LOG" 2>/dev/null; then
+        if grep -aq 'ez-firstboot' "$LOG" 2>/dev/null; then
             DONE=1; echo "# VM rebooted after $(ELAPSED)s (wizard completion path)"
         fi
         break

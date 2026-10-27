@@ -3,6 +3,29 @@
 All notable changes to EZpenguin. Format follows Keep-a-Changelog;
 versioning is SemVer. Dates are YYYY-MM-DD.
 
+## [0.4.0] — 2026-10-26
+
+Software & UX release: DietPi-scale catalog, global password, polished
+terminal experience.
+
+### Added
+- Software catalog scaled to 61 installable entries across 6 categories
+  (servers, languages/dev, network/VPN, security, monitoring/tools,
+  desktops) — docker, python+venv, nodejs, java, go, rust, php, databases,
+  cockpit, fail2ban, tailscale, XFCE/LXDE, and more
+- Per-entry post-install hooks: services enabled, docker group membership,
+  php-fpm started, graphical target set, sensors auto-detected
+- `ez-software` v2: DietPi-style category menu → checklist; postcmd
+  execution; `categories` command; multi-id `install a b c`
+- DietPi-style GLOBAL PASSWORD option: one password for user + root
+  (opt-in, wizard prompt or `EZ_GLOBAL_PASSWORD=1` headless; SSH root
+  login stays disabled; marker `/etc/ezpenguin/.global-password`)
+- Terminal UX: shared banner library (`/usr/local/lib/ezpenguin/banner.sh`)
+  with ASCII penguin, branded `/etc/motd` + `/etc/issue`, redesigned
+  fastfetch-style `ez-info` panel
+- QA suite: catalog field/entry/postcmd-syntax validation, banner/motd
+  checks, global-password wiring checks (135 checks total)
+
 ## [0.3.0] — 2026-10-25
 
 DietPi-parity UX release: software catalog, headless installs, full

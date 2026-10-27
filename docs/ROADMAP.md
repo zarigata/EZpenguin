@@ -26,7 +26,13 @@
 - [x] Backup/restore of config (`ez-backup`)
 - [x] Headless unattended-install boot test in pipeline
 
-## v0.4 — Hardening & Polish
+## v0.4 — Software & UX (COMPLETE)
+- [x] Software catalog scaled to 61 entries with post-install hooks
+- [x] DietPi-style global password (opt-in, wizard + headless)
+- [x] Terminal UX: banner lib, branded motd/issue, fastfetch-style ez-info
+- [x] Catalog QA: field validation + postcmd syntax checks
+
+## v0.5 — Hardening & Polish (next)
 - [ ] Automated secure defaults audit (Lynis baseline)
 - [ ] Unattended/preseed install (answer file)
 - [ ] Signing of artifacts + signed releases

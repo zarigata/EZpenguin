@@ -113,23 +113,29 @@ ok 112 - L3 ez-software syntax
 ok 113 - L3 ez-software executable
 ok 114 - L3 ez-backup syntax
 ok 115 - L3 ez-backup executable
-ok 116 - L3 catalog parses (5 cols)
-ok 117 - L3 catalog >= 20 entries
-ok 118 - L3 headless conf support
-ok 119 - L3 headless eval-guard
-ok 120 - L3 live-boot present
-ok 121 - L3 timeout hardening
-ok 122 - L3 os-release version
-ok 123 - L3 wizard live-mode aware
-ok 124 - L3 unit is valid
-ok 125 - L3 firstboot enabled
-ok 126 - L3 shadow: root locked
-ok 127 - L3 shadow: no empty pass
-ok 128 - L3 machine-id empty
-ok 129 - L3 sudo installed
-ok 130 - L3 ssh present, default off
-ok 131 - L4 rootfs size 687MB <= 700MB
-# pass=131 fail=0
+ok 116 - L3 catalog >= 50 entries
+ok 117 - L3 catalog fields >= 6
+ok 118 - L3 catalog postcmds parse
+ok 119 - L3 banner lib syntax
+ok 120 - L3 motd branded
+ok 121 - L3 issue branded
+ok 122 - L3 ez-info has logo
+ok 123 - L3 global password support
+ok 124 - L3 headless conf support
+ok 125 - L3 headless eval-guard
+ok 126 - L3 live-boot present
+ok 127 - L3 timeout hardening
+ok 128 - L3 os-release version
+ok 129 - L3 wizard live-mode aware
+ok 130 - L3 unit is valid
+ok 131 - L3 firstboot enabled
+ok 132 - L3 shadow: root locked
+ok 133 - L3 shadow: no empty pass
+ok 134 - L3 machine-id empty
+ok 135 - L3 sudo installed
+ok 136 - L3 ssh present, default off
+ok 137 - L4 rootfs size 687MB <= 700MB
+# pass=137 fail=0
 # ALL TESTS PASSED
 ok 1 - boot(bios/amd64) reached EZpenguin first-boot wizard
 ok 1 - boot(uefi/amd64) reached EZpenguin first-boot wizard
@@ -137,28 +143,25 @@ ok 1 - iso(bios) booted live, first-boot wizard service started
 ok 2 - iso(bios) live root mounted, multi-user reached
 ok 1 - iso(uefi) booted live, first-boot wizard service started
 ok 2 - iso(uefi) live root mounted, multi-user reached
-ok 1 - wizard smoke: full first-boot setup completed (479s)
 
-[1;35m[image][0m validation OK (tarball 14958 entries, GPT signature present)
+[1;35m[image][0m validation OK (tarball 14960 entries, GPT signature present)
 ok 1 - boot(bios/amd64) reached EZpenguin first-boot wizard
 ok 1 - boot(uefi/amd64) reached EZpenguin first-boot wizard
-[1;33m[iso][0m ISO OK: /build/artifacts/ezpenguin-0.3.0-amd64.iso (251MB, BIOS+UEFI El Torito verified)
+[1;33m[iso][0m ISO OK: /build/artifacts/ezpenguin-0.4.0-amd64.iso (250MB, BIOS+UEFI El Torito verified)
 ok 1 - iso(bios) booted live, first-boot wizard service started
 ok 2 - iso(bios) live root mounted, multi-user reached
 ok 1 - iso(uefi) booted live, first-boot wizard service started
 ok 2 - iso(uefi) live root mounted, multi-user reached
-ok 1 - wizard smoke: full first-boot setup completed (479s)
-ok 1 - headless: unattended setup completed in 80s
+not ok 1 - wizard smoke: setup did not complete after 2747s
+ok 1 - headless: unattended setup completed in 65s
+ok 2 - headless: ssh auto-enabled
+ok 3 - headless: VM rebooted by itself (completion path)
+ok 1 - wizard smoke: full first-boot setup completed (403s)
+ok 1 - headless: unattended setup completed in 70s
 ok 2 - headless: ssh auto-enabled
 ok 3 - headless: VM rebooted by itself (completion path)
 
 # artifacts:
--rw-r--r--  1 zari  staff   161M Oct 26 14:33 ezpenguin-0.3.0-amd64-rootfs.tar.xz
--rw-r--r--  1 zari  staff   301M Oct 26 14:35 ezpenguin-0.3.0-amd64.img.xz
--rw-r--r--  1 zari  staff   247M Oct 26 14:40 ezpenguin-0.3.0-amd64.iso
-
-# pipeline: ./build/build.sh all stages green (amd64)
-
-# ARM64 pipeline (./build/build.sh arm64) — exit 0
-ok - L1-L4: pass=130 fail=0 (arm64)
-ok 1 - boot(uefi/arm64) reached EZpenguin first-boot wizard (QEMU virt + AAVMF)
+-rw-r--r--  1 zari  staff   161M Oct 26 23:05 ezpenguin-0.4.0-amd64-rootfs.tar.xz
+-rw-r--r--  1 zari  staff   318M Oct 26 23:07 ezpenguin-0.4.0-amd64.img.xz
+-rw-r--r--  1 zari  staff   247M Oct 26 23:12 ezpenguin-0.4.0-amd64.iso

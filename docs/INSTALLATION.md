@@ -78,6 +78,10 @@ ignored). The applied file is renamed `firstboot.conf.applied` so it
 runs exactly once. SSH-first workflow: set `EZ_SSH_ENABLE=1`, boot
 headless, then `ssh penguin@<ip>`.
 
+DietPi-style global password: add `EZ_GLOBAL_PASSWORD=1` (with
+`EZ_PASSWORD`) to unlock root console login with the same password.
+SSH root login remains disabled either way.
+
 ## Virtual machines
 
 | Hypervisor | How |
