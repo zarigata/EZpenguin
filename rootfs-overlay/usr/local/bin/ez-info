@@ -16,7 +16,7 @@ DISK=$(df -h / 2>/dev/null | awk 'NR==2{print $3"/"$2" ("$5")"}')
 MEM=$(awk '/MemTotal/{t=$2}/MemAvailable/{a=$2}END{printf "%dMB / %dMB", (t-a)/1024, t/1024}' /proc/meminfo 2>/dev/null)
 LOAD=$(cut -d' ' -f1-3 /proc/loadavg)
 CONF=$([[ -f /etc/ezpenguin/.configured ]] && echo "done" || echo "pending (first boot)")
-GPW=$([[ -f /etc/ezpenguin/.global-password ]] && echo "yes (DietPi-style)" || echo "no")
+GPW=$([[ -f /etc/ezpenguin/.global-password ]] && echo "yes" || echo "no")
 
 row() { printf '%b %-12s %b\n' "${EZC_CYAN}" "$1" "${EZC_RESET:-}$2"; }
 

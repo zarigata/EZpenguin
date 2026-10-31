@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ez-software — EZpenguin software catalog installer (DietPi-style).
+# ez-software — EZpenguin software catalog installer.
 # Catalog: /etc/ezpenguin/software-catalog.list
 #   id|name|packages|category|description|post-install command
 # Usage:
@@ -55,7 +55,7 @@ install_entry() {
 
 tui() {
     require_root
-    # category menu (DietPi-style)
+    # category menu
     local cats
     cats=$(parse | awk -F'|' '{print $4}' | sort -u)
     [[ -n "$cats" ]] || { echo "catalog empty" >&2; exit 1; }

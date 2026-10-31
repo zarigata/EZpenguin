@@ -4,7 +4,8 @@
 
 EZpenguin is a **Debian-minimal derivative** built with a fully scripted,
 Docker-based pipeline. Every artifact is produced inside a container,
-ensuring bit-for-bit reproducibility regardless of the host OS.
+keeping the build steps consistent across supported hosts. Package mirrors and
+build timestamps can change the output; bit-for-bit reproducibility is not yet guaranteed.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -35,10 +36,9 @@ ensuring bit-for-bit reproducibility regardless of the host OS.
 ## Layers
 
 ### 1. Base layer — Debian
-- **Suite:** `bookworm` (Debian 12, current stable)
+- **Suite:** `bookworm` (Debian 12)
 - **Variant:** `minbase` via debootstrap, then curated package set
-- Rationale: Debian stability + massive package universe; same foundation
-  DietPi proves works across x86 and ARM.
+- Rationale: Debian stability + massive package universe; a package ecosystem available on x86-64 and ARM64.
 
 ### 2. EZpenguin layer
 Everything that makes it *EZpenguin* lives in `rootfs-overlay/` and
@@ -91,13 +91,14 @@ packaged. A build that fails tests produces no output. See
 
 ## Design principles
 
-1. **Reproducible** — same commit → same output. No manual steps.
+1. **Scripted** — a versioned build pipeline with no manual image assembly.
+   Bit-for-bit reproducibility requires additional dependency and timestamp pinning.
 2. **Minimal** — nothing in the base that isn't required or explicitly chosen.
 3. **Tested** — untested = broken. Every build runs the full QA suite.
 4. **Boring** — prefer proven Debian defaults over cleverness.
 5. **Automated** — first-boot wizard, not install-time questions where avoidable.
 
-## First-boot flow (DietPi-inspired)
+## First-boot flow (automated)
 
 ```
 power on → systemd → ezpenguin-firstboot.service
@@ -112,5 +113,5 @@ power on → systemd → ezpenguin-firstboot.service
 ## Versioning
 
 `MAJOR.MINOR.PATCH` — e.g. `1.0.0`. Tracked in
-`config/ezpenguin-version` and stamped into `/etc/ezpenguin/version`
+`config/ezpenguin.cfg` and stamped into `/etc/ezpenguin/version`
 at build time. Artifacts embed the version in their filename.

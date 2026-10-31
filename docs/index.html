@@ -1,224 +1,181 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EZpenguin — the penguin that installs itself</title>
-<meta name="description" content="Tiny Debian-based Linux distro: boots anywhere (BIOS+UEFI, amd64+arm64), installs itself with one line, 61-stack software catalog, zero-touch headless mode.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
-<style>
-:root{
-  --bg:#0b1220;--panel:#111a2e;--panel2:#0e1626;--text:#dbe6f5;--muted:#8ba0bd;
-  --cyan:#4cc9f0;--green:#4ade80;--yellow:#fbbf24;--pink:#f472b6;--border:#1e2c47;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-a{color:var(--cyan);text-decoration:none}
-a:hover{text-decoration:underline}
-code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-header{padding:72px 0 40px;text-align:center;position:relative;overflow:hidden}
-header::before{content:"";position:absolute;inset:0;background:
- radial-gradient(600px 300px at 20% 0%,rgba(76,201,240,.12),transparent),
- radial-gradient(600px 300px at 80% 10%,rgba(244,114,182,.08),transparent);pointer-events:none}
-.logo{font-size:13px;line-height:1.25;color:var(--cyan);white-space:pre;display:inline-block;text-align:left}
-h1{font-size:clamp(34px,6vw,54px);margin:18px 0 10px;letter-spacing:-1px}
-.tagline{color:var(--muted);font-size:clamp(16px,2.4vw,21px);max-width:760px;margin:0 auto}
-.badges{margin-top:22px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.badge{border:1px solid var(--border);background:var(--panel);border-radius:999px;padding:4px 14px;font-size:13px;color:var(--muted)}
-.badge b{color:var(--text)}
-section{padding:44px 0}
-h2{font-size:26px;margin-bottom:18px;letter-spacing:-.4px}
-h2 .em{margin-right:8px}
-.grid{display:grid;gap:14px}
-.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px}
-.card h3{font-size:17px;margin-bottom:6px}
-.card p{color:var(--muted);font-size:14.5px}
-.card .em{margin-right:6px}
-.oneliner{background:var(--panel2);border:1px solid var(--border);border-radius:14px;padding:6px;margin:16px 0 8px;position:relative}
-.oneliner pre{padding:14px 16px;overflow-x:auto;font-size:14px;color:var(--green)}
-.oneliner .copy{position:absolute;top:8px;right:8px;background:var(--panel);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer}
-.oneliner .copy:hover{color:var(--text)}
-.note{color:var(--muted);font-size:13.5px}
-.term{background:#050a14;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:14px}
-.term .bar{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--panel)}
-.term .dot{width:11px;height:11px;border-radius:50%;background:#f87171}
-.term .dot:nth-child(2){background:#fbbf24}
-.term .dot:nth-child(3){background:#34d399}
-.term pre{padding:18px;font-size:13px;line-height:1.6;color:#b7c6dd;overflow-x:auto}
-.term .c{color:var(--muted)}
-.term .g{color:var(--green)}
-.term .y{color:var(--yellow)}
-.steps{counter-reset:s;list-style:none;display:grid;gap:12px}
-.steps li{counter-increment:s;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px 14px 56px;position:relative;color:var(--muted);font-size:14.5px}
-.steps li b{color:var(--text)}
-.steps li::before{content:counter(s);position:absolute;left:16px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:rgba(76,201,240,.15);color:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
-table{width:100%;border-collapse:collapse;font-size:14.5px}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
-th{color:var(--muted);font-weight:600}
-td b{color:var(--text)}
-.kv{color:var(--muted)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
-.stat{text-align:center;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px 10px}
-.stat .n{font-size:26px;font-weight:800;color:var(--cyan)}
-.stat .l{font-size:12.5px;color:var(--muted)}
-footer{border-top:1px solid var(--border);margin-top:30px;padding:34px 0 60px;text-align:center;color:var(--muted);font-size:14px}
-footer .links{margin-top:8px}
-.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
-.btn{display:inline-block;padding:12px 22px;border-radius:12px;font-weight:700;font-size:15px}
-.btn.p{background:var(--cyan);color:#04121c}
-.btn.s{border:1px solid var(--border);color:var(--text)}
-.btn:hover{text-decoration:none;filter:brightness(1.1)}
-</style>
+<title>EZpenguin — Lightweight Debian Linux for Homelabs &amp; Servers</title>
+<meta name="description" content="Build your homelab with EZpenguin, a lightweight Debian-based Linux OS. Explore 61 software stacks, headless setup, amd64 and ARM64 images, and open-source tools.">
+<meta name="theme-color" content="#18241d">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://zarigata.github.io/EZpenguin/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EZpenguin">
+<meta property="og:title" content="EZpenguin — Small footprint. Big possibilities.">
+<meta property="og:description" content="A lightweight Debian-based Linux OS for homelabs, self-hosting and servers. 61 software stacks. Your hardware. Your rules.">
+<meta property="og:url" content="https://zarigata.github.io/EZpenguin/">
+<meta property="og:image" content="https://zarigata.github.io/EZpenguin/assets/social-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="EZpenguin — lightweight Debian Linux for homelabs and servers, with its penguin mascot.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EZpenguin — Lightweight Debian Linux">
+<meta name="twitter:description" content="Small footprint. Big possibilities. Explore 61 software stacks for your next homelab.">
+<meta name="twitter:image" content="https://zarigata.github.io/EZpenguin/assets/social-preview.png">
+<link rel="icon" href="assets/penguin.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/app.js" defer></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://zarigata.github.io/EZpenguin/#website","url":"https://zarigata.github.io/EZpenguin/","name":"EZpenguin","inLanguage":"en"},{"@type":"SoftwareSourceCode","name":"EZpenguin","description":"Lightweight Debian-based Linux distribution for homelabs, servers and self-hosting.","codeRepository":"https://github.com/zarigata/EZpenguin","url":"https://zarigata.github.io/EZpenguin/","license":"https://www.gnu.org/licenses/gpl-3.0.html","programmingLanguage":"Shell","runtimePlatform":"Debian GNU/Linux 12","version":"0.4.1"},{"@type":"SoftwareApplication","name":"EZpenguin","applicationCategory":"UtilitiesApplication","operatingSystem":"Linux","softwareVersion":"0.4.1","url":"https://zarigata.github.io/EZpenguin/","downloadUrl":"https://github.com/zarigata/EZpenguin/releases","isAccessibleForFree":true,"license":"https://www.gnu.org/licenses/gpl-3.0.html"}]}
+</script>
 </head>
 <body>
-
-<header class="wrap">
-<div class="logo">
-        .--.
-       |o_o |
-       |:_/ |
-      //   \ \
-     (|     | )
-    /"\_   _/`\
-    \___)=(___/   </div>
-<h1>EZpenguin</h1>
-<p class="tagline">The tiny Debian-based distro that <b>boots anywhere</b>, installs itself
-<b>with one line</b>, and hands you a <b>61-stack software catalog</b> on a silver platter.</p>
-<div class="badges">
-  <span class="badge">base <b>Debian bookworm</b></span>
-  <span class="badge">boot <b>BIOS + UEFI</b></span>
-  <span class="badge">arch <b>amd64 + arm64</b></span>
-  <span class="badge">download <b>~320 MB</b></span>
-  <span class="badge">QA <b>137 automated checks</b></span>
-</div>
-<div class="cta">
-  <a class="btn p" href="#install">🐧 One-liner install</a>
-  <a class="btn s" href="https://github.com/zarigata/EZpenguin/releases">⬇ Releases</a>
-  <a class="btn s" href="https://github.com/zarigata/EZpenguin">★ Source</a>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+<div class="wrap nav-inner">
+<a href="./" class="brand" aria-label="EZpenguin home"><img src="assets/penguin.svg" width="34" height="42" alt="">ezpenguin<span aria-hidden="true">.</span></a>
+<nav class="nav-links" aria-label="Main navigation">
+<a href="#why">Why EZpenguin</a><a href="#software">Software</a><a href="#install">Get started</a><a href="https://github.com/zarigata/EZpenguin#documentation">Docs ↗</a><a class="star" href="https://github.com/zarigata/EZpenguin">☆ Star on GitHub</a>
+</nav>
 </div>
 </header>
-
-<section class="wrap" id="install">
-<h2><span class="em">🚀</span>Install EZpenguin on anything — one line</h2>
-<p class="kv">Works on running Ubuntu/Debian systems <b>and</b> Docker containers.
-No ISO. No USB. Converts in place and reboots into the penguin.</p>
-
-<div class="oneliner">
-<button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('ol').textContent)">copy</button>
-<pre id="ol">bash -c "$(curl -sSfL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh)"</pre>
+<main id="main">
+<div class="wrap">
+<section class="hero" aria-labelledby="hero-title">
+<div class="hero-copy">
+<div class="eyebrow"><span class="status-dot"></span> Little Linux. Lots of potential. <span class="pill">v0.4.1</span></div>
+<h1 id="hero-title">Small footprint.<br><em>Big possibilities.</em></h1>
+<p>A lightweight Debian-based Linux OS for your next homelab, home server, or “what if” project. Pick your software. Skip the busywork. Make it yours.</p>
+<div class="actions"><a class="button primary" href="#install">Get EZpenguin <span aria-hidden="true">↓</span></a><a class="button" href="https://github.com/zarigata/EZpenguin">Explore the source <span aria-hidden="true">↗</span></a></div>
+<p class="fine">Free &amp; open source · Debian 12 base · Early-stage project</p>
 </div>
-<p class="note">The installer detects container vs bare-metal, picks amd64/arm64, downloads the
-latest release, converts (or partitions a target disk on metal), and reboots automatically.</p>
-
-<div class="term">
-<div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-<pre><span class="c">$ docker run -d --name demo ubuntu:24.04 sleep infinity</span>
-<span class="c">$ docker exec -it demo bash -c 'apt-get update -qq && apt-get install -y -qq curl xz-utils'</span>
-<span class="c">$ docker exec -it demo bash -c "$(curl -sSfL .../online-installer.sh)"</span>
-<span class="g">       .--.       E Z P E N G U I N — online installer</span>
-<span class="g">      |o_o |</span>
-architecture: amd64  environment: container
-downloading: ezpenguin-0.4.1-amd64-rootfs.tar.xz
-<span class="y">IN-PLACE CONVERSION</span> — this replaces the running system userland.
-extracting EZpenguin over /  (a few minutes)
-<span class="g">Conversion complete — this system is now EZpenguin.</span>
-os-release: EZpenguin 0.4.1
-rebooting now: restart this container → boots into EZpenguin
-<span class="c">$ docker restart demo && docker exec demo ez-info</span>
-<span class="y">  bbefc43ab809 — EZpenguin v0.4.1</span>
- OS           EZpenguin 0.4.1
- Setup        pending (first boot)
- <span class="c">try: ez-software • ez-config • ez-doctor • ez-backup</span></pre>
+<div class="hero-art" role="img" aria-label="EZpenguin mascot with an illustrative terminal showing software catalog commands">
+<span class="art-label">YOUR NEXT LITTLE LINUX BOX</span><span class="art-version">AMD64 / ARM64</span>
+<img class="penguin" src="assets/penguin.svg" width="225" height="285" alt="">
+<div class="terminal hero-terminal" aria-hidden="true"><div class="terminal-bar"><i></i><i></i><i></i><span>ezpenguin — command preview</span></div><div class="terminal-body"><span class="green">penguin@homelab</span> ~ $ ez-software list<br><span class="dim">61 entries. One small Linux box.</span><br><span class="green">$</span> sudo ez-software install docker python<br><span class="dim">Your next project starts here.</span></div></div>
 </div>
 </section>
-
-<section class="wrap" style="padding-top:0">
-<h2><span class="em">🪄</span>Three ways to penguin</h2>
-<ol class="steps">
-<li><b>One-liner</b> — convert a running system or container in place, DietPi-style. No media needed.</li>
-<li><b>Flash &amp; boot</b> — dd the hybrid image to USB; boots BIOS or UEFI, wizard auto-expands the disk.</li>
-<li><b>Live ISO installer</b> — boot the ISO, pick "Install EZpenguin to a disk", reboot. Done.</li>
-</ol>
-</section>
-
-<section class="wrap" style="padding-top:0">
-<h2><span class="em">📦</span>Software catalog — 61 stacks, one menu</h2>
-<div class="term">
-<div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-<pre><span class="c">$ sudo ez-software</span>
-<span class="y">┌──────────────────────────────────────────┐</span>
- EZpenguin software — pick a category
- all        Everything (full checklist)
- server     18 entries     <span class="c">nginx docker mariadb postgres cockpit samba …</span>
- dev        14 entries     <span class="c">python+venv nodejs java go rust php build-essential …</span>
- network     7 entries     <span class="c">wireguard openvpn tailscale nmap tshark …</span>
- security    6 entries     <span class="c">fail2ban ufw auditd clamav rkhunter …</span>
- tools      15 entries     <span class="c">btop tmux mc ncdu neofetch inxi tldr …</span>
- desktop     2 entries     <span class="c">XFCE LXDE</span>
-<span class="c">$ sudo ez-software install docker python java nodejs</span>
-<span class="g">==> installing: Docker engine + CLI   ✔</span>
-<span class="g">==> installing: Python 3 + pip + venv ✔</span></pre>
+<div class="proof" aria-label="Project at a glance">
+<div><strong>Debian 12</strong><span>A familiar foundation</span></div>
+<div><strong>61 stacks</strong><span>Six software categories</span></div>
+<div><strong>2 architectures</strong><span>amd64 + UEFI ARM64</span></div>
+<div><strong>Your hardware.</strong><span>No cloud account required</span></div>
+</div>
+<section id="why" class="section" aria-labelledby="why-title">
+<div class="section-head"><div><div class="eyebrow">01 / A smaller starting point</div><h2 id="why-title">Less OS to manage.<br>More room to build.</h2></div><p>Start with a minimal system, then add the pieces you need. Plain Bash tools and Debian packages keep the moving parts easy to understand.</p></div>
+<div class="features">
+<article class="feature"><span class="feature-number">[ 01 ]</span><h3>A home for your homelab.</h3><p>Set up containers, web servers, databases, file sharing, and monitoring from one software menu. Useful tools, without hunting down every package.</p><a href="#software">Find your stack →</a></article>
+<article class="feature"><span class="feature-number">[ 02 ]</span><h3>Headless from the start.</h3><p>Use the first-boot wizard, or provide a configuration file for unattended setup. Configure your user, locale, hostname, and SSH before you settle in.</p><a href="https://github.com/zarigata/EZpenguin/blob/main/docs/INSTALLATION.md#headless-setup">Read the headless guide ↗</a></article>
+<article class="feature"><span class="feature-number">[ 03 ]</span><h3>Open to the last script.</h3><p>Inspect the build pipeline, audit the tools, or build an image yourself. amd64 images target BIOS and UEFI; ARM64 images target UEFI systems.</p><a href="https://github.com/zarigata/EZpenguin/blob/main/docs/BUILDING.md">Build it yourself ↗</a></article>
 </div>
 </section>
-
-<section class="wrap" style="padding-top:0">
-<h2><span class="em">🧙</span>Zero-touch or classic wizard — your call</h2>
-<div class="grid g3">
-<div class="card"><h3><span class="em">🧙</span>Headless firstboot.conf</h3><p>Drop a key=value file on the disk: user, password, SSH, timezone, hostname. Boots, configures itself in <b>80 seconds</b>, reboots ready. No keyboard, no monitor.</p></div>
-<div class="card"><h3><span class="em">🖥️</span>Interactive wizard</h3><p>Classic tty1 walkthrough: locale, timezone, keymap, hostname, user, SSH — with optional DietPi-style <b>global password</b> for user+root.</p></div>
-<div class="card"><h3><span class="em">🔧</span>Full toolset</h3><p><code>ez-doctor</code> health check · <code>ez-net</code> diagnostics · <code>ez-config</code> settings · <code>ez-backup</code> · fastfetch-style <code>ez-info</code>. Plain bash, fully auditable.</p></div>
+</div>
+<section id="software" class="catalog-section section" aria-labelledby="software-title">
+<div class="wrap">
+<div class="section-head"><div><div class="eyebrow">02 / Bring your own big idea</div><h2 id="software-title">One menu. 61 possibilities.</h2></div><p>From Docker to a lightweight desktop, explore the software catalog. Each install command uses the same <code>ez-software</code> tool.</p></div>
+<div class="catalog-controls" hidden id="catalog-controls">
+<div class="filters" role="group" aria-label="Filter software by category">
+<button class="filter" data-category="all" aria-pressed="true">All 61</button><button class="filter" data-category="server" aria-pressed="false">Servers</button><button class="filter" data-category="dev" aria-pressed="false">Development</button><button class="filter" data-category="network" aria-pressed="false">Network</button><button class="filter" data-category="security" aria-pressed="false">Security</button><button class="filter" data-category="tools" aria-pressed="false">Tools</button><button class="filter" data-category="desktop" aria-pressed="false">Desktops</button>
+</div>
+<label class="search-label"><span class="sr-only">Search software by name, package, or description</span><input type="search" id="software-search" placeholder="Search software…" autocomplete="off"></label>
+</div>
+<div class="catalog-meta"><span id="result-count" role="status">61 catalog entries</span><button class="text-button" id="reset-search" hidden>Clear filters</button></div>
+<div class="catalog-grid" id="catalog">
+<!-- CATALOG START -->
+<article class="app" data-category="server" data-search="nginx nginx web server nginx high-performance web server + reverse proxy" data-app-id="nginx"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Nginx web server</h3><p>High-performance web server + reverse proxy</p><code>sudo ez-software install nginx</code><button class="copy-app" data-copy="sudo ez-software install nginx" aria-label="Copy install command for Nginx web server" hidden>Copy command ↗</button></div></article>
+<article class="app" data-category="server" data-search="lighttpd lighttpd web server lighttpd lightweight web server" data-app-id="lighttpd"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Lighttpd web server</h3><p>Lightweight web server</p><code>sudo ez-software install lighttpd</code><button class="copy-app" data-copy="sudo ez-software install lighttpd" aria-label="Copy install command for Lighttpd web server" hidden>Copy command ↗</button></div></article>
+<article class="app" data-category="server" data-search="apache apache 2 web server apache2 the classic full-featured web server" data-app-id="apache"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Apache 2 web server</h3><p>The classic full-featured web server</p><code>sudo ez-software install apache</code><button class="copy-app" data-copy="sudo ez-software install apache" aria-label="Copy install command for Apache 2 web server" hidden>Copy command ↗</button></div></article>
+<article class="app" data-category="server" data-search="caddy caddy web server caddy automatic-https web server" data-app-id="caddy"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Caddy web server</h3><p>Automatic-HTTPS web server</p><code>sudo ez-software install caddy</code><button class="copy-app" data-copy="sudo ez-software install caddy" aria-label="Copy install command for Caddy web server" hidden>Copy command ↗</button></div></article>
+<article class="app" data-category="server" data-search="mariadb mariadb database mariadb-server drop-in mysql replacement" data-app-id="mariadb"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>MariaDB database</h3><p>Drop-in MySQL replacement</p><code>sudo ez-software install mariadb</code><button class="copy-app" data-copy="sudo ez-software install mariadb" aria-label="Copy install command for MariaDB database" hidden>Copy command ↗</button></div></article>
+<article class="app" data-category="server" data-search="postgres postgresql database postgresql advanced sql database" data-app-id="postgres"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>PostgreSQL database</h3><p>Advanced SQL database</p><code>sudo ez-software install postgres</code><button class="copy-app" data-copy="sudo ez-software install postgres" aria-label="Copy install command for PostgreSQL database" hidden>Copy command ↗</button></div></article>
+<article class="app" data-category="server" data-search="redis redis redis-server in-memory data store" data-app-id="redis"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Redis</h3><p>In-memory data store</p><code>sudo ez-software install redis</code><button class="copy-app" data-copy="sudo ez-software install redis" aria-label="Copy install command for Redis" hidden>Copy command ↗</button></div></article>
+<article class="app" data-category="server" data-search="memcached memcached memcached distributed memory cache" data-app-id="memcached"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Memcached</h3><p>Distributed memory cache</p><code>sudo ez-software install memcached</code><button class="copy-app" data-copy="sudo ez-software install memcached" aria-label="Copy install command for Memcached" hidden>Copy command ↗</button></div></article>
+<article class="app" data-category="server" data-search="docker docker engine + cli docker.io docker-compose containers: engine, cli, compose" data-app-id="docker"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Docker engine + CLI</h3><p>Containers: engine, CLI, compose</p><code>sudo ez-software install docker</code><button class="copy-app" data-copy="sudo ez-software install docker" aria-label="Copy install command for Docker engine + CLI" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="server" data-search="podman podman podman daemonless container engine" data-app-id="podman"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Podman</h3><p>Daemonless container engine</p><code>sudo ez-software install podman</code><button class="copy-app" data-copy="sudo ez-software install podman" aria-label="Copy install command for Podman" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="server" data-search="samba samba file server samba windows-compatible file sharing" data-app-id="samba"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Samba file server</h3><p>Windows-compatible file sharing</p><code>sudo ez-software install samba</code><button class="copy-app" data-copy="sudo ez-software install samba" aria-label="Copy install command for Samba file server" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="server" data-search="nfs nfs server nfs-kernel-server network file sharing (linux)" data-app-id="nfs"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>NFS server</h3><p>Network file sharing (Linux)</p><code>sudo ez-software install nfs</code><button class="copy-app" data-copy="sudo ez-software install nfs" aria-label="Copy install command for NFS server" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="server" data-search="syncthing syncthing syncthing continuous file sync between devices" data-app-id="syncthing"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Syncthing</h3><p>Continuous file sync between devices</p><code>sudo ez-software install syncthing</code><button class="copy-app" data-copy="sudo ez-software install syncthing" aria-label="Copy install command for Syncthing" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="server" data-search="cockpit cockpit web console cockpit web-based system management on port 9090" data-app-id="cockpit"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Cockpit web console</h3><p>Web-based system management on port 9090</p><code>sudo ez-software install cockpit</code><button class="copy-app" data-copy="sudo ez-software install cockpit" aria-label="Copy install command for Cockpit web console" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="server" data-search="prometheus-node prometheus node exporter prometheus-node-exporter machine metrics exporter" data-app-id="prometheus-node"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Prometheus node exporter</h3><p>Machine metrics exporter</p><code>sudo ez-software install prometheus-node</code><button class="copy-app" data-copy="sudo ez-software install prometheus-node" aria-label="Copy install command for Prometheus node exporter" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="server" data-search="gitea-light gogs git service gogs self-hosted lightweight git service" data-app-id="gitea-light"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>Gogs git service</h3><p>Self-hosted lightweight Git service</p><code>sudo ez-software install gitea-light</code><button class="copy-app" data-copy="sudo ez-software install gitea-light" aria-label="Copy install command for Gogs git service" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="server" data-search="mosquitto mqtt broker (mosquitto) mosquitto mosquitto-clients iot mqtt broker + pub/sub clients" data-app-id="mosquitto"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>MQTT broker (mosquitto)</h3><p>IoT MQTT broker + pub/sub clients</p><code>sudo ez-software install mosquitto</code><button class="copy-app" data-copy="sudo ez-software install mosquitto" aria-label="Copy install command for MQTT broker (mosquitto)" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="server" data-search="gitdaemon git daemon git daemon serve git repositories over git://" data-app-id="gitdaemon"><span class="app-icon" aria-hidden="true">SV</span><div class="app-content"><h3>git daemon</h3><p>Serve git repositories over git://</p><code>sudo ez-software install gitdaemon</code><button class="copy-app" data-copy="sudo ez-software install gitdaemon" aria-label="Copy install command for git daemon" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="dev" data-search="python python 3 + pip + venv python3-full python3-pip python3-venv python3-dev python with virtualenv support" data-app-id="python"><span class="app-icon" aria-hidden="true">&lt;/&gt;</span><div class="app-content"><h3>Python 3 + pip + venv</h3><p>Python with virtualenv support</p><code>sudo ez-software install python</code><button class="copy-app" data-copy="sudo ez-software install python" aria-label="Copy install command for Python 3 + pip + venv" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="dev" data-search="pipx pipx isolated cli apps pipx install python apps in isolated venvs" data-app-id="pipx"><span class="app-icon" aria-hidden="true">&lt;/&gt;</span><div class="app-content"><h3>pipx isolated CLI apps</h3><p>Install python apps in isolated venvs</p><code>sudo ez-software install pipx</code><button class="copy-app" data-copy="sudo ez-software install pipx" aria-label="Copy install command for pipx isolated CLI apps" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="dev" data-search="nodejs node.js + npm nodejs npm javascript runtime + package manager" data-app-id="nodejs"><span class="app-icon" aria-hidden="true">&lt;/&gt;</span><div class="app-content"><h3>Node.js + npm</h3><p>JavaScript runtime + package manager</p><code>sudo ez-software install nodejs</code><button class="copy-app" data-copy="sudo ez-software install nodejs" aria-label="Copy install command for Node.js + npm" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="dev" data-search="java java (openjdk 17) default-jdk default-jdk-headless java development kit + runtime" data-app-id="java"><span class="app-icon" aria-hidden="true">&lt;/&gt;</span><div class="app-content"><h3>Java (OpenJDK 17)</h3><p>Java development kit + runtime</p><code>sudo ez-software install java</code><button class="copy-app" data-copy="sudo ez-software install java" aria-label="Copy install command for Java (OpenJDK 17)" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="dev" data-search="go go toolchain golang go compiler + tools" data-app-id="go"><span class="app-icon" aria-hidden="true">&lt;/&gt;</span><div class="app-content"><h3>Go toolchain</h3><p>Go compiler + tools</p><code>sudo ez-software install go</code><button class="copy-app" data-copy="sudo ez-software install go" aria-label="Copy install command for Go toolchain" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="dev" data-search="rust rust (rustc + cargo) rustc cargo rust language toolchain" data-app-id="rust"><span class="app-icon" aria-hidden="true">&lt;/&gt;</span><div class="app-content"><h3>Rust (rustc + cargo)</h3><p>Rust language toolchain</p><code>sudo ez-software install rust</code><button class="copy-app" data-copy="sudo ez-software install rust" aria-label="Copy install command for Rust (rustc + cargo)" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="dev" data-search="php php 8 + fpm php-fpm php-cli php-mysql php-xml php-mbstring php for web applications" data-app-id="php"><span class="app-icon" aria-hidden="true">&lt;/&gt;</span><div class="app-content"><h3>PHP 8 + FPM</h3><p>PHP for web applications</p><code>sudo ez-software install php</code><button class="copy-app" data-copy="sudo ez-software install php" aria-label="Copy install command for PHP 8 + FPM" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="dev" data-search="ruby ruby ruby-full ruby language + gems" data-app-id="ruby"><span class="app-icon" aria-hidden="true">&lt;/&gt;</span><div class="app-content"><h3>Ruby</h3><p>Ruby language + gems</p><code>sudo ez-software install ruby</code><button class="copy-app" data-copy="sudo ez-software install ruby" aria-label="Copy install command for Ruby" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="dev" data-search="perl-dev perl dev tools libmodule-build-perl extra perl build tooling" data-app-id="perl-dev"><span class="app-icon" aria-hidden="true">&lt;/&gt;</span><div class="app-content"><h3>Perl dev tools</h3><p>Extra Perl build tooling</p><code>sudo ez-software install perl-dev</code><button class="copy-app" data-copy="sudo ez-software install perl-dev" aria-label="Copy install command for Perl dev tools" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="dev" data-search="build-essential build essentials (gcc/make) build-essential pkg-config compiler toolchain for building from source" data-app-id="build-essential"><span class="app-icon" aria-hidden="true">&lt;/&gt;</span><div class="app-content"><h3>Build essentials (gcc/make)</h3><p>Compiler toolchain for building from source</p><code>sudo ez-software install build-essential</code><button class="copy-app" data-copy="sudo ez-software install build-essential" aria-label="Copy install command for Build essentials (gcc/make)" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="dev" data-search="code-help shell toolkit (fzf/bat/exa) fzf bat modern cli niceties" data-app-id="code-help"><span class="app-icon" aria-hidden="true">&lt;/&gt;</span><div class="app-content"><h3>Shell toolkit (fzf/bat/exa)</h3><p>Modern CLI niceties</p><code>sudo ez-software install code-help</code><button class="copy-app" data-copy="sudo ez-software install code-help" aria-label="Copy install command for Shell toolkit (fzf/bat/exa)" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="network" data-search="wireguard wireguard vpn wireguard-tools fast modern vpn (tools)" data-app-id="wireguard"><span class="app-icon" aria-hidden="true">NET</span><div class="app-content"><h3>WireGuard VPN</h3><p>Fast modern VPN (tools)</p><code>sudo ez-software install wireguard</code><button class="copy-app" data-copy="sudo ez-software install wireguard" aria-label="Copy install command for WireGuard VPN" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="network" data-search="openvpn openvpn openvpn classic ssl/tls vpn" data-app-id="openvpn"><span class="app-icon" aria-hidden="true">NET</span><div class="app-content"><h3>OpenVPN</h3><p>Classic SSL/TLS VPN</p><code>sudo ez-software install openvpn</code><button class="copy-app" data-copy="sudo ez-software install openvpn" aria-label="Copy install command for OpenVPN" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="network" data-search="tailscale tailscale curl zero-config mesh vpn (official installer)" data-app-id="tailscale"><span class="app-icon" aria-hidden="true">NET</span><div class="app-content"><h3>Tailscale</h3><p>Zero-config mesh VPN (official installer)</p><code>sudo ez-software install tailscale</code><button class="copy-app" data-copy="sudo ez-software install tailscale" aria-label="Copy install command for Tailscale" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="network" data-search="mosh mosh mosh roaming ssh terminal" data-app-id="mosh"><span class="app-icon" aria-hidden="true">NET</span><div class="app-content"><h3>Mosh</h3><p>Roaming SSH terminal</p><code>sudo ez-software install mosh</code><button class="copy-app" data-copy="sudo ez-software install mosh" aria-label="Copy install command for Mosh" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="network" data-search="nmap nmap scanner nmap network discovery + security scanning" data-app-id="nmap"><span class="app-icon" aria-hidden="true">NET</span><div class="app-content"><h3>Nmap scanner</h3><p>Network discovery + security scanning</p><code>sudo ez-software install nmap</code><button class="copy-app" data-copy="sudo ez-software install nmap" aria-label="Copy install command for Nmap scanner" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="network" data-search="tshark wireshark cli (tshark) tshark packet capture + analysis" data-app-id="tshark"><span class="app-icon" aria-hidden="true">NET</span><div class="app-content"><h3>Wireshark CLI (tshark)</h3><p>Packet capture + analysis</p><code>sudo ez-software install tshark</code><button class="copy-app" data-copy="sudo ez-software install tshark" aria-label="Copy install command for Wireshark CLI (tshark)" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="network" data-search="tcpdump tcpdump tcpdump classic packet sniffer" data-app-id="tcpdump"><span class="app-icon" aria-hidden="true">NET</span><div class="app-content"><h3>tcpdump</h3><p>Classic packet sniffer</p><code>sudo ez-software install tcpdump</code><button class="copy-app" data-copy="sudo ez-software install tcpdump" aria-label="Copy install command for tcpdump" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="security" data-search="fail2ban fail2ban fail2ban brute-force protection for services" data-app-id="fail2ban"><span class="app-icon" aria-hidden="true">SEC</span><div class="app-content"><h3>Fail2ban</h3><p>Brute-force protection for services</p><code>sudo ez-software install fail2ban</code><button class="copy-app" data-copy="sudo ez-software install fail2ban" aria-label="Copy install command for Fail2ban" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="security" data-search="ufw ufw firewall ufw simple firewall front-end" data-app-id="ufw"><span class="app-icon" aria-hidden="true">SEC</span><div class="app-content"><h3>UFW firewall</h3><p>Simple firewall front-end</p><code>sudo ez-software install ufw</code><button class="copy-app" data-copy="sudo ez-software install ufw" aria-label="Copy install command for UFW firewall" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="security" data-search="auditd audit daemon auditd security auditing (auditd)" data-app-id="auditd"><span class="app-icon" aria-hidden="true">SEC</span><div class="app-content"><h3>Audit daemon</h3><p>Security auditing (auditd)</p><code>sudo ez-software install auditd</code><button class="copy-app" data-copy="sudo ez-software install auditd" aria-label="Copy install command for Audit daemon" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="security" data-search="clamav clamav antivirus clamav clamav-daemon open-source antivirus scanner" data-app-id="clamav"><span class="app-icon" aria-hidden="true">SEC</span><div class="app-content"><h3>ClamAV antivirus</h3><p>Open-source antivirus scanner</p><code>sudo ez-software install clamav</code><button class="copy-app" data-copy="sudo ez-software install clamav" aria-label="Copy install command for ClamAV antivirus" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="security" data-search="rkhunter rootkit hunter rkhunter rootkit detection scanner" data-app-id="rkhunter"><span class="app-icon" aria-hidden="true">SEC</span><div class="app-content"><h3>Rootkit hunter</h3><p>Rootkit detection scanner</p><code>sudo ez-software install rkhunter</code><button class="copy-app" data-copy="sudo ez-software install rkhunter" aria-label="Copy install command for Rootkit hunter" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="security" data-search="unattended unattended upgrades unattended-upgrades automatic security updates" data-app-id="unattended"><span class="app-icon" aria-hidden="true">SEC</span><div class="app-content"><h3>Unattended upgrades</h3><p>Automatic security updates</p><code>sudo ez-software install unattended</code><button class="copy-app" data-copy="sudo ez-software install unattended" aria-label="Copy install command for Unattended upgrades" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="btop btop++ resource monitor btop beautiful cpu/mem/disk/net monitor" data-app-id="btop"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>btop++ resource monitor</h3><p>Beautiful CPU/mem/disk/net monitor</p><code>sudo ez-software install btop</code><button class="copy-app" data-copy="sudo ez-software install btop" aria-label="Copy install command for btop++ resource monitor" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="htop htop htop interactive process viewer" data-app-id="htop"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>htop</h3><p>Interactive process viewer</p><code>sudo ez-software install htop</code><button class="copy-app" data-copy="sudo ez-software install htop" aria-label="Copy install command for htop" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="tmux tmux tmux terminal multiplexer" data-app-id="tmux"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>tmux</h3><p>Terminal multiplexer</p><code>sudo ez-software install tmux</code><button class="copy-app" data-copy="sudo ez-software install tmux" aria-label="Copy install command for tmux" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="screen gnu screen screen classic terminal multiplexer" data-app-id="screen"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>GNU screen</h3><p>Classic terminal multiplexer</p><code>sudo ez-software install screen</code><button class="copy-app" data-copy="sudo ez-software install screen" aria-label="Copy install command for GNU screen" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="byobu byobu byobu enhanced tmux/screen manager" data-app-id="byobu"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>Byobu</h3><p>Enhanced tmux/screen manager</p><code>sudo ez-software install byobu</code><button class="copy-app" data-copy="sudo ez-software install byobu" aria-label="Copy install command for Byobu" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="mc midnight commander mc twin-panel file manager" data-app-id="mc"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>Midnight Commander</h3><p>Twin-panel file manager</p><code>sudo ez-software install mc</code><button class="copy-app" data-copy="sudo ez-software install mc" aria-label="Copy install command for Midnight Commander" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="ncdu ncdu ncdu interactive disk usage analyzer" data-app-id="ncdu"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>ncdu</h3><p>Interactive disk usage analyzer</p><code>sudo ez-software install ncdu</code><button class="copy-app" data-copy="sudo ez-software install ncdu" aria-label="Copy install command for ncdu" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="neofetch neofetch neofetch pretty system summary" data-app-id="neofetch"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>Neofetch</h3><p>Pretty system summary</p><code>sudo ez-software install neofetch</code><button class="copy-app" data-copy="sudo ez-software install neofetch" aria-label="Copy install command for Neofetch" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="fastfetch-lite sysinfo (inxi) inxi full system information report" data-app-id="fastfetch-lite"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>Sysinfo (inxi)</h3><p>Full system information report</p><code>sudo ez-software install fastfetch-lite</code><button class="copy-app" data-copy="sudo ez-software install fastfetch-lite" aria-label="Copy install command for Sysinfo (inxi)" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="tree tree tree directory tree viewer" data-app-id="tree"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>tree</h3><p>Directory tree viewer</p><code>sudo ez-software install tree</code><button class="copy-app" data-copy="sudo ez-software install tree" aria-label="Copy install command for tree" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="tldr tldr pages tldr simplified man pages" data-app-id="tldr"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>tldr pages</h3><p>Simplified man pages</p><code>sudo ez-software install tldr</code><button class="copy-app" data-copy="sudo ez-software install tldr" aria-label="Copy install command for tldr pages" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="iperf3 iperf3 iperf3 network throughput testing" data-app-id="iperf3"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>iperf3</h3><p>Network throughput testing</p><code>sudo ez-software install iperf3</code><button class="copy-app" data-copy="sudo ez-software install iperf3" aria-label="Copy install command for iperf3" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="smartmontools smart monitoring smartmontools disk health monitoring" data-app-id="smartmontools"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>SMART monitoring</h3><p>Disk health monitoring</p><code>sudo ez-software install smartmontools</code><button class="copy-app" data-copy="sudo ez-software install smartmontools" aria-label="Copy install command for SMART monitoring" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="lm-sensors hardware sensors lm-sensors temperature/voltage sensors" data-app-id="lm-sensors"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>Hardware sensors</h3><p>Temperature/voltage sensors</p><code>sudo ez-software install lm-sensors</code><button class="copy-app" data-copy="sudo ez-software install lm-sensors" aria-label="Copy install command for Hardware sensors" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="nvme nvme tools nvme-cli nvme ssd management" data-app-id="nvme"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>NVMe tools</h3><p>NVMe SSD management</p><code>sudo ez-software install nvme</code><button class="copy-app" data-copy="sudo ez-software install nvme" aria-label="Copy install command for NVMe tools" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="rsync-server rsync rsync robust file copying/sync" data-app-id="rsync-server"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>rsync</h3><p>Robust file copying/sync</p><code>sudo ez-software install rsync-server</code><button class="copy-app" data-copy="sudo ez-software install rsync-server" aria-label="Copy install command for rsync" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="tools" data-search="git git git version control" data-app-id="git"><span class="app-icon" aria-hidden="true">CLI</span><div class="app-content"><h3>Git</h3><p>Version control</p><code>sudo ez-software install git</code><button class="copy-app" data-copy="sudo ez-software install git" aria-label="Copy install command for Git" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="desktop" data-search="xfce xfce desktop task-xfce-desktop lightdm lightweight full desktop" data-app-id="xfce"><span class="app-icon" aria-hidden="true">GUI</span><div class="app-content"><h3>XFCE desktop</h3><p>Lightweight full desktop</p><code>sudo ez-software install xfce</code><button class="copy-app" data-copy="sudo ez-software install xfce" aria-label="Copy install command for XFCE desktop" hidden>Copy command ↗</button></div></article>
+<article class="app preview-hidden" data-category="desktop" data-search="lxde lxde desktop task-lxde-desktop lightdm ultra-light desktop" data-app-id="lxde"><span class="app-icon" aria-hidden="true">GUI</span><div class="app-content"><h3>LXDE desktop</h3><p>Ultra-light desktop</p><code>sudo ez-software install lxde</code><button class="copy-app" data-copy="sudo ez-software install lxde" aria-label="Copy install command for LXDE desktop" hidden>Copy command ↗</button></div></article>
+<!-- CATALOG END -->
+</div>
+<p class="empty" id="empty-results" hidden>No matching software. Try another name or clear your filters.</p>
+<div class="catalog-footer"><p>Catalog entries are install recipes, not preinstalled apps. Packages follow Debian availability; some recipes use upstream installers.</p><button class="button" id="show-all" hidden>Show all 61 stacks ↓</button></div>
+<div id="copy-status" role="status" aria-live="polite"></div>
+<noscript><p>All 61 entries are shown. On EZpenguin, run <code>ez-software search TERM</code> to search, or <code>sudo ez-software</code> for the interactive menu.</p></noscript>
 </div>
 </section>
-
-<section class="wrap" style="padding-top:0">
-<h2><span class="em">📊</span>The numbers</h2>
-<div class="stats">
-<div class="stat"><div class="n">137</div><div class="l">automated QA checks</div></div>
-<div class="stat"><div class="n">61</div><div class="l">software catalog stacks</div></div>
-<div class="stat"><div class="n">2</div><div class="l">architectures (amd64/arm64)</div></div>
-<div class="stat"><div class="n">4</div><div class="l">firmwares boot-tested</div></div>
-<div class="stat"><div class="n">80s</div><div class="l">headless install-to-ready</div></div>
-<div class="stat"><div class="n">1</div><div class="l">line to convert any host</div></div>
-</div>
+<section id="install" class="section wrap" aria-labelledby="install-title">
+<div class="install-grid">
+<div class="install-copy"><div class="eyebrow">03 / Give the penguin a home</div><h2 id="install-title">Your next project<br>starts with a boot.</h2><p>Choose the route that fits your machine. Start in a disposable VM if you are exploring. Back up anything you want to keep before installation.</p>
+<div class="install-options" role="tablist" aria-label="Installation method" aria-orientation="vertical">
+<button id="tab-image" role="tab" aria-controls="panel-image" aria-selected="true"><span class="option-number">01</span><span class="option-text"><strong>Flash a disk image</strong><small>For a dedicated PC, VM, or UEFI ARM64 system</small></span><span class="option-arrow" aria-hidden="true">↗</span></button>
+<button id="tab-iso" role="tab" aria-controls="panel-iso" aria-selected="false" tabindex="-1"><span class="option-number">02</span><span class="option-text"><strong>Use the live ISO</strong><small>Boot into the amd64 live environment</small></span><span class="option-arrow" aria-hidden="true">↗</span></button>
+<button id="tab-online" role="tab" aria-controls="panel-online" aria-selected="false" tabindex="-1"><span class="option-number">03</span><span class="option-text"><strong>Run the online installer</strong><small>For an existing Debian / Ubuntu environment</small></span><span class="option-arrow" aria-hidden="true">↗</span></button>
+</div></div>
+<div>
+<div class="install-panel" id="panel-image" role="tabpanel" aria-labelledby="tab-image" tabindex="0"><h3>A clean start for your hardware.</h3><p>v0.4.1 images are available on GitHub Releases.</p><ol><li>Choose <strong>amd64</strong> for x86-64 PCs, or <strong>arm64</strong> for compatible UEFI ARM64 systems.</li><li>Download the matching <code>.img.xz</code>, decompress it if your flashing tool requires it, and write it to the target drive.</li><li>Boot the machine and follow the first-boot wizard.</li></ol><p class="notice">Flashing erases the selected drive. ARM64 support does not imply support for every single-board computer.</p><div class="actions"><a class="button primary" href="https://github.com/zarigata/EZpenguin/releases/download/v0.4.1/ezpenguin-0.4.1-amd64.img.xz">amd64 image ↓</a><a class="button" href="https://github.com/zarigata/EZpenguin/releases/download/v0.4.1/ezpenguin-0.4.1-arm64.img.xz">ARM64 image ↓</a></div><a class="download-link" href="https://github.com/zarigata/EZpenguin/releases">All releases &amp; file details ↗</a></div>
+<div class="install-panel" id="panel-iso" role="tabpanel" aria-labelledby="tab-iso" tabindex="0"><h3>Boot first. Install when ready.</h3><p>Use the amd64 live ISO with a virtual machine or a USB drive on an x86-64 PC. It supports BIOS and UEFI boot.</p><ol><li>Download the ISO and attach it to your VM, or write it to a USB drive.</li><li>Boot the live environment.</li><li>Choose disk installation in the wizard, or stay in the live session. Run <code>sudo ez-install</code> to install later.</li></ol><p class="notice">Writing the USB erases it. Installing to a disk erases the selected target disk.</p><a class="button primary" href="https://github.com/zarigata/EZpenguin/releases/download/v0.4.1/ezpenguin-0.4.1-amd64.iso">Download amd64 ISO ↓</a></div>
+<div class="install-panel" id="panel-online" role="tabpanel" aria-labelledby="tab-online" tabindex="0"><h3>Download. Review. Install.</h3><p>Run from a Debian / Ubuntu environment with <code>curl</code>, <code>tar</code>, and <code>xz</code> available. Review the script before granting root privileges.</p><pre class="command" id="online-command">curl -fsSL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh -o ezpenguin-install.sh
+less ezpenguin-install.sh
+sudo bash ezpenguin-install.sh</pre><button class="text-button" data-copy-target="online-command" hidden>Copy commands</button><p class="notice">Containers convert in place, replacing the userland. Regular machines, including VMs, use target-disk installation by default and erase that disk. The installer may reboot the machine or stop the container.</p><a class="download-link" href="https://github.com/zarigata/EZpenguin/blob/main/docs/INSTALLATION.md">Read the complete installation guide ↗</a></div>
+</div></div>
+<noscript><p>All installation instructions are shown above. Choose the section for your environment.</p></noscript>
 </section>
-
-<section class="wrap" style="padding-top:0">
-<h2><span class="em">🛡️</span>Quality, not promises</h2>
-<table>
-<tr><th>Every build is…</th><th>How it's verified</th></tr>
-<tr><td><b>Structure &amp; packages</b></td><td>131+ static checks: files, symlinks, dpkg audit, catalog validation</td></tr>
-<tr><td><b>Bootable</b></td><td>QEMU full-boot tests: BIOS + UEFI (amd64), AAVMF (arm64), live ISO both firmwares</td></tr>
-<tr><td><b>Usable</b></td><td>Interactive wizard walkthrough via keystroke injection; headless zero-touch proof</td></tr>
-<tr><td><b>Reproducible</b></td><td>Single Docker command rebuilds the entire OS from zero</td></tr>
-<tr><td><b>Honest sizes</b></td><td>Budget-enforced: ≤700 MB installed, ≤300 MB rootfs tarball, ≤400 MB image</td></tr>
-</table>
-</section>
-
-<section class="wrap" style="padding-top:0">
-<h2><span class="em">🗺️</span>Roadmap</h2>
-<table>
-<tr><th>Version</th><th>Theme</th><th>Status</th></tr>
-<tr><td><b>v0.1</b></td><td>foundation — pipeline, hybrid image, QA suite</td><td class="kv">✅ shipped</td></tr>
-<tr><td><b>v0.2</b></td><td>installability — live ISO installer, ARM64, wizard automation</td><td class="kv">✅ shipped</td></tr>
-<tr><td><b>v0.3</b></td><td>DietPi-parity UX — catalog, headless, ez-config/backup</td><td class="kv">✅ shipped</td></tr>
-<tr><td><b>v0.4</b></td><td>software &amp; UX — 61 stacks, global password, ASCII polish</td><td class="kv">✅ shipped</td></tr>
-<tr><td><b>v0.4.1</b></td><td>one-liner online installer (in-place, Docker-proven)</td><td class="kv">✅ shipped</td></tr>
-<tr><td><b>v0.5</b></td><td>hardening — Lynis audit, artifact signing, CI matrix</td><td class="kv">in progress</td></tr>
-<tr><td><b>v1.0</b></td><td>real-hardware boot matrix, user-tested docs, LTS</td><td class="kv">planned</td></tr>
-</table>
-</section>
-
-<footer class="wrap">
-<div>EZpenguin — GPL-3.0 · built on Debian bookworm · made with 🐧 and boring, proven tech</div>
-<div class="links">
-<a href="https://github.com/zarigata/EZpenguin">GitHub</a> ·
-<a href="https://github.com/zarigata/EZpenguin/releases">Releases</a> ·
-<a href="https://github.com/zarigata/EZpenguin/blob/main/docs/CHANGELOG.md">Changelog</a> ·
-<a href="https://github.com/zarigata/EZpenguin/blob/main/docs/INSTALLATION.md">Install docs</a>
-</div>
-</footer>
-
+<section id="faq" class="section wrap" aria-labelledby="faq-title"><div class="faq-grid"><div><div class="eyebrow">04 / Good questions</div><h2 id="faq-title">Before you<br>take the plunge.</h2><p class="fine">More details in the <a href="https://github.com/zarigata/EZpenguin#documentation">project documentation ↗</a></p></div><div>
+<details><summary>What is EZpenguin?</summary><p>EZpenguin is a lightweight Linux distribution built on Debian 12 (bookworm). It adds first-boot setup, a 61-entry software catalog, and Bash tools for configuration, updates, backups, and diagnostics.</p></details>
+<details><summary>What hardware can run it?</summary><p>The build targets amd64 PCs with BIOS or UEFI and ARM64 systems with UEFI. Board-specific boot support and broad real-hardware validation are not complete. Test your hardware in a safe environment first; see the roadmap for current goals.</p></details>
+<details><summary>Does it come with a desktop?</summary><p>The base system is minimal and terminal-focused. XFCE and LXDE are optional catalog entries. Install a desktop with sudo ez-software install xfce or sudo ez-software install lxde; additional packages need disk space and memory.</p></details>
+<details><summary>Is EZpenguin ready for production?</summary><p>EZpenguin is an early-stage v0.4.1 project. The repository includes rootfs checks and QEMU tests, but wider hardware validation, artifact signing, and further hardening remain roadmap work. Evaluate it in a VM or a spare machine before relying on it.</p></details>
+<details><summary>Is it free and open source?</summary><p>Yes. EZpenguin's code is available under GPL-3.0-or-later. Included packages retain their own licenses. You can inspect the source, build images, report bugs, and contribute improvements on GitHub.</p></details>
+</div></div></section>
+<section class="community wrap" aria-labelledby="community-title"><div><div class="eyebrow">Made for tinkerers. Built in the open.</div><h2 id="community-title">Small project. Room for you.</h2><p>If EZpenguin looks useful, give it a star so you can find it again. Tried it on your hardware? Share a bug report, improve a recipe, or help make the next release better.</p></div><div class="actions-side"><a class="button" href="https://github.com/zarigata/EZpenguin">☆ Star EZpenguin on GitHub ↗</a><a class="small" href="https://github.com/zarigata/EZpenguin/blob/main/docs/CONTRIBUTING.md">Or make your first contribution</a></div></section>
+</main>
+<footer class="footer"><div class="wrap"><div class="footer-top"><a class="brand" href="./"><img src="assets/penguin.svg" width="34" height="42" alt="">ezpenguin.</a><nav aria-label="Footer"><a href="https://github.com/zarigata/EZpenguin">GitHub</a><a href="https://github.com/zarigata/EZpenguin/releases">Releases</a><a href="https://github.com/zarigata/EZpenguin/issues">Report an issue</a><a href="https://github.com/zarigata/EZpenguin/blob/main/docs/SECURITY.md">Security</a><a href="https://github.com/zarigata/EZpenguin/blob/main/LICENSE">License</a></nav></div><p>© 2026 EZpenguin contributors. GPL-3.0-or-later. Built on Debian GNU/Linux; independently maintained and not affiliated with or endorsed by the Debian Project.</p></div></footer>
 </body>
 </html>

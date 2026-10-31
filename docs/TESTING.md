@@ -78,3 +78,17 @@ plus a summary and failed-test list.
 - Boot on: 1× BIOS PC, 1× UEFI PC, 1× Raspberry Pi 4, VirtualBox
 - Verify wizard completes and reboots into a login prompt
 - Verify `ez-info` output and network connectivity
+
+## Website checks (host-side)
+
+Run Python 3 website integrity checks without Docker:
+
+~~~bash
+python3 tests/test_website.py
+node --check docs/assets/app.js
+~~~
+
+These verify the generated software catalog, internal links, tab wiring, SEO
+metadata, structured data, sitemap, and social-image dimensions. Both the
+website-checks and Pages workflows run them. They do not replace the OS build
+or QEMU boot suites. See [WEBSITE.md](WEBSITE.md) for site maintenance.

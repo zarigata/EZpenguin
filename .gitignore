@@ -19,3 +19,7 @@ tmp/
 
 # Local agent/loop state
 .opencode/
+
+# Python site tooling
+__pycache__/
+*.pyc

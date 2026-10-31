@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# EZpenguin installer — DietPi-style: install EZpenguin onto a disk from
+# EZpenguin installer — direct disk installation: install EZpenguin onto a disk from
 # any running Linux (or from within the live image).
 #
 # Usage: sudo ./install.sh /dev/sdX [rootfs.tar.xz]
