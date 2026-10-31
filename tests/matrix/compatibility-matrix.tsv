@@ -1,0 +1,63 @@
+# EZpenguin v1.0 — Linux compatibility matrix (machine-readable)
+#
+# One row per (distro, arch, env, mode) scenario. The qualification harness
+# reads this file; every field except `result`/`evidence` is authored intent.
+#
+# Columns (TSV):
+#   id            stable case id (EZP-MATRIX-*)
+#   distro        <family>:<version> — exact pinned version, no :latest
+#   arch          amd64|arm64
+#   env           container|vm
+#   mode          inplace|disk|reject   (reject = must refuse safely, negative test)
+#   expectation   supported|unsupported  (what the docs promise)
+#   priority      P0|P1|P2              (P0 = release-blocking)
+#
+# result/evidence are appended by the harness (qualify.sh) at run time:
+#   result        PASS|FAIL|BLOCKED|NOTRUN|NA
+#   evidence      path to log dir
+#
+# Semantics:
+#   - A PASS in mode=reject means the installer refused safely (negative test).
+#     It NEVER counts as a supported-distribution conversion.
+#   - Only mode=inplace PASS with a successful `ez-info` probe counts as a
+#     converted distribution.
+
+# ---- Debian family: in-place conversion is the advertised contract ---------
+EZP-MATRIX-001	debian:12	amd64	container	inplace	supported	P0
+EZP-MATRIX-002	debian:11	amd64	container	inplace	supported	P0
+EZP-MATRIX-003	debian:12	arm64	container	inplace	supported	P0
+EZP-MATRIX-004	debian:11	arm64	container	inplace	supported	P1
+
+# ---- Ubuntu LTS family ------------------------------------------------------
+EZP-MATRIX-010	ubuntu:24.04	amd64	container	inplace	supported	P0
+EZP-MATRIX-011	ubuntu:22.04	amd64	container	inplace	supported	P0
+EZP-MATRIX-012	ubuntu:24.04	arm64	container	inplace	supported	P0
+EZP-MATRIX-013	ubuntu:22.04	arm64	container	inplace	supported	P1
+
+# ---- Derivatives (same package base; practical support) --------------------
+EZP-MATRIX-020	linuxmint:22	amd64	container	reject	unsupported	P2
+# ^ mint has no official plain-docker image with systemd; refuse-untested is NA.
+#   Kept out of the executable set until a pinned image exists (see report).
+
+# ---- Non-Debian families: contract is SAFE REJECTION, never conversion ------
+# EZpenguin is a Debian replacement userland; extracting it over rpm/dnf/yum
+# or musl/apk systems would destroy their package databases. The installer
+# must detect these and refuse BEFORE any destructive change. These are
+# negative tests — PASS = safe refusal, not support.
+EZP-MATRIX-030	fedora:41	amd64	container	reject	supported	P0
+EZP-MATRIX-031	fedora:41	arm64	container	reject	supported	P1
+EZP-MATRIX-032	rockylinux:9	amd64	container	reject	supported	P0
+EZP-MATRIX-033	almalinux:9	amd64	container	reject	supported	P1
+EZP-MATRIX-034	opensuse/leap:15.6	amd64	container	reject	supported	P0
+EZP-MATRIX-035	opensuse/tumbleweed:latest	amd64	container	reject	supported	P1
+EZP-MATRIX-036	archlinux:latest	amd64	container	reject	supported	P0
+EZP-MATRIX-037	alpine:3.21	amd64	container	reject	supported	P0
+EZP-MATRIX-038	alpine:3.21	arm64	container	reject	supported	P1
+
+# ---- VM paths (QEMU guests, inside Docker-managed lab) ---------------------
+EZP-MATRIX-050	debian:12	amd64	vm	inplace	supported	P0
+EZP-MATRIX-051	ubuntu:24.04	amd64	vm	inplace	supported	P0
+EZP-MATRIX-052	debian:12	amd64	vm	disk	supported	P0
+EZP-MATRIX-053	debian:12	arm64	vm	disk	supported	P0
+# Non-Debian VMs: same rejection contract applies before any disk damage
+EZP-MATRIX-060	fedora:41	amd64	vm	reject	supported	P0
