@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contributing — EZpenguin Wiki</title><meta name="description" content="EZpenguin contributing: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<link rel="canonical" href="https://zarigata.github.io/EZpenguin/wiki/contributing/"><meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#10110f"><meta property="og:type" content="article">
+<meta property="og:title" content="Contributing — EZpenguin Wiki"><meta property="og:description" content="EZpenguin contributing: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<meta property="og:url" content="https://zarigata.github.io/EZpenguin/wiki/contributing/"><meta property="og:image" content="https://zarigata.github.io/EZpenguin/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/webp" href="../../assets/ezpenguin-logo.webp">
+<link rel="stylesheet" href="../../assets/style.css"><script src="../../assets/wiki.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Contributing", "description": "EZpenguin contributing: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.", "url": "https://zarigata.github.io/EZpenguin/wiki/contributing/", "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "EZpenguin", "url": "https://zarigata.github.io/EZpenguin/"}}</script></head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap nav-inner"><a class="brand" href="../../"><img src="../../assets/ezpenguin-logo.webp" width="57" height="57" alt="">ezpenguin<span>.</span></a>
+<nav class="nav-links" aria-label="Main navigation"><a href="../../">Home</a><a href="../">Wiki / help</a><a href="../../#install">Download</a><a href="https://feverdream.dev/">FeverDream ↗</a><a class="star" href="https://github.com/zarigata/EZpenguin">☆ Star on GitHub</a></nav></div></header>
+<div class="wrap wiki-banner"><a href="../../">EZpenguin</a> / <a href="../">Wiki</a> / Contributing</div>
+<div class="wrap wiki-layout"><aside class="wiki-sidebar" aria-label="Wiki navigation"><h2>THE FIELD MANUAL</h2>
+<form action="../" method="get" role="search"><label class="sr-only" for="wiki-query">Search the wiki</label><input id="wiki-query" name="q" placeholder="Search 61 software guides…" type="search"><button type="submit">Search wiki →</button></form><nav aria-label="Wiki sections"><a href="../installation/">Installation</a><a href="../first-boot/">First boot &amp; headless</a><a href="../system-tools/">System tools</a><a href="../troubleshooting/">Troubleshooting</a><a href="../base-packages/">Base packages</a><h3>Software / 61 entries</h3><a href="../#server">Servers</a><a href="../#dev">Development</a><a href="../#network">Network &amp; VPN</a><a href="../#security">Security</a><a href="../#tools">Monitoring &amp; tools</a><a href="../#desktop">Desktops</a><h3>Project reference</h3><a href="../building/">Build your own image</a><a href="../architecture/">Architecture</a><a href="../testing/">Testing</a><a href="../security/">Security</a><a href="../roadmap/">Roadmap</a><a href="index.html">Contributing</a><a href="../quality/">Quality standards</a><a href="../changelog/">Changelog</a><a href="../license/">License</a></nav></aside>
+<main id="main" class="wiki-article"><div class="eyebrow">EZPENGUIN WIKI / v0.4.1</div><h1 id="contributing-to-ezpenguin">Contributing to EZpenguin</h1>
+<div class="wiki-toc"><strong>ON THIS PAGE</strong><nav><a href="#ground-rules">Ground rules</a><a href="#workflow">Workflow</a><a href="#code-conventions">Code conventions</a><a href="#adding-a-package">Adding a package</a><a href="#adding-a-tool-ez-">Adding a tool (`ez-*`)</a></nav></div><h2 id="ground-rules">Ground rules</h2>
+<ol>
+<li><strong>Match the boring style</strong> — plain bash, fail fast, no cleverness</li>
+<li><strong>Test everything you add</strong> — new feature ⇒ new test</li>
+<li><strong>Docs are code</strong> — changed behavior ⇒ updated MD file in same change</li>
+<li>Small, focused changes. One logical thing per commit.</li>
+</ol>
+<h2 id="workflow">Workflow</h2>
+<pre id="code-19"><code># 1. build + test your change
+./build/build.sh
+
+# 2. verify zero test failures in output
+
+# 3. commit with a clear message
+git commit -m &quot;rootfs: add ez-info tool + test&quot;</code></pre><button class="wiki-copy" data-code="code-19" hidden>Copy commands</button>
+<h2 id="code-conventions">Code conventions</h2>
+<ul>
+<li>Bash: <code>#!/usr/bin/env bash</code>, <code>set -euo pipefail</code>, double quotes everywhere</li>
+<li>Shell scripts pass <code>bash -n</code> and ideally <code>shellcheck</code> with no errors</li>
+<li>One package per line in <code>config/*.list</code>, comments with <code>#</code></li>
+<li>Overlay files must be idempotent and safe to overwrite</li>
+</ul>
+<h2 id="adding-a-package">Adding a package</h2>
+<ol>
+<li>Add to <code>config/packages-base.list</code> with <code># reason</code> comment</li>
+<li>Add/extend a test asserting it&#x27;s installed and functional</li>
+<li>Rebuild; confirm size budget (see QUALITY.md) still met</li>
+</ol>
+<h2 id="adding-a-tool-ez-">Adding a tool (<code>ez-*</code>)</h2>
+<ol>
+<li>Script in <code>rootfs-overlay/usr/local/bin/</code></li>
+<li>Document in README + INSTALLATION.md</li>
+<li>Test: file exists, executable, <code>bash -n</code> clean, <code>--help</code> exits 0</li>
+</ol>
+<p class="wiki-meta">Recipe reference: current repository catalog. Application availability and versions depend on your configured repositories. Documentation is hosted here; no repository visit is needed to read these guides.</p><p id="wiki-copy-status" role="status"></p></main></div>
+<footer class="footer"><div class="wrap footer-top"><span class="fine">EZpenguin · An open-source project from <a href="https://feverdream.dev/">FeverDream.dev ↗</a></span><nav aria-label="Footer"><a href="../">Wiki home</a><a href="../license/">License</a><a href="https://github.com/zarigata/EZpenguin/issues">Report an issue</a></nav></div></footer></body></html>

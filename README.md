@@ -1,10 +1,12 @@
 <div align="center">
 
-<img src="docs/assets/penguin.svg" width="100" height="120" alt="EZpenguin penguin mascot">
+<img src="docs/assets/ezpenguin-logo.webp" width="260" height="260" alt="EZpenguin penguin mascot">
 
 # EZpenguin — lightweight Debian Linux
 
-**Small footprint. Big possibilities.**
+**Your hardware. Full throttle.**
+
+An open-source project from [FeverDream.dev](https://feverdream.dev/).
 
 A minimal Debian-based Linux OS for homelabs, home servers, and self-hosted projects.
 Start small, choose your software, and keep control of your machine.
@@ -15,7 +17,7 @@ Start small, choose your software, and keep control of your machine.
 [![Website checks](https://github.com/zarigata/EZpenguin/actions/workflows/website-checks.yml/badge.svg)](https://github.com/zarigata/EZpenguin/actions/workflows/website-checks.yml)
 [![Stars](https://img.shields.io/github/stars/zarigata/EZpenguin?style=social)](https://github.com/zarigata/EZpenguin)
 
-[**Website**](https://zarigata.github.io/EZpenguin/) · [**Download**](https://github.com/zarigata/EZpenguin/releases) · [**Installation guide**](docs/INSTALLATION.md) · [**Star on GitHub**](https://github.com/zarigata/EZpenguin)
+[**Website**](https://zarigata.github.io/EZpenguin/) · [**Download**](https://github.com/zarigata/EZpenguin/releases) · [**On-site wiki**](https://zarigata.github.io/EZpenguin/wiki/) · [**Star on GitHub**](https://github.com/zarigata/EZpenguin)
 
 </div>
 
@@ -177,6 +179,10 @@ that the current checkout was rebuilt or every physical machine is supported.
 See [BUILDING](docs/BUILDING.md) and [TESTING](docs/TESTING.md).
 
 ## Documentation
+
+Read the [complete on-site wiki](https://zarigata.github.io/EZpenguin/wiki/) for
+installation, first boot, system tools, troubleshooting, base packages, and all
+61 software guides. The source references below are also available for contributors.
 
 | Guide | Covers |
 |---|---|

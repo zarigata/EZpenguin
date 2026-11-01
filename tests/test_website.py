@@ -101,5 +101,79 @@ class WebsiteTests(unittest.TestCase):
                 self.assertTrue((file.parent / dest.split('#')[0]).exists(), name + ': ' + dest)
         self.assertNotIn('ezpenguin.org/install.sh', (DOCS / 'INSTALLATION.md').read_text())
 
+
+
+class WikiTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.pages = {p: Page(p.read_text()) for p in (DOCS / 'wiki').rglob('index.html')}
+
+    def test_generated_wiki_is_current_and_complete(self):
+        spec = importlib.util.spec_from_file_location('wiki_build', ROOT / 'scripts/build-wiki.py')
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        expected = module.generate()
+        for relative, source in expected.items():
+            self.assertEqual((DOCS / relative).read_text(), source, 'Regenerate: ' + relative)
+        self.assertEqual(len(self.pages), 76)
+        recipes = [line.split('|', 5) for line in (ROOT / 'config/software-catalog.list').read_text().splitlines()
+                   if line.strip() and not line.lstrip().startswith('#')]
+        notes = json.loads((ROOT / 'wiki-content/software.json').read_text())
+        self.assertEqual(set(notes), {r[0] for r in recipes})
+        for app_id, name, packages, category, description, post in recipes:
+            path = DOCS / 'wiki/software' / app_id / 'index.html'
+            source = path.read_text()
+            self.assertIn('sudo ez-software install ' + app_id, source)
+            self.assertGreater(len(notes[app_id]['purpose']), 25)
+            self.assertGreater(len(notes[app_id]['notes']), 40)
+            if post:
+                import html
+                self.assertIn(html.escape(post), source, app_id)
+        base = (DOCS / 'wiki/base-packages/index.html').read_text()
+        for line in (ROOT / 'config/packages-base.list').read_text().splitlines():
+            if line.strip() and not line.lstrip().startswith('#'):
+                pkg = line.partition('#')[0].strip()
+                self.assertIn('data-base-package="' + pkg + '"', base)
+
+    def test_entire_site_links_anchors_and_headings(self):
+        pages = dict(self.pages)
+        pages[DOCS / 'index.html'] = Page((DOCS / 'index.html').read_text())
+        all_ids = {p: [a['id'] for _, a in parsed.tags if 'id' in a] for p, parsed in pages.items()}
+        for path, parsed in pages.items():
+            self.assertEqual(sum(tag == 'h1' for tag, _ in parsed.tags), 1, str(path))
+            self.assertEqual(len(all_ids[path]), len(set(all_ids[path])), str(path))
+            for _, attrs in parsed.tags:
+                for key in ('href','src'):
+                    value = attrs.get(key,'')
+                    if not value or urlsplit(value).scheme: continue
+                    parts = urlsplit(value)
+                    target = (path.parent / unquote(parts.path)).resolve() if parts.path else path
+                    if target.is_dir(): target = target / 'index.html'
+                    self.assertTrue(target.is_relative_to(DOCS), value)
+                    self.assertTrue(target.exists(), str(path) + ': ' + value)
+                    if parts.fragment and target.suffix == '.html':
+                        ids = all_ids.get(target)
+                        if ids is None: ids = [a['id'] for _, a in Page(target.read_text()).tags if 'id' in a]
+                        self.assertIn(unquote(parts.fragment), ids, str(path)+': '+value)
+                    self.assertNotIn('github.com/zarigata/EZpenguin/blob', value, 'Docs must remain on-site')
+        site_source = (DOCS / 'index.html').read_text()
+        self.assertIn('assets/ezpenguin-logo.webp', site_source)
+        self.assertIn('https://feverdream.dev/', site_source)
+
+    def test_wiki_canonical_schema_and_sitemap(self):
+        sitemap = ET.parse(DOCS / 'sitemap.xml')
+        locations = [el.text for el in sitemap.findall('.//{*}loc')]
+        self.assertEqual(len(locations), 77)
+        self.assertEqual(len(locations), len(set(locations)))
+        for path, parsed in self.pages.items():
+            expected = CANONICAL + str(path.relative_to(DOCS)).removesuffix('index.html')
+            canon = [a['href'] for tag,a in parsed.tags if tag=='link' and a.get('rel')=='canonical']
+            self.assertEqual(canon,[expected],str(path))
+            self.assertIn(expected,locations)
+            schemas = re.findall(r'<script type="application/ld\+json">(.*?)</script>',path.read_text(),re.S)
+            schema = json.loads(schemas[0])
+            self.assertEqual(schema['@type'],'TechArticle')
+            self.assertEqual(schema['url'],expected)
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

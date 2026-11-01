@@ -37,7 +37,7 @@ with** (Debian, Ubuntu Server LTS) — measured, not claimed.
 2. **No exotic kernels** — stock Debian kernel; proven drivers
 3. **Idempotent scripts** — every system script safe to re-run
 4. **Fail-fast installer** — validation before destructive steps
-5. **Rollback-safe updates** — `ez-update` uses apt's atomic machinery
+5. **Backed-up updates** — back up data before upgrades; `ez-update` does not provide snapshots or automatic rollback
 6. **Files owned by packages where possible** — overlay files are exceptions, documented
 
 ## Release process

@@ -3,7 +3,7 @@ name: pages
 on:
   push:
     branches: [main]
-    paths: ['docs/**', 'README.md', 'config/software-catalog.list', 'config/ezpenguin.cfg', 'scripts/build-website.py', 'tests/test_website.py', '.github/workflows/pages.yml']
+    paths: ['docs/**', 'README.md', 'config/software-catalog.list', 'config/ezpenguin.cfg', 'scripts/**', 'wiki-content/**', 'tests/test_website.py', '.github/workflows/pages.yml']
   workflow_dispatch:
 
 permissions:
@@ -31,6 +31,7 @@ jobs:
           node-version: '22'
       - run: python3 tests/test_website.py
       - run: node --check docs/assets/app.js
+      - run: node --check docs/assets/wiki.js
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

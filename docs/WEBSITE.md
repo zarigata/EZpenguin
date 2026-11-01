@@ -1,80 +1,63 @@
-# Website and discoverability
+# Website and wiki maintenance
 
-The public project website is **https://zarigata.github.io/EZpenguin/**.
-Source lives in this repository's docs directory. GitHub Pages deploys it
-from main through the existing pages workflow. There is no frontend build
-framework, account system, tracking pixel, or external font dependency.
+The canonical public site is https://zarigata.github.io/EZpenguin/.
+The wiki lives at https://zarigata.github.io/EZpenguin/wiki/ and all normal
+documentation navigation stays on that site.
 
-## Maintain the site
+## Branding
 
-- Edit docs/index.html, docs/assets/style.css, and docs/assets/app.js.
-- The software catalog is rendered as HTML from config/software-catalog.list.
-  After changing that catalog, run:
+The approved wild-cartoon mascot is docs/assets/ezpenguin-logo.webp.
+It is a web-optimized version of the approved transparent image. The Y2K theme
+uses acid green, purple window chrome, pixel-like borders, and desktop-style
+buttons. FeverDream.dev is credited in the header, hero, footer, README, and wiki.
+
+## Content and generation
+
+- config/software-catalog.list is authoritative for recipe IDs, package names,
+  categories, descriptions, and exact post-install hooks.
+- config/packages-base.list and packages-exclude.list drive the base reference.
+- wiki-content/software.json supplies authored use, verification, configuration,
+  and operating notes for every recipe.
+- wiki-content/*.md supplies first-boot, system-tool, and troubleshooting guides.
+- Existing project Markdown docs supply the other on-site reference pages.
 
 ~~~bash
 python3 scripts/build-website.py
+python3 scripts/build-wiki.py
 python3 tests/test_website.py
 node --check docs/assets/app.js
+node --check docs/assets/wiki.js
 ~~~
 
-Commit the generated HTML with the catalog changes. CI checks that they match.
-The content remains accessible without JavaScript; JavaScript adds search,
-category filters, copy buttons, and keyboard-accessible installation tabs.
+Commit generated HTML and sitemap with their source changes. The wiki generator
+uses only the Python standard library. Wiki pages remain readable without
+JavaScript; JavaScript adds search and command copying. The site does not
+install anything on a visitor's machine.
 
-The social card is a committed 1200 × 630 PNG. The SVG is an editable vector
-design reference; scripts/render-social.py regenerates the matching bitmap
-layout with Pillow and standard DejaVu / Nimbus fonts on Linux. Pillow and
-those fonts are needed only when rebuilding that asset, not for deployment.
+The social PNG is 1200 × 630. To regenerate it from the approved mascot, run
+scripts/render-social.py with Pillow and the DejaVu Sans fonts installed.
+Pillow is not required to deploy the committed assets.
 
-## Search and sharing features included
+## Deployment
 
-- Descriptive page title and description focused on lightweight Debian Linux,
-  homelabs, home servers, and self-hosting.
-- One canonical public URL, semantic headings, readable HTML, and descriptive links.
-- WebSite, SoftwareSourceCode, and SoftwareApplication JSON-LD describing actual
-  project capabilities. No invented ratings, download totals, or testimonials.
-- Open Graph and Twitter large-image metadata with an absolute PNG URL.
-- sitemap.xml and an explicit index/follow directive.
-- robots.txt for standalone hosting. Search engines read robots.txt at the
-  hostname root; this project's /EZpenguin/robots.txt cannot control all of
-  zarigata.github.io. Do not claim project-level robots.txt overrides root policy.
-- Clear, honest GitHub star and contribution links.
+The pages workflow validates the source and publishes docs/ after changes
+reach main. The separate Website checks workflow validates pull requests.
+No framework build, tracking script, cloud login, or external font is required
+on the public GitHub Pages site.
 
-Search engines decide whether and when to index a page. These changes support
-discovery; they do not guarantee rankings, search enhancements, or stars.
+## Search discovery
 
-## Repository About fields
+Each wiki article has a descriptive title, description, canonical URL, social
+metadata, and TechArticle JSON-LD. The homepage retains its WebSite,
+SoftwareSourceCode, and SoftwareApplication metadata. The sitemap includes all
+wiki routes. No ratings or download statistics are invented.
 
-Repository description:
+Search engines read robots.txt at a hostname root; the project's nested
+robots.txt cannot override the root policy for zarigata.github.io.
 
-> Lightweight Debian-based Linux for homelabs and self-hosting. 61 software recipes, headless setup, amd64 BIOS/UEFI and UEFI ARM64 images.
+After publication, use an account you control to verify the site in Google
+Search Console and submit https://zarigata.github.io/EZpenguin/sitemap.xml.
+Search engines decide indexing and rankings; no result or star count is promised.
 
-Website field:
-
-> https://zarigata.github.io/EZpenguin/
-
-Relevant repository topics (no keyword stuffing):
-
-> linux, debian, linux-distribution, lightweight-linux, homelab, self-hosted,
-> home-server, bash, arm64, amd64, automation, open-source
-
-GitHub's repository settings and release text are outside tracked source files.
-The About description, website link, and topics were updated through the
-repository UI. The v0.4.1 release description was also refreshed to remove
-comparison branding and explain the installer accurately. The existing binaries
-were not rebuilt or replaced.
-
-## After deploying
-
-1. Verify the canonical page, social PNG, and sitemap return successfully.
-2. Add the public website as a URL-prefix property in Google Search Console
-   using an account you control. Follow its ownership-verification steps.
-3. Submit https://zarigata.github.io/EZpenguin/sitemap.xml in that property.
-4. Share useful demonstrations and actual hardware results. Invite interested
-   users to star the repo; do not manufacture stars or promise unsupported results.
-
-If hosting on a custom domain later, update canonical, Open Graph URL, image
-URLs, JSON-LD identifiers, sitemap, README links, and the repository homepage
-together. Keep a single canonical URL and use redirects where the host supports
-them. Alternate previews retain the GitHub Pages canonical URL to avoid competing
-copies in search.
+If a custom domain is added, update canonical URLs, social URLs, the sitemap,
+and homepage links together. Alternate previews retain the GitHub Pages canonical.

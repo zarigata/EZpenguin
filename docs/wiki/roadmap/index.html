@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roadmap — EZpenguin Wiki</title><meta name="description" content="EZpenguin roadmap: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<link rel="canonical" href="https://zarigata.github.io/EZpenguin/wiki/roadmap/"><meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#10110f"><meta property="og:type" content="article">
+<meta property="og:title" content="Roadmap — EZpenguin Wiki"><meta property="og:description" content="EZpenguin roadmap: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<meta property="og:url" content="https://zarigata.github.io/EZpenguin/wiki/roadmap/"><meta property="og:image" content="https://zarigata.github.io/EZpenguin/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/webp" href="../../assets/ezpenguin-logo.webp">
+<link rel="stylesheet" href="../../assets/style.css"><script src="../../assets/wiki.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Roadmap", "description": "EZpenguin roadmap: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.", "url": "https://zarigata.github.io/EZpenguin/wiki/roadmap/", "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "EZpenguin", "url": "https://zarigata.github.io/EZpenguin/"}}</script></head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap nav-inner"><a class="brand" href="../../"><img src="../../assets/ezpenguin-logo.webp" width="57" height="57" alt="">ezpenguin<span>.</span></a>
+<nav class="nav-links" aria-label="Main navigation"><a href="../../">Home</a><a href="../">Wiki / help</a><a href="../../#install">Download</a><a href="https://feverdream.dev/">FeverDream ↗</a><a class="star" href="https://github.com/zarigata/EZpenguin">☆ Star on GitHub</a></nav></div></header>
+<div class="wrap wiki-banner"><a href="../../">EZpenguin</a> / <a href="../">Wiki</a> / Roadmap</div>
+<div class="wrap wiki-layout"><aside class="wiki-sidebar" aria-label="Wiki navigation"><h2>THE FIELD MANUAL</h2>
+<form action="../" method="get" role="search"><label class="sr-only" for="wiki-query">Search the wiki</label><input id="wiki-query" name="q" placeholder="Search 61 software guides…" type="search"><button type="submit">Search wiki →</button></form><nav aria-label="Wiki sections"><a href="../installation/">Installation</a><a href="../first-boot/">First boot &amp; headless</a><a href="../system-tools/">System tools</a><a href="../troubleshooting/">Troubleshooting</a><a href="../base-packages/">Base packages</a><h3>Software / 61 entries</h3><a href="../#server">Servers</a><a href="../#dev">Development</a><a href="../#network">Network &amp; VPN</a><a href="../#security">Security</a><a href="../#tools">Monitoring &amp; tools</a><a href="../#desktop">Desktops</a><h3>Project reference</h3><a href="../building/">Build your own image</a><a href="../architecture/">Architecture</a><a href="../testing/">Testing</a><a href="../security/">Security</a><a href="index.html">Roadmap</a><a href="../contributing/">Contributing</a><a href="../quality/">Quality standards</a><a href="../changelog/">Changelog</a><a href="../license/">License</a></nav></aside>
+<main id="main" class="wiki-article"><div class="eyebrow">EZPENGUIN WIKI / v0.4.1</div><h1 id="ezpenguin-roadmap">EZpenguin Roadmap</h1>
+<div class="wiki-toc"><strong>ON THIS PAGE</strong><nav><a href="#v01-foundation-complete">v0.1 — Foundation (COMPLETE)</a><a href="#v02-installability-complete">v0.2 — Installability (COMPLETE)</a><a href="#v03-appliance-ux-complete">v0.3 — Appliance UX (COMPLETE)</a><a href="#v04-software-ux-complete">v0.4 — Software &amp; UX (COMPLETE)</a><a href="#v05-hardening-polish-next">v0.5 — Hardening &amp; Polish (next)</a><a href="#v10-first-stable-release">v1.0 — First stable release</a><a href="#beyond">Beyond</a></nav></div><h2 id="v01-foundation-complete">v0.1 — Foundation (COMPLETE)</h2>
+<ul>
+<li>[x] Project structure &amp; full documentation set</li>
+<li>[x] Docker-based scripted build pipeline</li>
+<li>[x] Debian bookworm minimal rootfs (amd64)</li>
+<li>[x] EZpenguin identity layer (os-release, /etc/ezpenguin, tools)</li>
+<li>[x] Automated test suite L1–L4 (106 checks, all green)</li>
+<li>[x] First-boot wizard service (QEMU-verified: BIOS + UEFI)</li>
+<li>[x] Flashable disk image (BIOS + UEFI hybrid, 185MB compressed)</li>
+<li>[x] QEMU boot validation integrated in pipeline</li>
+<li>[x] bare-metal installer script (install.sh)</li>
+</ul>
+<h2 id="v02-installability-complete">v0.2 — Installability (COMPLETE)</h2>
+<ul>
+<li>[x] Bootable ISO with live installer (hybrid BIOS+UEFI, squashfs live root)</li>
+<li>[x] ARM64 rootfs + image cross-build (QEMU binfmt, boot-tested on QEMU virt/AAVMF)</li>
+<li>[x] Wizard interactive smoke test (QEMU monitor keystroke injection)</li>
+<li>[x] ez-install live/standalone installer (whiptail disk picker)</li>
+<li>[x] ez-doctor health check + ez-net diagnostics tools</li>
+<li>[x] Expanded QA suite + ISO/wizard boot tests in pipeline</li>
+</ul>
+<h2 id="v03-appliance-ux-complete">v0.3 — Appliance UX (COMPLETE)</h2>
+<ul>
+<li>[x] Interactive software catalog (<code>ez-software</code>, 25 entries, TUI + CLI)</li>
+<li>[x] Headless/SSH-first install mode (<code>firstboot.conf</code>, zero-touch)</li>
+<li>[x] <code>ez-config</code> full system configuration tool (menu + one-shot)</li>
+<li>[x] Backup/restore of config (<code>ez-backup</code>)</li>
+<li>[x] Headless unattended-install boot test in pipeline</li>
+</ul>
+<h2 id="v04-software-ux-complete">v0.4 — Software &amp; UX (COMPLETE)</h2>
+<ul>
+<li>[x] Software catalog scaled to 61 entries with post-install hooks</li>
+<li>[x] global password (opt-in, wizard + headless)</li>
+<li>[x] Terminal UX: banner lib, branded motd/issue, fastfetch-style ez-info</li>
+<li>[x] Catalog QA: field validation + postcmd syntax checks</li>
+</ul>
+<h2 id="v05-hardening-polish-next">v0.5 — Hardening &amp; Polish (next)</h2>
+<ul>
+<li>[ ] Automated secure defaults audit (Lynis baseline)</li>
+<li>[ ] Unattended/preseed install (answer file)</li>
+<li>[ ] Signing of artifacts + signed releases</li>
+<li>[ ] CI pipeline matrix (amd64, arm64)</li>
+</ul>
+<h2 id="v10-first-stable-release">v1.0 — First stable release</h2>
+<ul>
+<li>[ ] 100% QA checklist green (see QUALITY.md)</li>
+<li>[ ] Boot-tested on 3 real PCs + VirtualBox + QEMU + Pi 4</li>
+<li>[ ] Docs complete &amp; user-tested</li>
+<li>[ ] LTS: security updates for Debian bookworm lifetime</li>
+</ul>
+<h2 id="beyond">Beyond</h2>
+<ul>
+<li>Board-specific images (Pi, Odroid, Rock Pi)</li>
+<li>Delta updates</li>
+<li>Optional desktop (XFCE) meta-package</li>
+<li>Web-based first-boot UI</li>
+</ul>
+<p class="wiki-meta">Recipe reference: current repository catalog. Application availability and versions depend on your configured repositories. Documentation is hosted here; no repository visit is needed to read these guides.</p><p id="wiki-copy-status" role="status"></p></main></div>
+<footer class="footer"><div class="wrap footer-top"><span class="fine">EZpenguin · An open-source project from <a href="https://feverdream.dev/">FeverDream.dev ↗</a></span><nav aria-label="Footer"><a href="../">Wiki home</a><a href="../license/">License</a><a href="https://github.com/zarigata/EZpenguin/issues">Report an issue</a></nav></div></footer></body></html>

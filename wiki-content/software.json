@@ -1,0 +1,546 @@
+{
+  "nginx": {
+    "purpose": "Serve static sites or put a reverse proxy in front of a local application.",
+    "quick_start": [
+      "sudo nginx -t",
+      "systemctl status nginx --no-pager"
+    ],
+    "configuration": "/etc/nginx/; site definitions usually live in sites-available/ and sites-enabled/.",
+    "notes": "Validate configuration before reloading. Do not expose an unfinished application to the internet."
+  },
+  "lighttpd": {
+    "purpose": "Serve websites with a compact HTTP server.",
+    "quick_start": [
+      "sudo lighttpd -tt -f /etc/lighttpd/lighttpd.conf",
+      "systemctl status lighttpd --no-pager"
+    ],
+    "configuration": "/etc/lighttpd/lighttpd.conf and /etc/lighttpd/conf-available/.",
+    "notes": "Another HTTP server may already own port 80. Run one listener per address and port."
+  },
+  "apache": {
+    "purpose": "Host websites with Apache HTTP Server and its module ecosystem.",
+    "quick_start": [
+      "sudo apache2ctl configtest",
+      "systemctl status apache2 --no-pager"
+    ],
+    "configuration": "/etc/apache2/; sites-available/ and sites-enabled/ contain virtual-host definitions.",
+    "notes": "Check for port conflicts with Nginx, Caddy, or Lighttpd before starting another web server."
+  },
+  "caddy": {
+    "purpose": "Run an HTTP server or reverse proxy with a concise Caddyfile.",
+    "quick_start": [
+      "caddy version",
+      "sudo caddy validate --config /etc/caddy/Caddyfile"
+    ],
+    "configuration": "/etc/caddy/Caddyfile.",
+    "notes": "Automatic public certificates require a suitable domain, DNS, and network reachability. Installation alone does not provide a domain or configure your proxy."
+  },
+  "mariadb": {
+    "purpose": "Store relational application data in a MySQL-compatible database.",
+    "quick_start": [
+      "systemctl status mariadb --no-pager",
+      "sudo mariadb -e \"SELECT VERSION();\""
+    ],
+    "configuration": "/etc/mysql/; database files normally reside under /var/lib/mysql/.",
+    "notes": "Create a separate database and least-privilege user for each application. Use database-aware dumps or snapshots; a copy of live data files is not a reliable logical backup."
+  },
+  "postgres": {
+    "purpose": "Run PostgreSQL for applications that need a relational SQL database.",
+    "quick_start": [
+      "systemctl status postgresql --no-pager",
+      "sudo -u postgres psql -c \"SELECT version();\""
+    ],
+    "configuration": "/etc/postgresql/ and /var/lib/postgresql/; the package determines the installed major version.",
+    "notes": "Configure pg_hba.conf deliberately and avoid making the database publicly reachable. Use pg_dump or a suitable database backup strategy."
+  },
+  "redis": {
+    "purpose": "Provide an in-memory cache or application data store.",
+    "quick_start": [
+      "redis-cli ping",
+      "systemctl status redis-server --no-pager"
+    ],
+    "configuration": "/etc/redis/redis.conf; persistence settings affect durability.",
+    "notes": "Do not expose an unauthenticated Redis listener. A cache is not automatically a durable primary database."
+  },
+  "memcached": {
+    "purpose": "Provide a disposable in-memory cache for supported applications.",
+    "quick_start": [
+      "systemctl status memcached --no-pager",
+      "sudo ss -lntup"
+    ],
+    "configuration": "/etc/memcached.conf.",
+    "notes": "Keep the listener on a trusted interface. Cache contents can disappear on restart; do not treat them as a backup."
+  },
+  "docker": {
+    "purpose": "Run containerized services with Debian-packaged Docker Engine and Compose.",
+    "quick_start": [
+      "sudo docker version",
+      "sudo docker ps",
+      "docker-compose --version"
+    ],
+    "configuration": "/etc/docker/ and /var/lib/docker/; Compose project files belong with each project.",
+    "notes": "The recipe adds the invoking sudo user to the docker group. That group grants powerful host access; log out and back in for group changes. This recipe installs docker-compose, so do not assume the newer docker compose plugin exists."
+  },
+  "podman": {
+    "purpose": "Run OCI containers with Podman, including rootless workflows where supported.",
+    "quick_start": [
+      "podman --version",
+      "podman info"
+    ],
+    "configuration": "User containers use per-user storage; root-run containers use separate system storage.",
+    "notes": "Rootless operation can need subordinate UID/GID ranges and extra packages. An installed engine is not a configured application stack."
+  },
+  "samba": {
+    "purpose": "Share selected directories with Windows and other SMB clients.",
+    "quick_start": [
+      "sudo testparm -s",
+      "systemctl status smbd --no-pager"
+    ],
+    "configuration": "/etc/samba/smb.conf.",
+    "notes": "Create shares and Samba users explicitly. Match Unix permissions to the intended access; enabling smbd does not create a safe public share."
+  },
+  "nfs": {
+    "purpose": "Export filesystem paths to trusted Linux or Unix clients.",
+    "quick_start": [
+      "sudo exportfs -v",
+      "systemctl status nfs-server --no-pager"
+    ],
+    "configuration": "/etc/exports.",
+    "notes": "Restrict exports to intended clients and preserve appropriate root-squash behavior. Do not expose an NFS export directly to the internet."
+  },
+  "syncthing": {
+    "purpose": "Synchronize selected folders between devices using peer-to-peer file synchronization.",
+    "quick_start": [
+      "syncthing --version",
+      "systemctl status syncthing@YOUR_USER --no-pager"
+    ],
+    "configuration": "Per-user Syncthing configuration and state; exact paths follow the packaged version.",
+    "notes": "Replace YOUR_USER in the example. Review folder sharing, remote device IDs, and GUI access. Synchronization can propagate deletion; keep independent backups."
+  },
+  "cockpit": {
+    "purpose": "Manage the machine through the Cockpit web console.",
+    "quick_start": [
+      "systemctl status cockpit.socket --no-pager",
+      "sudo ss -lntp"
+    ],
+    "configuration": "The package uses socket activation; review Cockpit and system authentication settings.",
+    "notes": "The catalog enables cockpit.socket; the usual web port is 9090. Keep management access on a trusted network and review authentication before opening firewall rules."
+  },
+  "prometheus-node": {
+    "purpose": "Expose host metrics for a Prometheus monitoring server.",
+    "quick_start": [
+      "systemctl status prometheus-node-exporter --no-pager",
+      "sudo ss -lntp"
+    ],
+    "configuration": "Debian service defaults and command-line flags determine enabled collectors and listen address.",
+    "notes": "Node exporter supplies metrics; it does not install a Prometheus database or Grafana dashboard. Limit access to monitoring clients."
+  },
+  "gitea-light": {
+    "purpose": "This legacy recipe targets Gogs, a lightweight Git hosting service; it does not install Gitea.",
+    "quick_start": [
+      "apt-cache policy gogs",
+      "systemctl status gogs --no-pager"
+    ],
+    "configuration": "Gogs configuration depends on the package source and deployment method.",
+    "notes": "Availability-sensitive recipe: it requests the gogs package and service. Verify apt-cache policy first; if no candidate exists, this recipe cannot install it from your configured repositories. No alternate repository is added by this recipe."
+  },
+  "mosquitto": {
+    "purpose": "Run an MQTT message broker for local automation and IoT projects.",
+    "quick_start": [
+      "systemctl status mosquitto --no-pager",
+      "mosquitto_sub --help"
+    ],
+    "configuration": "/etc/mosquitto/ and /etc/mosquitto/conf.d/.",
+    "notes": "Define listeners and authentication before sharing access. mosquitto_sub and mosquitto_pub are supplied by mosquitto-clients; use a test topic on your own broker."
+  },
+  "gitdaemon": {
+    "purpose": "A legacy recipe intended to support serving Git repositories over the git protocol.",
+    "quick_start": [
+      "git --version",
+      "git daemon --help"
+    ],
+    "configuration": "The current recipe requests the packages git and daemon but adds no managed service or repository export configuration.",
+    "notes": "The daemon package is not the same thing as configuring git daemon. Read the installed Git help and configure a deliberate service before use. The git protocol does not provide SSH authentication."
+  },
+  "python": {
+    "purpose": "Develop Python applications in isolated virtual environments.",
+    "quick_start": [
+      "python3 --version",
+      "python3 -m venv .venv",
+      ". .venv/bin/activate"
+    ],
+    "configuration": "Keep a virtual environment and dependency lock or requirements file with each project.",
+    "notes": "Use a venv for application dependencies. Avoid installing arbitrary pip packages into the OS-managed Python environment."
+  },
+  "pipx": {
+    "purpose": "Install Python command-line applications into separate managed virtual environments.",
+    "quick_start": [
+      "pipx --version",
+      "pipx list"
+    ],
+    "configuration": "Per-user pipx directories and shell PATH configuration.",
+    "notes": "Run pipx as your regular user. The recipe runs ensurepath for the sudo-invoking user, but a new login may be required."
+  },
+  "nodejs": {
+    "purpose": "Develop JavaScript applications with Debian-packaged Node.js and npm.",
+    "quick_start": [
+      "node --version",
+      "npm --version"
+    ],
+    "configuration": "package.json and your lockfile live in the project directory.",
+    "notes": "The Debian version can differ from upstream current releases. Check your project engine requirements; do not assume a specific major version from this recipe."
+  },
+  "java": {
+    "purpose": "Compile and run Java code with the default Debian OpenJDK toolchain.",
+    "quick_start": [
+      "java -version",
+      "javac -version"
+    ],
+    "configuration": "Project build files determine dependencies; JAVA_HOME may be needed by some tools.",
+    "notes": "The catalog targets the Debian bookworm default JDK, documented as OpenJDK 17. Verify the installed version against the application requirement."
+  },
+  "go": {
+    "purpose": "Compile Go applications with the Debian Go toolchain.",
+    "quick_start": [
+      "go version",
+      "go env GOPATH"
+    ],
+    "configuration": "Use go.mod and go.sum in each module.",
+    "notes": "Verify the compiler version before building a module that requires a newer Go release."
+  },
+  "rust": {
+    "purpose": "Compile Rust applications with Debian-packaged rustc and Cargo.",
+    "quick_start": [
+      "rustc --version",
+      "cargo --version"
+    ],
+    "configuration": "Cargo.toml and Cargo.lock live with each project.",
+    "notes": "This recipe does not install rustup. Debian package versions can be older than a project minimum supported Rust version."
+  },
+  "php": {
+    "purpose": "Run PHP applications through PHP-FPM or the PHP command line.",
+    "quick_start": [
+      "php --version",
+      "systemctl status php8.2-fpm --no-pager"
+    ],
+    "configuration": "/etc/php/; pool configuration is under the installed version fpm/pool.d/ directory.",
+    "notes": "The post-install hook targets php8.2-fpm for bookworm. A web server must be configured separately to pass PHP requests to FPM."
+  },
+  "ruby": {
+    "purpose": "Run Ruby scripts and develop Ruby applications.",
+    "quick_start": [
+      "ruby --version",
+      "gem --version"
+    ],
+    "configuration": "Project Gemfile and lockfile; per-project dependency management is recommended.",
+    "notes": "Installing Ruby does not install an application server or configure a Rails deployment."
+  },
+  "perl-dev": {
+    "purpose": "Add module-build support to the base Perl environment.",
+    "quick_start": [
+      "perl -v",
+      "perl -MModule::Build -e \"print $Module::Build::VERSION\""
+    ],
+    "configuration": "Use the project build files and distribution-specific Perl module packages.",
+    "notes": "This entry adds libmodule-build-perl, rather than a separate full Perl development distribution."
+  },
+  "build-essential": {
+    "purpose": "Compile native software with GCC, Make, and pkg-config support.",
+    "quick_start": [
+      "gcc --version",
+      "make --version",
+      "pkg-config --version"
+    ],
+    "configuration": "Each source project supplies its own build configuration.",
+    "notes": "Compiler tools do not make downloaded source trustworthy. Use a non-root build directory and inspect install steps."
+  },
+  "code-help": {
+    "purpose": "Add fuzzy finding and syntax-highlighted file viewing through fzf and bat.",
+    "quick_start": [
+      "fzf --version",
+      "batcat --version"
+    ],
+    "configuration": "Shell integration is optional and follows your shell configuration.",
+    "notes": "Although the legacy display name mentions exa, the recipe installs only fzf and bat. On Debian the bat command is commonly named batcat."
+  },
+  "wireguard": {
+    "purpose": "Install WireGuard userspace tools for a configured VPN tunnel.",
+    "quick_start": [
+      "wg --version",
+      "sudo wg show"
+    ],
+    "configuration": "/etc/wireguard/ for configurations you create; protect private keys.",
+    "notes": "The recipe installs tools, not a ready-made VPN or keypair. Define peers, routes, and firewall rules before bringing a tunnel up."
+  },
+  "openvpn": {
+    "purpose": "Use OpenVPN with an independently supplied client or server configuration.",
+    "quick_start": [
+      "openvpn --version"
+    ],
+    "configuration": "/etc/openvpn/ and your chosen client/server configuration.",
+    "notes": "Certificates, keys, and configuration are not generated by this recipe. Protect credentials and review routed networks before connecting."
+  },
+  "tailscale": {
+    "purpose": "Install the Tailscale mesh-VPN client through its upstream installer.",
+    "quick_start": [
+      "tailscale version",
+      "tailscale status"
+    ],
+    "configuration": "Tailscale authentication and node access rules are configured separately.",
+    "notes": "The recipe downloads and runs an upstream shell installer. Inspect its source before use. Installing does not automatically authenticate the machine or grant tailnet access."
+  },
+  "mosh": {
+    "purpose": "Use a roaming terminal connection that tolerates changing network conditions.",
+    "quick_start": [
+      "mosh --version"
+    ],
+    "configuration": "SSH access bootstraps the session; Mosh also needs permitted UDP connectivity.",
+    "notes": "Install the client on the connecting machine too. Confirm remote access and network policy before relying on Mosh."
+  },
+  "nmap": {
+    "purpose": "Inspect hosts and services on networks you own or have permission to test.",
+    "quick_start": [
+      "nmap --version",
+      "nmap -sT 127.0.0.1"
+    ],
+    "configuration": "Command-line scan options define scope; start with localhost.",
+    "notes": "Use an explicit authorized target. Network scanning may be disruptive on fragile devices; avoid broad unknown networks."
+  },
+  "tshark": {
+    "purpose": "Analyze network traffic with the Wireshark command-line interface.",
+    "quick_start": [
+      "tshark --version",
+      "tshark -D"
+    ],
+    "configuration": "Capture permissions and interfaces determine what a regular user can inspect.",
+    "notes": "Packet captures can contain credentials or private traffic. Capture only what you are authorized to inspect and protect the resulting files."
+  },
+  "tcpdump": {
+    "purpose": "Capture and inspect packets for network troubleshooting.",
+    "quick_start": [
+      "tcpdump --version",
+      "sudo tcpdump -D"
+    ],
+    "configuration": "Choose an explicit interface and filter; save captures outside public directories.",
+    "notes": "Captures can contain sensitive data. Keep capture scope small and avoid publishing unreviewed capture files."
+  },
+  "fail2ban": {
+    "purpose": "Apply log-driven bans for repeated unwanted authentication attempts.",
+    "quick_start": [
+      "sudo fail2ban-client status",
+      "systemctl status fail2ban --no-pager"
+    ],
+    "configuration": "/etc/fail2ban/jail.local and /etc/fail2ban/jail.d/.",
+    "notes": "Review enabled jails and their log sources. Fail2ban complements working authentication and firewall rules; installation is not complete security hardening."
+  },
+  "ufw": {
+    "purpose": "Manage host firewall rules with a straightforward command-line frontend.",
+    "quick_start": [
+      "sudo ufw status verbose",
+      "sudo ufw app list"
+    ],
+    "configuration": "Use ufw commands to define rules; do not assume the firewall is active after package installation.",
+    "notes": "If you connect remotely, allow your actual SSH port before enabling or tightening the firewall. Keep a recovery console available."
+  },
+  "auditd": {
+    "purpose": "Record kernel audit events for system investigation and policy monitoring.",
+    "quick_start": [
+      "sudo auditctl -s",
+      "systemctl status auditd --no-pager"
+    ],
+    "configuration": "/etc/audit/ and /etc/audit/rules.d/; logs normally reside in /var/log/audit/.",
+    "notes": "Review retention and disk use. An installed audit daemon does not provide a tailored audit ruleset."
+  },
+  "clamav": {
+    "purpose": "Scan files with an open-source antivirus engine.",
+    "quick_start": [
+      "clamscan --version"
+    ],
+    "configuration": "/etc/clamav/; signatures must be updated before meaningful scanning.",
+    "notes": "Engine and signatures both matter. This recipe does not configure an automatic schedule or promise detection of every threat."
+  },
+  "rkhunter": {
+    "purpose": "Run heuristic checks for rootkit indicators and suspicious system changes.",
+    "quick_start": [
+      "sudo rkhunter --version"
+    ],
+    "configuration": "/etc/rkhunter.conf and any local overrides.",
+    "notes": "Investigate findings rather than treating every warning as proof of compromise. Create baselines only on a system you trust."
+  },
+  "unattended": {
+    "purpose": "Provide automated package-upgrade tooling for supported repositories.",
+    "quick_start": [
+      "systemctl status unattended-upgrades --no-pager",
+      "apt-config dump"
+    ],
+    "configuration": "/etc/apt/apt.conf.d/; inspect allowed origins and periodic APT settings.",
+    "notes": "A running service alone does not prove scheduled updates are enabled correctly. Review timers, origins, reboot behavior, and logs."
+  },
+  "btop": {
+    "purpose": "Inspect CPU, memory, disks, processes, and network activity interactively.",
+    "quick_start": [
+      "btop --version",
+      "btop"
+    ],
+    "configuration": "Per-user btop configuration.",
+    "notes": "This is an interactive local monitor; it does not retain a historical metrics database."
+  },
+  "htop": {
+    "purpose": "Inspect and manage running processes from a terminal.",
+    "quick_start": [
+      "htop --version",
+      "htop"
+    ],
+    "configuration": "Per-user htop configuration.",
+    "notes": "htop is also listed in the base image packages; this recipe can ensure it is installed. Stopping processes can interrupt services."
+  },
+  "tmux": {
+    "purpose": "Keep terminal sessions running and split a terminal into panes.",
+    "quick_start": [
+      "tmux -V",
+      "tmux new -s work"
+    ],
+    "configuration": "~/.tmux.conf for your user configuration.",
+    "notes": "Default detach keys are Ctrl+B then D. Reconnect with tmux attach -t work; sessions still end when the machine reboots."
+  },
+  "screen": {
+    "purpose": "Keep a terminal session alive across a disconnected SSH connection.",
+    "quick_start": [
+      "screen --version",
+      "screen -S work"
+    ],
+    "configuration": "~/.screenrc for user configuration.",
+    "notes": "Default detach keys are Ctrl+A then D. Reattach with screen -r work."
+  },
+  "byobu": {
+    "purpose": "Add a terminal session interface around tmux or screen.",
+    "quick_start": [
+      "byobu --version",
+      "byobu"
+    ],
+    "configuration": "Per-user Byobu configuration and selected backend.",
+    "notes": "Keyboard shortcuts depend on backend and terminal. Review the built-in help before changing a remote session layout."
+  },
+  "mc": {
+    "purpose": "Browse and manage files in a two-panel terminal interface.",
+    "quick_start": [
+      "mc --version",
+      "mc"
+    ],
+    "configuration": "Per-user Midnight Commander configuration.",
+    "notes": "File deletion and moves act on the actual filesystem. Use your regular user unless administration explicitly requires root."
+  },
+  "ncdu": {
+    "purpose": "Find directories consuming disk space with an interactive disk-usage browser.",
+    "quick_start": [
+      "ncdu --version",
+      "ncdu -x /home"
+    ],
+    "configuration": "The path passed to ncdu determines the scan root.",
+    "notes": "The -x option stays on one filesystem. Deletion actions remove real data; inspect before deleting."
+  },
+  "neofetch": {
+    "purpose": "Show a terminal summary of the OS and hardware.",
+    "quick_start": [
+      "neofetch --version",
+      "neofetch"
+    ],
+    "configuration": "~/.config/neofetch/ when supported by the package.",
+    "notes": "System summaries can expose hostnames or hardware details. Review output before sharing it publicly."
+  },
+  "fastfetch-lite": {
+    "purpose": "Inspect system and hardware information with inxi.",
+    "quick_start": [
+      "inxi --version",
+      "inxi -Fxz"
+    ],
+    "configuration": "inxi command options determine detail and privacy filtering.",
+    "notes": "Despite its legacy ID, this recipe installs inxi, not Fastfetch. Check output for identifiers before posting a support report."
+  },
+  "tree": {
+    "purpose": "Print a directory hierarchy from the terminal.",
+    "quick_start": [
+      "tree --version",
+      "tree -L 2 ."
+    ],
+    "configuration": "Choose a directory and depth with command-line flags.",
+    "notes": "Filenames can contain private information. Limit depth when making a report."
+  },
+  "tldr": {
+    "purpose": "Read concise command examples using a tldr client.",
+    "quick_start": [
+      "tldr --help"
+    ],
+    "configuration": "Client cache and page update settings follow the packaged implementation.",
+    "notes": "Command examples are a starting point, not a substitute for understanding destructive flags. Manual pages are stripped from the minimal image by default."
+  },
+  "iperf3": {
+    "purpose": "Measure network throughput between a client and a server you control.",
+    "quick_start": [
+      "iperf3 --version"
+    ],
+    "configuration": "Run a test server and client deliberately; the recipe does not configure a continuous measurement service.",
+    "notes": "Throughput testing can saturate a link. Coordinate the test and restrict access to a server you intentionally start."
+  },
+  "smartmontools": {
+    "purpose": "Inspect drive SMART information and hardware health.",
+    "quick_start": [
+      "sudo smartctl --scan",
+      "systemctl status smartmontools --no-pager"
+    ],
+    "configuration": "/etc/smartd.conf for monitoring policy.",
+    "notes": "Health reports are not backups or guarantees against drive failure. Device and adapter support varies."
+  },
+  "lm-sensors": {
+    "purpose": "Read supported hardware temperature, voltage, and fan sensors.",
+    "quick_start": [
+      "sensors"
+    ],
+    "configuration": "Hardware detection and module configuration depend on the motherboard.",
+    "notes": "The recipe invokes sensors-detect --auto; this probes hardware and may need a reboot or modules loaded. No sensor or fan-control support is guaranteed."
+  },
+  "nvme": {
+    "purpose": "Inspect and administer NVMe storage devices with nvme-cli.",
+    "quick_start": [
+      "sudo nvme list"
+    ],
+    "configuration": "Commands target explicit NVMe controller or namespace devices.",
+    "notes": "Administrative NVMe commands can erase data or change firmware. Start with read-only inspection and keep backups."
+  },
+  "rsync-server": {
+    "purpose": "Copy files efficiently locally or over SSH with rsync.",
+    "quick_start": [
+      "rsync --version",
+      "rsync -avn SOURCE/ DESTINATION/"
+    ],
+    "configuration": "Replace SOURCE and DESTINATION with your paths; the trailing slash affects copy semantics.",
+    "notes": "The example is a dry run. The recipe installs rsync but does not configure a public rsync daemon; --delete can remove destination files."
+  },
+  "git": {
+    "purpose": "Track source code history and work with remote repositories.",
+    "quick_start": [
+      "git --version",
+      "git status"
+    ],
+    "configuration": "Per-project .git directories and user-level Git configuration.",
+    "notes": "Set an appropriate author identity before committing. Review staged changes and never commit credentials."
+  },
+  "xfce": {
+    "purpose": "Add a full XFCE desktop and LightDM to the minimal OS.",
+    "quick_start": [
+      "systemctl get-default",
+      "systemctl status lightdm --no-pager"
+    ],
+    "configuration": "LightDM and desktop session settings; additional disk and memory are required.",
+    "notes": "The recipe sets graphical.target as the default boot target. Reboot when ready. To return to text boot, use sudo systemctl set-default multi-user.target and reboot; this does not uninstall the desktop."
+  },
+  "lxde": {
+    "purpose": "Add a lightweight LXDE desktop and LightDM.",
+    "quick_start": [
+      "systemctl get-default",
+      "systemctl status lightdm --no-pager"
+    ],
+    "configuration": "LightDM and LXDE session settings; image size grows after installation.",
+    "notes": "The recipe sets graphical.target. Hardware graphics support still depends on the kernel and installed drivers. To return to text boot, set multi-user.target and reboot."
+  }
+}

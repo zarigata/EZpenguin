@@ -20,7 +20,7 @@ def render_catalog():
             f'<article class="app{preview}" data-category="{esc(category)}" data-search="{search}" data-app-id="{esc(app_id)}">'
             f'<span class="app-icon" aria-hidden="true">{esc(icons[category])}</span>'
             f'<div class="app-content"><h3>{esc(name)}</h3><p>{esc(description)}</p>'
-            f'<code>{esc(command)}</code><button class="copy-app" data-copy="{esc(command)}" '
+            f'<code>{esc(command)}</code><a class="read-guide" href="wiki/software/{esc(app_id)}/">Read wiki guide →</a><button class="copy-app" data-copy="{esc(command)}" '
             f'aria-label="Copy install command for {esc(name)}" hidden>Copy command ↗</button></div></article>')
     return '\n'.join(cards)
 

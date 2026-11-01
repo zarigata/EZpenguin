@@ -5,6 +5,11 @@ versioning is SemVer. Dates are YYYY-MM-DD.
 
 ## Unreleased — project presentation
 
+- Adopted the approved wild-cartoon mascot and Y2K website theme.
+- Added FeverDream.dev attribution and a complete on-site wiki: 61 software
+  recipes, base packages, setup, system tools, troubleshooting, and reference guides.
+- Kept documentation navigation on the public website rather than repository pages.
+
 - Rebuilt the responsive website with software search, category filters, copyable
   commands, keyboard-accessible install tabs, and a clear path to GitHub stars.
 - Rewrote README and installation guidance with current artifacts and accurate

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>System tools — EZpenguin Wiki</title><meta name="description" content="EZpenguin system tools: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<link rel="canonical" href="https://zarigata.github.io/EZpenguin/wiki/system-tools/"><meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#10110f"><meta property="og:type" content="article">
+<meta property="og:title" content="System tools — EZpenguin Wiki"><meta property="og:description" content="EZpenguin system tools: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<meta property="og:url" content="https://zarigata.github.io/EZpenguin/wiki/system-tools/"><meta property="og:image" content="https://zarigata.github.io/EZpenguin/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/webp" href="../../assets/ezpenguin-logo.webp">
+<link rel="stylesheet" href="../../assets/style.css"><script src="../../assets/wiki.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "System tools", "description": "EZpenguin system tools: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.", "url": "https://zarigata.github.io/EZpenguin/wiki/system-tools/", "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "EZpenguin", "url": "https://zarigata.github.io/EZpenguin/"}}</script></head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap nav-inner"><a class="brand" href="../../"><img src="../../assets/ezpenguin-logo.webp" width="57" height="57" alt="">ezpenguin<span>.</span></a>
+<nav class="nav-links" aria-label="Main navigation"><a href="../../">Home</a><a href="../">Wiki / help</a><a href="../../#install">Download</a><a href="https://feverdream.dev/">FeverDream ↗</a><a class="star" href="https://github.com/zarigata/EZpenguin">☆ Star on GitHub</a></nav></div></header>
+<div class="wrap wiki-banner"><a href="../../">EZpenguin</a> / <a href="../">Wiki</a> / System tools</div>
+<div class="wrap wiki-layout"><aside class="wiki-sidebar" aria-label="Wiki navigation"><h2>THE FIELD MANUAL</h2>
+<form action="../" method="get" role="search"><label class="sr-only" for="wiki-query">Search the wiki</label><input id="wiki-query" name="q" placeholder="Search 61 software guides…" type="search"><button type="submit">Search wiki →</button></form><nav aria-label="Wiki sections"><a href="../installation/">Installation</a><a href="../first-boot/">First boot &amp; headless</a><a href="index.html" aria-current="page">System tools</a><a href="../troubleshooting/">Troubleshooting</a><a href="../base-packages/">Base packages</a><h3>Software / 61 entries</h3><a href="../#server">Servers</a><a href="../#dev">Development</a><a href="../#network">Network &amp; VPN</a><a href="../#security">Security</a><a href="../#tools">Monitoring &amp; tools</a><a href="../#desktop">Desktops</a><h3>Project reference</h3><a href="../building/">Build your own image</a><a href="../architecture/">Architecture</a><a href="../testing/">Testing</a><a href="../security/">Security</a><a href="../roadmap/">Roadmap</a><a href="../contributing/">Contributing</a><a href="../quality/">Quality standards</a><a href="../changelog/">Changelog</a><a href="../license/">License</a></nav></aside>
+<main id="main" class="wiki-article"><div class="eyebrow">EZPENGUIN WIKI / v0.4.1</div><h1 id="ezpenguin-system-tools">EZpenguin system tools</h1>
+<p>These Bash tools are copied into the image from the rootfs overlay. Software installed through the optional catalog is separate from these built-in commands.</p>
+<div class="wiki-toc"><strong>ON THIS PAGE</strong><nav><a href="#ez-info-system-overview">ez-info: system overview</a><a href="#ez-doctor-health-check">ez-doctor: health check</a><a href="#ez-net-network-diagnostics">ez-net: network diagnostics</a><a href="#ez-config-change-settings">ez-config: change settings</a><a href="#ez-software-catalog">ez-software: catalog</a><a href="#ez-update-package-updates">ez-update: package updates</a><a href="#ez-backup-configuration-archives">ez-backup: configuration archives</a><a href="#ez-install-and-ez-firstboot">ez-install and ez-firstboot</a></nav></div><h2 id="ez-info-system-overview">ez-info: system overview</h2>
+<pre id="code-9"><code>ez-info</code></pre><button class="wiki-copy" data-code="code-9" hidden>Copy commands</button>
+<p>Displays OS identity, hardware and resource information, and first-boot state. Review output for host identifiers before sharing a support report.</p>
+<h2 id="ez-doctor-health-check">ez-doctor: health check</h2>
+<pre id="code-18"><code>ez-doctor</code></pre><button class="wiki-copy" data-code="code-18" hidden>Copy commands</button>
+<p>Checks common system conditions. A passing report is not a full security audit or proof that an installed application is correctly configured.</p>
+<h2 id="ez-net-network-diagnostics">ez-net: network diagnostics</h2>
+<pre id="code-27"><code>ez-net</code></pre><button class="wiki-copy" data-code="code-27" hidden>Copy commands</button>
+<p>Use it as a starting point for connectivity problems. Standard base commands include ip, ping, curl, and the OpenSSH client.</p>
+<h2 id="ez-config-change-settings">ez-config: change settings</h2>
+<pre id="code-36"><code>sudo ez-config</code></pre><button class="wiki-copy" data-code="code-36" hidden>Copy commands</button>
+<p>The menu exposes settings such as hostname, timezone, locale, keymap, SSH, and passwords. Network or SSH changes can interrupt remote access; keep a console available when changing the path you use to connect.</p>
+<h2 id="ez-software-catalog">ez-software: catalog</h2>
+<pre id="code-49"><code>ez-software list
+ez-software search python
+sudo ez-software install docker python
+sudo ez-software</code></pre><button class="wiki-copy" data-code="code-49" hidden>Copy commands</button>
+<p>The tool reads the software catalog, asks APT to install the listed packages, and runs each entry&#x27;s post-install shell snippet. Post-install errors may be reported without aborting, so inspect the output and verify the service rather than assuming a successful package install means complete application setup.</p>
+<p>The <a href="../../#software">software directory</a> and the wiki home include a guide for every entry, including package names and the exact hook.</p>
+<h2 id="ez-update-package-updates">ez-update: package updates</h2>
+<pre id="code-63"><code>sudo ez-update</code></pre><button class="wiki-copy" data-code="code-63" hidden>Copy commands</button>
+<p>The current script runs apt-get update, apt-get upgrade -y, then apt-get autoremove -y --purge. It does not create a snapshot, provide atomic rollback, or rebuild the OS image. Review package changes and back up application data before an important upgrade.</p>
+<h2 id="ez-backup-configuration-archives">ez-backup: configuration archives</h2>
+<pre id="code-76"><code>sudo ez-backup create /root/ezpenguin-config.tar.gz
+ez-backup list /root/ezpenguin-config.tar.gz
+sudo ez-backup restore /root/ezpenguin-config.tar.gz</code></pre><button class="wiki-copy" data-code="code-76" hidden>Copy commands</button>
+<p>Backs up selected EZpenguin and system configuration paths, including network, SSH, locale, hostname, and fstab files. It is not a full disk image and does not back up application databases, home directories, or container volumes by default.</p>
+<p>Restoring overwrites the archived paths after confirmation. Review the archive and use only an archive you trust. Keep separate database and application-data backups, ideally with a tested restore procedure.</p>
+<h2 id="ez-install-and-ez-firstboot">ez-install and ez-firstboot</h2>
+<p>ez-install is the disk installer used by the live environment. It can erase the selected disk. ez-firstboot performs initial configuration. Start with the <a href="../installation/">installation guide</a>, rather than running either tool blindly on a valuable host.</p>
+<p class="wiki-meta">Recipe reference: current repository catalog. Application availability and versions depend on your configured repositories. Documentation is hosted here; no repository visit is needed to read these guides.</p><p id="wiki-copy-status" role="status"></p></main></div>
+<footer class="footer"><div class="wrap footer-top"><span class="fine">EZpenguin · An open-source project from <a href="https://feverdream.dev/">FeverDream.dev ↗</a></span><nav aria-label="Footer"><a href="../">Wiki home</a><a href="../license/">License</a><a href="https://github.com/zarigata/EZpenguin/issues">Report an issue</a></nav></div></footer></body></html>
