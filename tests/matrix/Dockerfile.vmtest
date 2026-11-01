@@ -1,0 +1,38 @@
+# ezpenguin-vmtest — QEMU VM lab image for tests/matrix/vm-lab.sh.
+#
+# Reproduces the previously machine-only ezpenguin-vmtest:latest image from
+# tracked sources. Contents = everything vm-lab.sh needs:
+#   - qemu-system-x86 (TCG guests, no KVM required) + qemu-utils (qemu-img,
+#     qemu-nbd for offline disk surgery: fsck, fstab seed, root-key injection)
+#   - xorriso (cloud-init NoCloud seed ISO)
+#   - openssh-client + sshpass (drive the guest over the hostfwd port)
+#   - e2fsprogs + parted (e2fsck -fy, partprobe on the attached nbd device)
+#   - netcat-openbsd (port probes from the host side)
+#   - systemd-journal-remote (harvest guest journals from disk when debugging)
+#
+# nbd note: qemu-nbd needs /dev/nbd0 inside the --privileged helper
+# containers. Docker Desktop's Linux VM exposes it (verified 2026-11: nodev
+# modprobe not even needed). On hosts where it is missing, run once:
+#   docker run --rm --privileged debian:bookworm modprobe nbd max_part=16
+# vm-lab.sh guards every qemu-nbd helper and fails loudly if /dev/nbd0 is
+# absent rather than silently skipping the disk surgery.
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        qemu-system-x86 \
+        qemu-utils \
+        xorriso \
+        xz-utils \
+        ca-certificates \
+        file \
+        openssh-client \
+        sshpass \
+        netcat-openbsd \
+        e2fsprogs \
+        parted \
+        procps \
+        systemd-journal-remote \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /build
+CMD ["/bin/bash"]

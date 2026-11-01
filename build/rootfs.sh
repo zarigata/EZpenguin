@@ -127,6 +127,11 @@ fi
 # absolute /dev/null symlink targets break git checkouts on some runners)
 ln -sfn /dev/null "$TARGET/etc/systemd/system/getty@tty1.service"
 
+# legacy ifupdown init script: the userland uses systemd-networkd and has no
+# `ifup` — a generated networking.service would fail on every boot. Mask it
+# declaratively (same rationale as the installer's in-place mask).
+ln -sfn /dev/null "$TARGET/etc/systemd/system/networking.service"
+
 # preserve executability of scripts
 [[ -f "$TARGET/usr/local/bin/ez-firstboot" ]] && chmod 755 "$TARGET/usr/local/bin/ez-firstboot"
 for f in "$TARGET"/usr/local/bin/ez-*; do [[ -f "$f" ]] && chmod 755 "$f"; done
