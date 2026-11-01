@@ -145,7 +145,7 @@ cat > "$FIXDIR/release-404.json" <<EOF
 ]}
 EOF
 t F07-asset-404          refuse  EZP_MODE=inplace EZP_ASSUME_YES=1 EZP_NO_REBOOT=1 \
-    EZP_ARCH=amd64 EZP_API_URL="$HTTP/release-404.json" EZP_DOWNLOAD_URL="$HTTP"
+    EZP_ARCH=amd64 EZP_API_URL="$HTTP/release-404.json"
 
 # ---- DNS failure ----------------------------------------------------------------
 t F08-dns-failure        refuse  EZP_MODE=inplace EZP_ASSUME_YES=1 EZP_NO_REBOOT=1 \

@@ -3,6 +3,47 @@
 All notable changes to EZpenguin. Format follows Keep-a-Changelog;
 versioning is SemVer. Dates are YYYY-MM-DD.
 
+## [1.0.0] — 2026-11-01
+
+First stable release. The one-liner installer is now proven across the full
+compatibility matrix, including real in-place conversion of a booted Debian 12
+system (QEMU) that reboots from disk into a healthy EZpenguin with 0 failed
+systemd units.
+
+### Fixed
+- installer: strict OS gating for in-place conversion — Debian 11/12 and
+  Ubuntu 22.04/24.04 only; non-Debian systems and Debian derivatives
+  (Linux Mint detected via its packages, since its os-release impersonates
+  `ID=ubuntu`) are refused safely before anything is modified.
+- installer: `/usr` overwrite on booted systems uses `tar --unlink-first`
+  — `cp -a` overwrote running binaries' text pages in place (journald/PID1
+  SIGSEGV mid-conversion on Ubuntu).
+- installer: mount capture looped per-target (`findmnt` accepts only one
+  target; multi-arg call silently captured nothing) with `/proc/mounts`
+  fallback; fstab root-line check reads the mount-target field, not source.
+- installer: priv-toolbox wrappers snapshot the loader/libpath so EXIT
+  cleanup cannot call a dead wrapper (masked real exit codes with `set -u`).
+- installer: downloaded artifact is `xz -t`-validated before any destructive
+  step (a 404 page used to fail only mid-conversion).
+- installer: ERR trap reports abort line/rc for diagnosability.
+- rootfs/installer: mask legacy `networking.service` (ifupdown) — userland
+  uses systemd-networkd and ships no `ifup`; the generated unit failed on
+  every boot.
+- rootfs: `systemd-networkd-wait-online` drop-in uses the absolute
+  `/usr/lib/systemd/...` path (bare name failed with 203/EXEC — unit not on
+  systemd's default unit PATH) — the last boot-failed unit, now 0.
+- ez-software: `categories`/`tui` field-splitting used `awk -F'|'` on
+  TAB-joined parse output (every entry collapsed into one blank category).
+
+### Verified
+- faults tier 11/11 PASS; container matrix 18/18 PASS (5 supported rows
+  convert + 7 reject rows refused safely, incl. Linux Mint 22).
+- cli tier 36 PASS / 0 FAIL / 3 BLOCKED (non-TTY-only probes).
+- catalog tier: all 61 entries functionally probed in guests.
+- vm tier: debian12-inplace-amd64 — install → reboot from disk →
+  `ID=ezpenguin`, `failed-count=0`, outbound `https:200`.
+- one-liner smoke-tested via `EZP_API_URL` override against a draft release.
+
 ## [0.4.1] — 2026-10-27
 
 One-liner online installer + GitHub Pages.

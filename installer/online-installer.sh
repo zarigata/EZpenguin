@@ -26,6 +26,7 @@
 #   EZP_NO_REBOOT=1             don't reboot/restart when done
 #   EZP_ASSUME_YES=1            skip interactive confirms (automation)
 set -euo pipefail
+trap 'rc=$?; say "${RED}installer aborted unexpectedly (rc=$rc) at line $LINENO (BASH_COMMAND=${BASH_COMMAND:-?})${RST}" >&2' ERR
 
 REPO="zarigata/EZpenguin"
 API_URL="${EZP_API_URL:-https://api.github.com/repos/$REPO/releases/latest}"
@@ -98,7 +99,7 @@ say "architecture: ${BOLD}$ARCH${RST}  environment: ${BOLD}$env_label${RST}  mod
 
 # ------------------------------------------------------------- download -----
 TMPDIR_EZP=$(mktemp -d)
-trap 'command -v rm >/dev/null && rm -rf "$TMPDIR_EZP"' EXIT
+trap 'command -v rm >/dev/null && { rm -rf "$TMPDIR_EZP" 2>/dev/null || true; }' EXIT
 TARBALL="${EZP_TARBALL:-}"
 SUMS_FILE=""
 
@@ -170,6 +171,14 @@ elif [[ "${EZP_STRICT:-0}" == 1 ]]; then
 fi
 say "download OK: $(du -h "$TARBALL" | cut -f1)"
 
+# artifact must be a real xz tarball BEFORE any destructive step — a 404 page
+# served as $TARBALL (curl follows the redirect, server returns HTML) would
+# otherwise fail only mid-conversion with the system half-replaced (F07).
+# ponytail: magic check only; full verification is SHA256SUMS (above).
+if ! xz -t "$TARBALL" 2>/dev/null; then
+    die "downloaded artifact is not a valid xz archive (wrong URL, 404 page, or corrupt transfer) — nothing was modified"
+fi
+
 # ------------------------------------------------- in-place mode ------------
 inplace_preflight_vm() {
     # VM/physical in-place conversion does real bootloader surgery. Validate
@@ -229,6 +238,26 @@ inplace_install() {
   for other distributions use the flashable image or live ISO:
     https://github.com/$REPO/releases"
     fi
+    # …and only the doc-promised bases within that family: Linux Mint, Kali,
+    # MX & co share apt/dpkg but are out of the qualification matrix — the
+    # compatibility contract is Debian 11/12 + Ubuntu 22.04/24.04. Refuse the
+    # rest with the same safe, no-changes-made error. NB: mint's os-release
+    # impersonates ID=ubuntu — detect it by its own packages instead.
+    local base_id=""
+    . /etc/os-release 2>/dev/null && base_id="${ID:-}"
+    if dpkg-query -W 'mint*' >/dev/null 2>&1; then
+        die "in-place conversion supports Debian 11/12 and Ubuntu 22.04/24.04 only (this system: Linux Mint).
+  Debian-family derivative out of the qualified bases — refusing safely, nothing was modified.
+  for other distributions use the flashable image or live ISO:
+    https://github.com/$REPO/releases"
+    fi
+    case "$base_id" in
+        debian|ubuntu) : ;;
+        *) die "in-place conversion supports Debian 11/12 and Ubuntu 22.04/24.04 only (this system: ${base_id:-unknown}).
+  Debian-family but not a qualified base — refusing safely, nothing was modified.
+  for other distributions use the flashable image or live ISO:
+    https://github.com/$REPO/releases" ;;
+    esac
 
     if [[ "${EZP_ASSUME_YES:-0}" != 1 && -t 0 ]]; then
         read -r -p "Continue? Type YES: " CONF
@@ -245,8 +274,17 @@ inplace_install() {
     cp -a /etc/resolv.conf "$TMPDIR_EZP/resolv.conf" 2>/dev/null || cp /etc/resolv.conf "$TMPDIR_EZP/resolv.conf" 2>/dev/null || true
     cp -a /etc/hostname   "$TMPDIR_EZP/hostname"    2>/dev/null || true
     # capture mounts BEFORE extraction (needed to restore fstab on booted OS)
+    # NB: findmnt accepts only ONE target arg — a second arg is read as a
+    # mountinfo FILE and the whole call fails (rc=1, empty capture). Loop.
     if (( IS_BOOTED )); then
-        findmnt -rn -o TARGET,SOURCE,FSTYPE,OPTIONS / /boot /boot/efi 2>/dev/null > "$TMPDIR_EZP/mounts.txt" || true
+        : > "$TMPDIR_EZP/mounts.txt"
+        local mnt_pt
+        for mnt_pt in / /boot /boot/efi; do
+            findmnt -rn -o TARGET,SOURCE,FSTYPE,OPTIONS "$mnt_pt" 2>/dev/null >> "$TMPDIR_EZP/mounts.txt" || true
+        done
+        # fallback: kernel mount table (field order /etc/mtab: src mnt fstype opts)
+        [[ -s "$TMPDIR_EZP/mounts.txt" ]] || awk '$2=="/"||$2=="/boot"||$2=="/boot/efi"{print $2"\t"$1"\t"$3"\t"$4}' /proc/mounts > "$TMPDIR_EZP/mounts.txt"
+        [[ -s "$TMPDIR_EZP/mounts.txt" ]] || cp /proc/mounts "$TMPDIR_EZP/proc-mounts-raw" 2>/dev/null
     fi
 
     cd /
@@ -287,11 +325,14 @@ inplace_install() {
         arm64) [[ -f "$priv/ld-linux-aarch64.so.1" ]] && PLOADER="$priv/ld-linux-aarch64.so.1" ;;
         *)     [[ -f "$priv/ld-linux-x86-64.so.2" ]] && PLOADER="$priv/ld-linux-x86-64.so.2" ;;
     esac
-    pv() { # execute a priv-toolbox binary immune to the live /lib,/lib64 swap
-        if [[ -n "$PLOADER" ]]; then
-            "$PLOADER" --library-path "$priv" "$@"
+    local PRIV_SNAP="$priv" PLOADER_SNAP="$PLOADER"
+    pv() { # execute a priv-toolbox binary immune to the live /lib,/lib64 swap.
+           # snapshots (not references) so the EXIT trap can still clean up
+           # after this function's locals are gone.
+        if [[ -n "$PLOADER_SNAP" ]]; then
+            "$PLOADER_SNAP" --library-path "$PRIV_SNAP" "$@"
         else
-            LD_LIBRARY_PATH="$priv${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" "$@"
+            LD_LIBRARY_PATH="$PRIV_SNAP${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" "$@"
         fi
     }
     # wrap the risky tools so every later call runs the private, libc-immune copy.
@@ -338,10 +379,23 @@ inplace_install() {
             "$stage"/bin|"$stage"/sbin|"$stage"/lib|"$stage"/lib64) continue ;;  # handled below
         esac
         if [[ -d "$d" ]]; then
-            # cp -a refuses dir→symlink/dir type mismatches (zoneinfo posix
-            # packing). Tolerate those: Debian's tzdata ships /usr/share/
-            # zoneinfo/posix as packed symlinks; a diff is cosmetic here.
-            cp -a "$d/." "/${d##*/}/" 2>/dev/null || true
+            if [[ "$d" == "$stage/usr" ]]; then
+                # /usr holds every running binary (systemd, journald, sshd).
+                # cp -a overwrites text pages IN PLACE — a running process
+                # that page-faults its old text reads NEW bytes → SIGSEGV.
+                # Observed live on a booted Ubuntu VM: journald+PID1 faulted
+                # mid-copy and the conversion died halfway. --unlink-first
+                # unlinks each FILE before writing it (running procs keep the
+                # old inode; new lookups get the new file). Old-OS-only dirs
+                # (./bin ./lib64 ./include ./libexec ...) survive as residue —
+                # they hold no running code and are merged/flip-handled below.
+                tar -C "$d" -cf - . | tar -C /usr --unlink-first -xf - || say "${YEL}note: /usr tar pass reported errors (old-OS-only residue is expected)${RST}"
+            else
+                # cp -a refuses dir→symlink/dir type mismatches (zoneinfo posix
+                # packing). Tolerate those: Debian's tzdata ships /usr/share/
+                # zoneinfo/posix as packed symlinks; a diff is cosmetic here.
+                cp -a "$d/." "/${d##*/}/" 2>/dev/null || true
+            fi
         else
             # top-level file (e.g. initrd.img, vmlinuz symlinks) → / is its home
             cp -a "$d" "/${d##*/}" || { rm -rf "$stage"; die "copy of ${d##*/} failed — aborting"; }
@@ -353,7 +407,7 @@ inplace_install() {
     # guaranteed >= 9.x on the BASE system (they aren't: bullseye ships 8.32).
     merge_dir() { # merge_dir <stage-subdir> <target>
         local src="$1" dst="$2" f
-        mkdir -p "$dst"
+        mkdir -p "$dst" || { say "DEBUG: mkdir $dst failed rc=$? (disk full?)"; return 1; }
         while IFS= read -r f; do
             local base="${f##*/}"
             case "$base" in
@@ -407,6 +461,11 @@ inplace_install() {
         if [[ -e /etc/$f && ! -L /etc/$f ]]; then cp -a /etc/$f "$stage/etc/$f"; fi
     done
     cp -a "$stage/etc/." /etc/ 2>/dev/null || true
+    # the base OS's ifupdown init script survives the /etc merge, but the new
+    # userland uses systemd-networkd and ships no `ifup` — left alone,
+    # systemd-sysv-generator turns it into a networking.service that FAILS on
+    # every boot (0 failed units is the release gate). Mask it declaratively.
+    ln -sfn /dev/null /etc/systemd/system/networking.service
     rm -rf "$stage"
     if ! grep -qs '^ID=ezpenguin' /etc/os-release 2>/dev/null; then
         die "extraction did not produce an EZpenguin system (os-release unchanged) — aborting"
@@ -434,8 +493,11 @@ inplace_install() {
                 /boot/efi) printf '%s  /boot/efi %s  defaults         0 2\n' "$src" "$fst" ;;
             esac
         done < "$TMPDIR_EZP/mounts.txt" >> "$tmp_fstab"
-        # a root line is mandatory; without it the system cannot boot
-        grep -qE '^[^#].*\s+/\s+' "$tmp_fstab" || die "could not determine root mount for fstab — aborting"
+        # a root line is mandatory; without it the system cannot boot.
+        # NB: rows look like "<source>  /  <fstype>  <opts>" — the mount
+        # target is awk field 2, not a leading "/" (source comes first)
+        awk '{print $2}' "$tmp_fstab" | grep -qx '/' \
+            || { cp "$TMPDIR_EZP/mounts.txt" /tmp/ezp-mounts.txt 2>/dev/null; cp "$tmp_fstab" /tmp/ezp-fstab.new 2>/dev/null; cp "$TMPDIR_EZP/proc-mounts-raw" /tmp/ezp-procmounts.txt 2>/dev/null; say "DEBUG mounts.txt: $(wc -l < "$TMPDIR_EZP/mounts.txt" 2>/dev/null) rows; fstab.new: $(wc -l < "$tmp_fstab" 2>/dev/null) lines; TMPDIR=$TMPDIR_EZP"; die "could not determine root mount for fstab — aborting"; }
         mv "$tmp_fstab" /etc/fstab
         # regenerate bootloader config for the NEW kernel (the old distro's
         # grub.cfg points at its kernel, which we just replaced)
@@ -470,6 +532,7 @@ inplace_install() {
     # fresh identity + first-boot on next start (priv toolbox still valid here)
     rm -f /etc/machine-id; : > /etc/machine-id
     rm -f /etc/ezpenguin/.configured
+    mkdir -p /etc/ezpenguin
     printf 'online-installer %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > /etc/ezpenguin/.install-source
 
     # clear apt lists (stale from the previous distro — tarball ships clean, cheap safety)
@@ -478,7 +541,9 @@ inplace_install() {
     # hotpatch: banner.sh tty-detection deadlock in 0.4.0 tarballs (fixed upstream)
     sed -i "s/ || grep -aq 'console' [^ ]*//" /usr/local/lib/ezpenguin/banner.sh 2>/dev/null || true
 
-    # toolbox wrappers reference $priv — drop them before scope ends
+    # toolbox wrappers reference $priv — drop them BEFORE this scope ends, or
+    # the EXIT trap's `rm -rf $TMPDIR_EZP` calls the wrapper after $priv died
+    # (set -u abort inside the trap masks the real exit code).
     unset -f cp rm mkdir grep ln find mv readlink pv
     say ""
     say "${BOLD}Conversion complete — this system is now EZpenguin.${RST}"

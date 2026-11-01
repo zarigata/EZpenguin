@@ -108,6 +108,9 @@ run_case() {
     echo "$rc" > "$d/install-rc"
 
     # ---- 5. probe outcome ----
+    # NB: probe.log APPENDS across reruns (>> in probe_outcome). Only this
+    # run's verdict counts — truncate first, then count this run's markers.
+    : > "$d/probe.log"
     probe_outcome "$cname" "$d/probe.log" 2>&1
     local converted refused
     converted=$(grep -s 'EZP_PROBE: converted' "$d/probe.log" 2>/dev/null | wc -l | tr -d ' ')
@@ -159,10 +162,29 @@ prepare_guest() {
                     apt-get install -y -qq curl xz-utils ca-certificates >/dev/null
                     cp /tmp/sources.list.bak /etc/apt/sources.list 2>/dev/null || true
                 }' ;;
+        linuxmintd/*)
+            # the linuxmintd proxy image ships ID=ubuntu (verified: ID_LIKE=debian,
+            # ID=ubuntu) — but REAL Linux Mint 22 ships ID=linuxmint, and the
+            # installer's family guard refuses non-debian/ubuntu bases. Stamp the
+            # honest desktop identity so this row tests the real refusal path
+            # instead of passing a forged "ubuntu" to the installer.
+            docker exec "$cname" bash -c '
+                export DEBIAN_FRONTEND=noninteractive
+                cp /etc/apt/sources.list /tmp/sources.list.bak 2>/dev/null || true
+                apt-get update -qq 2>/dev/null || true
+                apt-get install -y -qq curl xz-utils ca-certificates >/dev/null 2>&1 || {
+                    sed -i "/security/d" /etc/apt/sources.list 2>/dev/null
+                    apt-get update -qq 2>/dev/null
+                    apt-get install -y -qq curl xz-utils ca-certificates >/dev/null
+                    cp /tmp/sources.list.bak /etc/apt/sources.list 2>/dev/null || true
+                }
+                sed -i "s/^ID=ubuntu/ID=linuxmint/; s/^ID_LIKE=debian\$/ID_LIKE=debian ubuntu/" /etc/os-release
+                echo "post-stamp identity:"; grep -E "^ID" /etc/os-release' ;;
         quay.io/fedora/*|rockylinux:*|almalinux:*|opensuse/*|archlinux:*)
             docker exec "$cname" bash -c '
                 command -v dnf >/dev/null && dnf install -y -q curl >/dev/null 2>&1
                 command -v yum >/dev/null && yum install -y -q curl >/dev/null 2>&1
+                command -v zypper >/dev/null && zypper --non-interactive install curl >/dev/null 2>&1
                 command -v pacman >/dev/null && pacman -Sy --noconfirm curl >/dev/null 2>&1
                 command -v curl >/dev/null' ;;
         alpine:*)

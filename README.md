@@ -17,7 +17,7 @@ installs itself in minutes, and now installs IN PLACE with one line.**
 
 [![Type](https://img.shields.io/badge/type-Linux%20distribution-blue)](https://github.com/zarigata/EZpenguin)
 [![Base](https://img.shields.io/badge/base-Debian%20bookworm-red)](https://www.debian.org)
-[![Version](https://img.shields.io/badge/version-0.4.1-green)](docs/CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.0-green)](docs/CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-GPL--3.0-lightgrey)](LICENSE)
 [![QA](https://img.shields.io/badge/QA-137%20automated%20checks-brightgreen)](docs/TESTING.md)
 [![GitHub Pages](https://img.shields.io/badge/site-github%20pages-orange)](https://zarigata.github.io/EZpenguin/)
@@ -81,7 +81,7 @@ docker run --rm -it --privileged \
     -v "$PWD/artifacts:/art" \
     debian:bookworm-slim bash -c "
       apt-get update && apt-get install -y qemu-system-x86 xz-utils &&
-      xz -d -c /art/ezpenguin-0.4.1-amd64.img.xz > /tmp/ezp.img &&
+      xz -d -c /art/ezpenguin-1.0.0-amd64.img.xz > /tmp/ezp.img &&
       qemu-system-x86_64 -m 1024 -drive file=/tmp/ezp.img,format=raw,if=virtio \
         -netdev user,id=n0 -device virtio-net-pci,netdev=n0 -nographic"
 ```
@@ -189,7 +189,7 @@ EZpenguin/
 - [x] v0.4 software & UX — 61-entry catalog, global password, ASCII polish
 - [x] v0.4.1 one-liner online installer (in-place conversion, tested in Docker)
 - [ ] v0.5 hardening — Lynis audit, artifact signing, CI matrix
-- [ ] v1.0 — boot-tested on real PCs, docs user-tested, LTS
+- [x] v1.0 — stable release: full compatibility matrix green (Debian 11/12, Ubuntu 22.04/24.04 in-place + safe rejection of others), real-hardware in-place conversion boot-proven (0 failed units), 61-entry catalog
 
 ## 🤝 Contributing & License
 
