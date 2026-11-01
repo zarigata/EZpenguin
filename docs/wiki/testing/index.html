@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Testing — EZpenguin Wiki</title><meta name="description" content="EZpenguin testing: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<link rel="canonical" href="https://zarigata.github.io/EZpenguin/wiki/testing/"><meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#10110f"><meta property="og:type" content="article">
+<meta property="og:title" content="Testing — EZpenguin Wiki"><meta property="og:description" content="EZpenguin testing: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<meta property="og:url" content="https://zarigata.github.io/EZpenguin/wiki/testing/"><meta property="og:image" content="https://zarigata.github.io/EZpenguin/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/webp" href="../../assets/ezpenguin-logo.webp">
+<link rel="stylesheet" href="../../assets/style.css"><script src="../../assets/wiki.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Testing", "description": "EZpenguin testing: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.", "url": "https://zarigata.github.io/EZpenguin/wiki/testing/", "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "EZpenguin", "url": "https://zarigata.github.io/EZpenguin/"}}</script></head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap nav-inner"><a class="brand" href="../../"><img src="../../assets/ezpenguin-logo.webp" width="57" height="57" alt="">ezpenguin<span>.</span></a>
+<nav class="nav-links" aria-label="Main navigation"><a href="../../">Home</a><a href="../">Wiki / help</a><a href="../../#install">Download</a><a href="https://feverdream.dev/">FeverDream ↗</a><a class="star" href="https://github.com/zarigata/EZpenguin">☆ Star on GitHub</a></nav></div></header>
+<div class="wrap wiki-banner"><a href="../../">EZpenguin</a> / <a href="../">Wiki</a> / Testing</div>
+<div class="wrap wiki-layout"><aside class="wiki-sidebar" aria-label="Wiki navigation"><h2>THE FIELD MANUAL</h2>
+<form action="../" method="get" role="search"><label class="sr-only" for="wiki-query">Search the wiki</label><input id="wiki-query" name="q" placeholder="Search 61 software guides…" type="search"><button type="submit">Search wiki →</button></form><nav aria-label="Wiki sections"><a href="../installation/">Installation</a><a href="../first-boot/">First boot &amp; headless</a><a href="../system-tools/">System tools</a><a href="../troubleshooting/">Troubleshooting</a><a href="../base-packages/">Base packages</a><h3>Software / 61 entries</h3><a href="../#server">Servers</a><a href="../#dev">Development</a><a href="../#network">Network &amp; VPN</a><a href="../#security">Security</a><a href="../#tools">Monitoring &amp; tools</a><a href="../#desktop">Desktops</a><h3>Project reference</h3><a href="../building/">Build your own image</a><a href="../architecture/">Architecture</a><a href="index.html">Testing</a><a href="../security/">Security</a><a href="../roadmap/">Roadmap</a><a href="../contributing/">Contributing</a><a href="../quality/">Quality standards</a><a href="../changelog/">Changelog</a><a href="../license/">License</a></nav></aside>
+<main id="main" class="wiki-article"><div class="eyebrow">EZPENGUIN WIKI / v0.4.1</div><h1 id="ezpenguin-testing-strategy">EZpenguin Testing Strategy</h1>
+<div class="wiki-toc"><strong>ON THIS PAGE</strong><nav><a href="#philosophy">Philosophy</a><a href="#test-levels">Test levels</a><a href="#running">Running</a><a href="#continuous-improvement-loop">Continuous improvement loop</a><a href="#manualsmoke-testing-when-hardware-available">Manual/smoke testing (when hardware available)</a><a href="#website-checks-host-side">Website checks (host-side)</a></nav></div><h2 id="philosophy">Philosophy</h2>
+<p class="notice">A build that isn&#x27;t tested is broken by definition. Tests run before</p>
+<p class="notice">artifacts are packaged; failing tests abort the pipeline.</p>
+<h2 id="test-levels">Test levels</h2>
+<pre id="code-14"><code>L1  Static / structural      cheap, seconds
+L2  Rootfs integrity         chroot + apt + dpkg checks
+L3  Runtime / services       boot simulation, systemd units
+L4  Artifacts                images are valid, bootable structures</code></pre><button class="wiki-copy" data-code="code-14" hidden>Copy commands</button>
+<h3 id="l1-static-host-side">L1 — Static (host-side)</h3>
+<ul>
+<li><code>test_structure.sh</code> — all required files/dirs present in rootfs</li>
+<li><code>test_docs.sh</code> — every documented command/tool exists</li>
+<li>config sanity — package lists parse, no duplicates/exclusions conflicts</li>
+</ul>
+<h3 id="l2-rootfs-integrity-in-chroot-inside-docker">L2 — Rootfs integrity (in chroot, inside Docker)</h3>
+<ul>
+<li><code>test_packages.sh</code>:</li>
+<li><code>dpkg --audit</code> clean (no half-installed packages)</li>
+<li>every package in <code>packages-base.list</code> is installed</li>
+<li>every package in <code>packages-exclude.list</code> is NOT installed</li>
+<li>no broken dependencies (<code>apt-get check</code>)</li>
+<li><code>apt-get update</code> succeeds against pinned sources</li>
+<li><code>test_identity.sh</code> — <code>/etc/ezpenguin/version</code>, os-release, hostname</li>
+</ul>
+<h3 id="l3-runtime-systemd-nspawn-style-container-boot">L3 — Runtime (systemd-nspawn style / container boot)</h3>
+<ul>
+<li><code>test_boot.sh</code>:</li>
+<li>init system present (<code>/sbin/init</code> → systemd)</li>
+<li>all enabled EZpenguin services are valid units (<code>systemctl verify</code>)</li>
+<li>first-boot script is executable and syntactically valid (<code>bash -n</code>)</li>
+<li>kernel + initramfs present and matched</li>
+<li><code>test_users.sh</code> — no default/unhashed passwords in <code>/etc/shadow</code></li>
+</ul>
+<h3 id="l4-artifacts-boot-every-build">L4 — Artifacts &amp; Boot (every build)</h3>
+<ul>
+<li><code>build/image.sh</code> validation — tarball integrity, GPT signature on the</li>
+</ul>
+<p>  image, entry-count sanity</p>
+<ul>
+<li><code>build/iso.sh</code> validation — El Torito BIOS + UEFI boot records present,</li>
+</ul>
+<p>  volume descriptor, ISO size budget</p>
+<ul>
+<li><code>tests/test_boot_vm.sh</code> — boots the actual IMG in QEMU (TCG) with serial</li>
+</ul>
+<p>  console; amd64 tested on BIOS (SeaBIOS) <strong>and</strong> UEFI (OVMF); arm64 tested   on QEMU <code>virt</code> machine with AAVMF firmware</p>
+<ul>
+<li><code>tests/test_boot_vm_retry.sh</code> — one retry to separate emulator timing</li>
+</ul>
+<p>  flakiness from real defects (2 consecutive fails = real failure)</p>
+<ul>
+<li><code>tests/test_iso_boot.sh</code> — boots the live ISO (BIOS + UEFI) and verifies</li>
+</ul>
+<p>  the live userspace starts and reaches the wizard</p>
+<ul>
+<li><code>tests/test_wizard_smoke.sh</code> — interactive smoke test: injects real</li>
+</ul>
+<p>  keystrokes via the QEMU monitor (<code>sendkey</code>), walks the entire first-boot   wizard (locale, timezone, keymap, hostname, user+password, SSH), and   verifies &quot;first-boot setup complete&quot; on the serial console</p>
+<h2 id="running">Running</h2>
+<pre id="code-62"><code>./build/build.sh test       # QA suite against the rootfs (in Docker)
+./build/build.sh boottest   # QEMU boot tests
+./build/build.sh isotest    # live ISO boot tests
+./build/build.sh smoke      # interactive wizard walkthrough</code></pre><button class="wiki-copy" data-code="code-62" hidden>Copy commands</button>
+<p>Exit code 0 = all pass. Output is TAP-ish: <code>ok N name</code> / <code>not ok N name</code>, plus a summary and failed-test list.</p>
+<h2 id="continuous-improvement-loop">Continuous improvement loop</h2>
+<ol>
+<li>Build</li>
+<li>Test</li>
+<li>If red → fix → rebuild (no partial merges)</li>
+<li>Track pass rate in <code>artifacts/test-report.txt</code></li>
+<li>Any new bug found in the wild becomes a new test first, then a fix</li>
+</ol>
+<h2 id="manualsmoke-testing-when-hardware-available">Manual/smoke testing (when hardware available)</h2>
+<ul>
+<li>Boot on: 1× BIOS PC, 1× UEFI PC, 1× Raspberry Pi 4, VirtualBox</li>
+<li>Verify wizard completes and reboots into a login prompt</li>
+<li>Verify <code>ez-info</code> output and network connectivity</li>
+</ul>
+<h2 id="website-checks-host-side">Website checks (host-side)</h2>
+<p>Run Python 3 website integrity checks without Docker:</p>
+<pre id="code-88"><code>python3 tests/test_website.py
+node --check docs/assets/app.js</code></pre><button class="wiki-copy" data-code="code-88" hidden>Copy commands</button>
+<p>These verify the generated software catalog, internal links, tab wiring, SEO metadata, structured data, sitemap, and social-image dimensions. Both the website-checks and Pages workflows run them. They do not replace the OS build or QEMU boot suites. See <a href="../">WEBSITE.md</a> for site maintenance.</p>
+<p class="wiki-meta">Recipe reference: current repository catalog. Application availability and versions depend on your configured repositories. Documentation is hosted here; no repository visit is needed to read these guides.</p><p id="wiki-copy-status" role="status"></p></main></div>
+<footer class="footer"><div class="wrap footer-top"><span class="fine">EZpenguin · An open-source project from <a href="https://feverdream.dev/">FeverDream.dev ↗</a></span><nav aria-label="Footer"><a href="../">Wiki home</a><a href="../license/">License</a><a href="https://github.com/zarigata/EZpenguin/issues">Report an issue</a></nav></div></footer></body></html>

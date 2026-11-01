@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ez-firstboot — EZpenguin first-boot wizard (DietPi-inspired).
+# ez-firstboot — EZpenguin first-boot wizard (automated).
 # Runs via ezpenguin-firstboot.service. Safe to re-run (idempotent).
 set -euo pipefail
 
@@ -76,14 +76,14 @@ read_headless_conf() { # echoes sanitized KEY=VALUE lines
       || true
 }
 
-# DietPi-style global password: same password for the created user AND root
+# global password: same password for the created user AND root
 # (root stays SSH-locked; console login works). Explicit opt-in only.
 maybe_global_password() { # maybe_global_password <password>
     local pw="$1"
     [[ -z "$pw" ]] && return 0
     echo "root:$pw" | chpasswd
     touch /etc/ezpenguin/.global-password
-    log "global password active: root unlocked with same password as user (DietPi-style)"
+    log "global password active: root unlocked with same password as user"
     log "note: SSH root login remains disabled"
 }
 
@@ -257,8 +257,8 @@ main() {
         log "ssh enabled (root login disabled)"
     fi
 
-    # --- DietPi-style global password (opt-in) ---
-    if confirm "Use this password globally (also unlock root console login, DietPi-style)?"; then
+    # --- global password (opt-in) ---
+    if confirm "Use this password globally (also unlock root console login)?"; then
         maybe_global_password "$PASSWORD"
     else
         log "global password skipped (root stays locked)"

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Changelog — EZpenguin Wiki</title><meta name="description" content="EZpenguin changelog: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<link rel="canonical" href="https://zarigata.github.io/EZpenguin/wiki/changelog/"><meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#10110f"><meta property="og:type" content="article">
+<meta property="og:title" content="Changelog — EZpenguin Wiki"><meta property="og:description" content="EZpenguin changelog: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<meta property="og:url" content="https://zarigata.github.io/EZpenguin/wiki/changelog/"><meta property="og:image" content="https://zarigata.github.io/EZpenguin/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/webp" href="../../assets/ezpenguin-logo.webp">
+<link rel="stylesheet" href="../../assets/style.css"><script src="../../assets/wiki.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Changelog", "description": "EZpenguin changelog: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.", "url": "https://zarigata.github.io/EZpenguin/wiki/changelog/", "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "EZpenguin", "url": "https://zarigata.github.io/EZpenguin/"}}</script></head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap nav-inner"><a class="brand" href="../../"><img src="../../assets/ezpenguin-logo.webp" width="57" height="57" alt="">ezpenguin<span>.</span></a>
+<nav class="nav-links" aria-label="Main navigation"><a href="../../">Home</a><a href="../">Wiki / help</a><a href="../../#install">Download</a><a href="https://feverdream.dev/">FeverDream ↗</a><a class="star" href="https://github.com/zarigata/EZpenguin">☆ Star on GitHub</a></nav></div></header>
+<div class="wrap wiki-banner"><a href="../../">EZpenguin</a> / <a href="../">Wiki</a> / Changelog</div>
+<div class="wrap wiki-layout"><aside class="wiki-sidebar" aria-label="Wiki navigation"><h2>THE FIELD MANUAL</h2>
+<form action="../" method="get" role="search"><label class="sr-only" for="wiki-query">Search the wiki</label><input id="wiki-query" name="q" placeholder="Search 61 software guides…" type="search"><button type="submit">Search wiki →</button></form><nav aria-label="Wiki sections"><a href="../installation/">Installation</a><a href="../first-boot/">First boot &amp; headless</a><a href="../system-tools/">System tools</a><a href="../troubleshooting/">Troubleshooting</a><a href="../base-packages/">Base packages</a><h3>Software / 61 entries</h3><a href="../#server">Servers</a><a href="../#dev">Development</a><a href="../#network">Network &amp; VPN</a><a href="../#security">Security</a><a href="../#tools">Monitoring &amp; tools</a><a href="../#desktop">Desktops</a><h3>Project reference</h3><a href="../building/">Build your own image</a><a href="../architecture/">Architecture</a><a href="../testing/">Testing</a><a href="../security/">Security</a><a href="../roadmap/">Roadmap</a><a href="../contributing/">Contributing</a><a href="../quality/">Quality standards</a><a href="index.html">Changelog</a><a href="../license/">License</a></nav></aside>
+<main id="main" class="wiki-article"><div class="eyebrow">EZPENGUIN WIKI / v0.4.1</div><h1 id="changelog">Changelog</h1>
+<p>All notable changes to EZpenguin. Format follows Keep-a-Changelog; versioning is SemVer. Dates are YYYY-MM-DD.</p>
+<div class="wiki-toc"><strong>ON THIS PAGE</strong><nav><a href="#unreleased-project-presentation">Unreleased — project presentation</a><a href="#041-2026-10-27">[0.4.1] — 2026-10-27</a><a href="#040-2026-10-26">[0.4.0] — 2026-10-26</a><a href="#030-2026-10-25">[0.3.0] — 2026-10-25</a><a href="#020-2026-10-24">[0.2.0] — 2026-10-24</a><a href="#010-2026-10-24">[0.1.0] — 2026-10-24</a></nav></div><h2 id="unreleased-project-presentation">Unreleased — project presentation</h2>
+<ul>
+<li>Adopted the approved wild-cartoon mascot and Y2K website theme.</li>
+<li>Added FeverDream.dev attribution and a complete on-site wiki: 61 software</li>
+</ul>
+<p>  recipes, base packages, setup, system tools, troubleshooting, and reference guides.</p>
+<ul>
+<li>Kept documentation navigation on the public website rather than repository pages.</li>
+</ul>
+<ul>
+<li>Rebuilt the responsive website with software search, category filters, copyable</li>
+</ul>
+<p>  commands, keyboard-accessible install tabs, and a clear path to GitHub stars.</p>
+<ul>
+<li>Rewrote README and installation guidance with current artifacts and accurate</li>
+</ul>
+<p>  container / VM behavior, architecture boundaries, and project status.</p>
+<ul>
+<li>Added canonical and social metadata, JSON-LD, sitemap, and a share image.</li>
+<li>Added host-side website integrity checks and checks before Pages deployment.</li>
+<li>Removed comparison branding from documentation, comments, and CLI messages.</li>
+</ul>
+<h2 id="041-2026-10-27">[0.4.1] — 2026-10-27</h2>
+<p>One-liner online installer + GitHub Pages.</p>
+<h3 id="added">Added</h3>
+<ul>
+<li><code>installer/online-installer.sh</code> — one-liner:</li>
+</ul>
+<p>  <code>bash -c &quot;$(curl -sSfL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh)&quot;</code></p>
+<ul>
+<li>auto-detects container vs bare-metal, amd64/arm64</li>
+<li>container/VM mode: IN-PLACE conversion of the running system</li>
+</ul>
+<p>    (Docker DNS/hostname preserved, machine-id regenerated, wizard armed),     then reboots (container restart = boot)</p>
+<ul>
+<li>bare-metal mode: disk picker, GPT BIOS+ESP+root, GRUB, static grub.cfg</li>
+<li>tested end-to-end on ubuntu:24.04 (convert → commit → fresh boot →</li>
+</ul>
+<p>    EZpenguin identity, working apt, wizard pending)</p>
+<ul>
+<li>GitHub Pages landing site (<code>docs/index.html</code> →</li>
+</ul>
+<p>  https://zarigata.github.io/EZpenguin/)</p>
+<ul>
+<li>README overhaul: one-liner install section, catalog table, roadmap,</li>
+</ul>
+<p>  centered landing layout</p>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li><code>banner.sh</code> tty-detection could deadlock when stdout was a pipe</li>
+</ul>
+<p>  (grep reading its own stdout) — now plain <code>-t 1</code> test; installer also   hotpatches older tarballs</p>
+<h2 id="040-2026-10-26">[0.4.0] — 2026-10-26</h2>
+<p>Software &amp; UX release: Expanded catalog, global password, polished terminal experience.</p>
+<h3 id="added-1">Added</h3>
+<ul>
+<li>Software catalog scaled to 61 installable entries across 6 categories</li>
+</ul>
+<p>  (servers, languages/dev, network/VPN, security, monitoring/tools,   desktops) — docker, python+venv, nodejs, java, go, rust, php, databases,   cockpit, fail2ban, tailscale, XFCE/LXDE, and more</p>
+<ul>
+<li>Per-entry post-install hooks: services enabled, docker group membership,</li>
+</ul>
+<p>  php-fpm started, graphical target set, sensors auto-detected</p>
+<ul>
+<li><code>ez-software</code> v2: category menu → checklist; postcmd</li>
+</ul>
+<p>  execution; <code>categories</code> command; multi-id <code>install a b c</code></p>
+<ul>
+<li>Optional GLOBAL PASSWORD option: one password for user + root</li>
+</ul>
+<p>  (opt-in, wizard prompt or <code>EZ_GLOBAL_PASSWORD=1</code> headless; SSH root   login stays disabled; marker <code>/etc/ezpenguin/.global-password</code>)</p>
+<ul>
+<li>Terminal UX: shared banner library (<code>/usr/local/lib/ezpenguin/banner.sh</code>)</li>
+</ul>
+<p>  with ASCII penguin, branded <code>/etc/motd</code> + <code>/etc/issue</code>, redesigned   fastfetch-style <code>ez-info</code> panel</p>
+<ul>
+<li>QA suite: catalog field/entry/postcmd-syntax validation, banner/motd</li>
+</ul>
+<p>  checks, global-password wiring checks (135 checks total)</p>
+<h2 id="030-2026-10-25">[0.3.0] — 2026-10-25</h2>
+<p>Appliance UX release: software catalog, headless installs, full configuration and backup tooling.</p>
+<h3 id="added-2">Added</h3>
+<ul>
+<li><code>ez-software</code> — software catalog (25 curated entries: servers, VPNs,</li>
+</ul>
+<p>  monitoring, desktop): TUI checklist installer, <code>list</code>/<code>search</code>/   <code>install &lt;id&gt;</code> CLI modes; catalog data at   <code>/etc/ezpenguin/software-catalog.list</code> (single source: <code>config/</code>)</p>
+<ul>
+<li>Headless first-boot: drop <code>firstboot.conf</code> (key=value) into</li>
+</ul>
+<p>  <code>/boot/</code> — wizard configures everything unattended (locale, timezone,   keymap, hostname, user+password, SSH enable, optional upgrade+reboot);   value charset strictly validated before use</p>
+<ul>
+<li><code>ez-config</code> — full system configuration tool: whiptail menu +</li>
+</ul>
+<p>  one-shot commands (hostname/timezone/locale/keymap/ssh/password/wizard)</p>
+<ul>
+<li><code>ez-backup</code> — configuration backup/restore (tarball of /etc state +</li>
+</ul>
+<p>  EZpenguin identity), with content preview before restore</p>
+<ul>
+<li>Headless smoke test (<code>tests/test_headless_smoke.sh</code>): injects</li>
+</ul>
+<p>  firstboot.conf into an image copy, boots with ZERO input, verifies   unattended completion, user creation, SSH enable, and self-reboot</p>
+<ul>
+<li>QA suite expanded to 131 checks</li>
+</ul>
+<h2 id="020-2026-10-24">[0.2.0] — 2026-10-24</h2>
+<p>Installability release: live ISO installer, ARM64 cross-builds, interactive test automation, new diagnostic tools.</p>
+<h3 id="added-3">Added</h3>
+<ul>
+<li>Bootable hybrid BIOS+UEFI live ISO (<code>build/iso.sh</code>, grub-mkrescue +</li>
+</ul>
+<p>  squashfs live root via live-boot) with ISO size budget (≤500MB)</p>
+<ul>
+<li>Live installer: first-boot wizard detects live mode and offers</li>
+</ul>
+<p>  disk installation; <code>ez-install</code> tool (whiptail disk picker, GPT   BIOS+ESP+root layout, rsync payload, static UUID grub.cfg)</p>
+<ul>
+<li>ARM64/aarch64 support: foreign debootstrap under qemu-user-static,</li>
+</ul>
+<p>  arm64 images (ESP+root GPT, arm64-efi GRUB, ttyAMA0 console),   arm64 boot tests under QEMU virt + AAVMF (<code>./build/build.sh arm64</code>)</p>
+<ul>
+<li><code>ez-doctor</code> — system health check (memory, storage, failed units,</li>
+</ul>
+<p>  network, security posture) with OK/WARN/FAIL verdict</p>
+<ul>
+<li><code>ez-net</code> — one-command network status &amp; diagnostics</li>
+<li>Interactive wizard smoke test (<code>tests/test_wizard_smoke.sh</code>): drives</li>
+</ul>
+<p>  the real first-boot wizard in QEMU via monitor keystroke injection   and verifies full setup completion</p>
+<ul>
+<li>ISO boot tests (BIOS + UEFI) in pipeline (<code>isotest</code> stage)</li>
+<li>Test suite expanded (structure, tools, live-boot, timeout hardening)</li>
+<li>Build stages: <code>iso</code>, <code>isotest</code>, <code>smoke</code>, <code>arm64</code>; <code>all</code> runs the</li>
+</ul>
+<p>  complete verified pipeline</p>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Version 0.2.0; artifacts renamed accordingly</li>
+<li>First-boot wizard: live-mode install flow before configuration</li>
+<li>Wizard progress logs mirrored to serial console (stderr) — testable headless</li>
+<li>getty@tty1 masked while wizard owns tty1 (no input contention)</li>
+<li>Disk image uses a slim initramfs (live hooks stripped at image build);</li>
+</ul>
+<p>  the ISO carries its own live-enabled initramfs</p>
+<ul>
+<li>Builder image: squashfs-tools, grub BIOS/UEFI binaries,</li>
+</ul>
+<p>  qemu-system-arm, AAVMF firmware, isolinux</p>
+<h3 id="fixed-1">Fixed</h3>
+<ul>
+<li>live-boot initramfs hooks slowed emulated boots ~10x → disk images now</li>
+</ul>
+<p>  regenerate their initrd without live support (ISO unaffected)</p>
+<ul>
+<li>live ISO pivot failure (&quot;mount: /root/dev: mount point does not exist&quot;):</li>
+</ul>
+<p>  squashfs excludes now keep empty /dev /proc /sys /run /tmp mount points</p>
+<ul>
+<li>grub-mkrescue arg passing (volid args caused xorriso failure)</li>
+</ul>
+<h2 id="010-2026-10-24">[0.1.0] — 2026-10-24</h2>
+<p>First working release: complete build→test→image pipeline, bootable BIOS+UEFI image, verified in QEMU.</p>
+<h3 id="added-4">Added</h3>
+<ul>
+<li>Full documentation set (ARCHITECTURE, BUILDING, INSTALLATION, TESTING,</li>
+</ul>
+<p>  QUALITY, ROADMAP, SECURITY, CONTRIBUTING — 10 MD files)</p>
+<ul>
+<li>Docker-based reproducible build pipeline (amd64): rootfs → tests → image</li>
+<li>Debian bookworm minimal rootfs with EZpenguin identity layer</li>
+</ul>
+<p>  (os-release, /etc/ezpenguin, hostname)</p>
+<ul>
+<li>First-boot wizard (<code>ez-firstboot</code>): filesystem expansion, locale,</li>
+</ul>
+<p>  timezone, keymap, hostname, user creation, optional SSH, package updates</p>
+<ul>
+<li>systemd-networkd DHCP on all wired interfaces (predictable names)</li>
+<li>CLI tools: <code>ez-info</code>, <code>ez-update</code>, <code>ez-config</code></li>
+<li>Automated QA suite: 106 checks (structure, packages, runtime, security,</li>
+</ul>
+<p>  size budget) — all green</p>
+<ul>
+<li>QEMU boot validation (BIOS + UEFI) in pipeline (<code>boottest</code> stage)</li>
+<li>Flashable disk image (GPT: BIOS-boot + ESP + root, GRUB BIOS+UEFI,</li>
+</ul>
+<p>  serial console, UUID-root) — 185MB compressed</p>
+<ul>
+<li>Rootfs tarball artifact — 155MB compressed</li>
+<li>bare-metal installer (<code>installer/install.sh</code>)</li>
+</ul>
+<h3 id="fixed-during-autonomous-buildtest-iterations">Fixed (during autonomous build/test iterations)</h3>
+<ul>
+<li>Inline <code>#</code> comments in package lists truncated installs (shell comment)</li>
+<li>grub-pc/grub-efi conflict → hybrid via <code>*-bin</code> packages + grub2-common</li>
+<li>macOS case-insensitive FS cannot host Linux rootfs → Docker volume</li>
+<li>Missing GPT BIOS-boot partition prevented BIOS GRUB boot</li>
+<li>update-grub baked build-time <code>/dev/loop*</code> into grub.cfg → static</li>
+</ul>
+<p>  UUID-based grub.cfg generated at build time</p>
+<ul>
+<li><code>quiet</code> kernel flag hid serial output → verbose boot for headless/tests</li>
+</ul>
+<p class="wiki-meta">Recipe reference: current repository catalog. Application availability and versions depend on your configured repositories. Documentation is hosted here; no repository visit is needed to read these guides.</p><p id="wiki-copy-status" role="status"></p></main></div>
+<footer class="footer"><div class="wrap footer-top"><span class="fine">EZpenguin · An open-source project from <a href="https://feverdream.dev/">FeverDream.dev ↗</a></span><nav aria-label="Footer"><a href="../">Wiki home</a><a href="../license/">License</a><a href="https://github.com/zarigata/EZpenguin/issues">Report an issue</a></nav></div></footer></body></html>

@@ -1,7 +1,7 @@
 # EZpenguin Quality Standards
 
 The bar: **the same level of quality and assurance established OSes ship
-with** (Debian stable, DietPi, Ubuntu Server LTS) — measured, not claimed.
+with** (Debian, Ubuntu Server LTS) — measured, not claimed.
 
 ## Definition of Done (per release)
 
@@ -31,13 +31,13 @@ with** (Debian stable, DietPi, Ubuntu Server LTS) — measured, not claimed.
 | Boot to wizard (QEMU) | < 60 s |
 | Open critical bugs | 0 |
 
-## Reliability practices inherited from Debian/DietPi
+## Reliability practices inherited from Debian
 
 1. **Stable base** — only Debian stable suites, security patches only
 2. **No exotic kernels** — stock Debian kernel; proven drivers
 3. **Idempotent scripts** — every system script safe to re-run
 4. **Fail-fast installer** — validation before destructive steps
-5. **Rollback-safe updates** — `ez-update` uses apt's atomic machinery
+5. **Backed-up updates** — back up data before upgrades; `ez-update` does not provide snapshots or automatic rollback
 6. **Files owned by packages where possible** — overlay files are exceptions, documented
 
 ## Release process

@@ -3,12 +3,28 @@
 All notable changes to EZpenguin. Format follows Keep-a-Changelog;
 versioning is SemVer. Dates are YYYY-MM-DD.
 
+## Unreleased — project presentation
+
+- Adopted the approved wild-cartoon mascot and Y2K website theme.
+- Added FeverDream.dev attribution and a complete on-site wiki: 61 software
+  recipes, base packages, setup, system tools, troubleshooting, and reference guides.
+- Kept documentation navigation on the public website rather than repository pages.
+
+- Rebuilt the responsive website with software search, category filters, copyable
+  commands, keyboard-accessible install tabs, and a clear path to GitHub stars.
+- Rewrote README and installation guidance with current artifacts and accurate
+  container / VM behavior, architecture boundaries, and project status.
+- Added canonical and social metadata, JSON-LD, sitemap, and a share image.
+- Added host-side website integrity checks and checks before Pages deployment.
+- Removed comparison branding from documentation, comments, and CLI messages.
+
+
 ## [0.4.1] — 2026-10-27
 
 One-liner online installer + GitHub Pages.
 
 ### Added
-- `installer/online-installer.sh` — DietPi-style one-liner:
+- `installer/online-installer.sh` — one-liner:
   `bash -c "$(curl -sSfL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh)"`
   - auto-detects container vs bare-metal, amd64/arm64
   - container/VM mode: IN-PLACE conversion of the running system
@@ -29,7 +45,7 @@ One-liner online installer + GitHub Pages.
 
 ## [0.4.0] — 2026-10-26
 
-Software & UX release: DietPi-scale catalog, global password, polished
+Software & UX release: Expanded catalog, global password, polished
 terminal experience.
 
 ### Added
@@ -39,9 +55,9 @@ terminal experience.
   cockpit, fail2ban, tailscale, XFCE/LXDE, and more
 - Per-entry post-install hooks: services enabled, docker group membership,
   php-fpm started, graphical target set, sensors auto-detected
-- `ez-software` v2: DietPi-style category menu → checklist; postcmd
+- `ez-software` v2: category menu → checklist; postcmd
   execution; `categories` command; multi-id `install a b c`
-- DietPi-style GLOBAL PASSWORD option: one password for user + root
+- Optional GLOBAL PASSWORD option: one password for user + root
   (opt-in, wizard prompt or `EZ_GLOBAL_PASSWORD=1` headless; SSH root
   login stays disabled; marker `/etc/ezpenguin/.global-password`)
 - Terminal UX: shared banner library (`/usr/local/lib/ezpenguin/banner.sh`)
@@ -52,7 +68,7 @@ terminal experience.
 
 ## [0.3.0] — 2026-10-25
 
-DietPi-parity UX release: software catalog, headless installs, full
+Appliance UX release: software catalog, headless installs, full
 configuration and backup tooling.
 
 ### Added
@@ -136,7 +152,7 @@ BIOS+UEFI image, verified in QEMU.
 - Flashable disk image (GPT: BIOS-boot + ESP + root, GRUB BIOS+UEFI,
   serial console, UUID-root) — 185MB compressed
 - Rootfs tarball artifact — 155MB compressed
-- DietPi-style bare-metal installer (`installer/install.sh`)
+- bare-metal installer (`installer/install.sh`)
 
 ### Fixed (during autonomous build/test iterations)
 - Inline `#` comments in package lists truncated installs (shell comment)

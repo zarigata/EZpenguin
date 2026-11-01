@@ -1,205 +1,215 @@
 <div align="center">
 
-```
-        .--.
-       |o_o |
-       |:_/ |
-      //   \ \
-     (|     | )
-    /"\_   _/`\
-    \___)=(___/
-```
+<img src="docs/assets/ezpenguin-logo.webp" width="260" height="260" alt="EZpenguin penguin mascot">
 
-# EZpenguin 🐧
+# EZpenguin — lightweight Debian Linux
 
-**A tiny Debian-based Linux distribution that boots anywhere,
-installs itself in minutes, and now installs IN PLACE with one line.**
+**Your hardware. Full throttle.**
 
-[![Type](https://img.shields.io/badge/type-Linux%20distribution-blue)](https://github.com/zarigata/EZpenguin)
-[![Base](https://img.shields.io/badge/base-Debian%20bookworm-red)](https://www.debian.org)
-[![Version](https://img.shields.io/badge/version-0.4.1-green)](docs/CHANGELOG.md)
-[![License](https://img.shields.io/badge/license-GPL--3.0-lightgrey)](LICENSE)
-[![QA](https://img.shields.io/badge/QA-137%20automated%20checks-brightgreen)](docs/TESTING.md)
-[![GitHub Pages](https://img.shields.io/badge/site-github%20pages-orange)](https://zarigata.github.io/EZpenguin/)
+An open-source project from [FeverDream.dev](https://feverdream.dev/).
 
-[Features](#-what-is-it) · [One-liner Install](#-one-liner-install) · [Test-drive](#%EF%B8%8F-test-drive-it-60-seconds) · [Software Catalog](#-software-catalog-61-stacks) · [Docs](#-documentation) · [Roadmap](#%EF%B8%8F-roadmap)
+A minimal Debian-based Linux OS for homelabs, home servers, and self-hosted projects.
+Start small, choose your software, and keep control of your machine.
+
+[![Release](https://img.shields.io/github/v/release/zarigata/EZpenguin?color=235c41)](https://github.com/zarigata/EZpenguin/releases)
+[![Base](https://img.shields.io/badge/base-Debian_12_bookworm-a51c30)](https://www.debian.org)
+[![License](https://img.shields.io/badge/license-GPL--3.0--or--later-235c41)](LICENSE)
+[![Website checks](https://github.com/zarigata/EZpenguin/actions/workflows/website-checks.yml/badge.svg)](https://github.com/zarigata/EZpenguin/actions/workflows/website-checks.yml)
+[![Stars](https://img.shields.io/github/stars/zarigata/EZpenguin?style=social)](https://github.com/zarigata/EZpenguin)
+
+[**Website**](https://zarigata.github.io/EZpenguin/) · [**Download**](https://github.com/zarigata/EZpenguin/releases) · [**On-site wiki**](https://zarigata.github.io/EZpenguin/wiki/) · [**Star on GitHub**](https://github.com/zarigata/EZpenguin)
 
 </div>
 
----
+![EZpenguin: Small footprint. Big possibilities.](docs/assets/social-preview.png)
 
-## 🚀 One-liner Install
+## What is EZpenguin?
 
-Convert **any running Ubuntu/Debian system or container** into EZpenguin —
-no ISO, no USB, no reboot media. Just like DietPi:
+EZpenguin builds on **Debian 12 (bookworm)** with an automated first-boot wizard,
+a **61-entry software catalog**, and auditable Bash tools for everyday server tasks.
+Use it as a starting point for a container host, development box, file server,
+network lab, or optional lightweight desktop.
 
-```bash
-bash -c "$(curl -sSfL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh)"
-```
-
-The installer:
-
-1. detects your environment (container vs bare metal) and architecture (amd64/arm64)
-2. downloads the latest EZpenguin rootfs from [releases](https://github.com/zarigata/EZpenguin/releases)
-3. **containers/VMs**: converts the running system in place and reboots (container restart = boot)
-4. **bare metal**: partitions a target disk you pick, installs GRUB (BIOS+UEFI), reboots
-
-Proven in CI-style testing: `ubuntu:24.04` Docker container → one-liner →
-container restarts as EZpenguin with working `apt`, all `ez-*` tools, and the
-first-boot wizard pending.
-
-```bash
-# see it yourself (60–90 seconds):
-docker run -d --name ezp-demo ubuntu:24.04 sleep infinity
-docker exec -it ezp-demo bash -c 'apt-get update -qq && apt-get install -y -qq curl xz-utils'
-docker exec -it ezp-demo bash -c "$(curl -sSfL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh)"
-docker restart ezp-demo        # ← the "reboot": boots into EZpenguin
-docker exec ezp-demo ez-info   # it's a penguin now
-```
-
-## ✨ What is it?
-
-EZpenguin is a minimal, appliance-style Linux OS built on **Debian bookworm**:
-
-| | |
+| Feature | What you get |
 |---|---|
-| 🪶 **~690 MB installed / ~320 MB download** | runs on old/low-spec hardware |
-| 🔥 **Boots on any PC** | hybrid BIOS + UEFI, flash-and-go — no installer needed |
-| 📀 **Live ISO installer** | boot from USB, install to disk with a few keypresses |
-| ⚡ **One-liner in-place install** | convert running systems/containers, DietPi-style |
-| 🧙 **Self-configuring** | interactive wizard **or** zero-touch headless mode |
-| 📦 **Software catalog** | 61 curated stacks — docker, python, java, node, VPNs, desktops |
-| 🔐 **DietPi-style global password** | one password for user+root, opt-in |
-| 🦾 **ARM64 support** | same pipeline cross-builds aarch64 images |
-| ♻️ **100% reproducible** | Docker-based build; identical artifacts every run |
-| ✅ **Verified, not trusted** | 137 automated checks + QEMU boot tests on every build |
+| Minimal base | Terminal-focused Debian system; install the software you need |
+| Software selection | 61 install recipes across servers, development, networking, security, tools, and desktops |
+| First-boot setup | Interactive wizard or unattended configuration with optional SSH |
+| amd64 images | Flashable disk image and live ISO targeting BIOS and UEFI |
+| ARM64 images | Rootfs and disk image targeting compatible UEFI ARM64 systems |
+| Online installer | Container conversion or target-disk installation from a running Linux environment |
+| Local administration | Configuration, diagnostics, backups, and updates through `ez-*` tools |
+| Build it yourself | Versioned Docker-based build scripts and rootfs / QEMU test suites |
 
-## ⏱️ Test-drive it (60 seconds, any OS with Docker)
+**Project status:** v0.4.1 is an early-stage release. Wider real-hardware testing,
+artifact signing, and further hardening remain on the [roadmap](docs/ROADMAP.md).
+ARM64 support does not imply compatibility with every single-board computer.
+Docker makes the build process consistent; bit-for-bit identical artifacts are
+not currently guaranteed.
 
-```bash
-docker run --rm -it --privileged \
-    -v "$PWD/artifacts:/art" \
-    debian:bookworm-slim bash -c "
-      apt-get update && apt-get install -y qemu-system-x86 xz-utils &&
-      xz -d -c /art/ezpenguin-0.4.1-amd64.img.xz > /tmp/ezp.img &&
-      qemu-system-x86_64 -m 1024 -drive file=/tmp/ezp.img,format=raw,if=virtio \
-        -netdev user,id=n0 -device virtio-net-pci,netdev=n0 -nographic"
-```
+## Get started
 
-Press `Ctrl+A` then `X` to quit QEMU. Or build everything from scratch and
-watch it test itself:
+### 1. Pick an image
 
-```bash
-./build/build.sh all    # rootfs → 137 tests → image → boot tests → ISO → wizard walkthrough
-```
+Download from [GitHub Releases](https://github.com/zarigata/EZpenguin/releases).
+These are the published **v0.4.1** artifacts (sizes rounded, decimal MB):
 
-## 📦 Software Catalog (61 stacks)
+| Artifact | Size | Use |
+|---|---:|---|
+| [amd64 disk image](https://github.com/zarigata/EZpenguin/releases/download/v0.4.1/ezpenguin-0.4.1-amd64.img.xz) | 317 MB | Flash to a dedicated drive or use in a VM |
+| [amd64 live ISO](https://github.com/zarigata/EZpenguin/releases/download/v0.4.1/ezpenguin-0.4.1-amd64.iso) | 260 MB | Boot a live environment and optionally install to disk |
+| [amd64 rootfs](https://github.com/zarigata/EZpenguin/releases/download/v0.4.1/ezpenguin-0.4.1-amd64-rootfs.tar.xz) | 169 MB | Online installer or custom image workflows |
+| [ARM64 disk image](https://github.com/zarigata/EZpenguin/releases/download/v0.4.1/ezpenguin-0.4.1-arm64.img.xz) | 285 MB | Compatible UEFI ARM64 hardware / VMs |
+| [ARM64 rootfs](https://github.com/zarigata/EZpenguin/releases/download/v0.4.1/ezpenguin-0.4.1-arm64-rootfs.tar.xz) | 152 MB | ARM64 installer / custom image workflows |
 
-```bash
-sudo ez-software            # TUI: category menu → checklist → install
-ez-software list            # browse all 61
+### 2. Boot in a VM or spare machine
+
+For a first look, attach the **amd64 ISO to a VM**. For a dedicated machine,
+write the matching disk image to its drive, then boot it. Follow the wizard
+to set your locale, timezone, hostname, user, and optional SSH access.
+
+**Flashing and disk installation erase the selected drive.** Back up your data
+and check the target carefully. See the [installation guide](docs/INSTALLATION.md)
+for each method, headless setup, and environment limitations.
+
+### 3. Choose your software
+
+~~~bash
+ez-software list
+ez-software search docker
 sudo ez-software install docker python java nodejs
-```
+sudo ez-software
+~~~
 
-| Category | Highlights |
-|---|---|
-| 🖥️ servers | nginx, apache, caddy, lighttpd, mariadb, postgres, redis, docker, podman, samba, nfs, cockpit, syncthing, gitea(gogs), mosquitto |
-| 👨‍💻 dev languages | python 3 + venv + pipx, node.js + npm, java 17 (OpenJDK), go, rust, php 8 + fpm, ruby, build-essential |
-| 🌐 network/VPN | wireguard, openvpn, tailscale, mosh, nmap, tshark, tcpdump |
-| 🔒 security | fail2ban, ufw, auditd, clamav, rkhunter, unattended-upgrades |
-| 📊 monitoring/tools | btop, htop, tmux, byobu, mc, ncdu, neofetch, inxi, tldr, iperf3, smartmontools, lm-sensors |
-| 🎨 desktops | XFCE, LXDE (one command each) |
+The catalog installs packages and may enable services through post-install hooks.
+Most entries use Debian packages; some use upstream installers. Entries are recipes,
+not bundled or independently certified application stacks.
 
-Each entry has **post-install hooks**: services enabled, docker group membership,
-php-fpm started, graphical target set.
+## Online installer
 
-## 🧙 First boot: interactive OR zero-touch
+Download and review the script before running it as root:
 
-**Interactive** (wizard on tty1): locale, timezone, keymap, hostname, user,
-SSH, updates — reboots ready to use.
+~~~bash
+curl -fsSL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh -o ezpenguin-install.sh
+less ezpenguin-install.sh
+sudo bash ezpenguin-install.sh
+~~~
 
-**Headless** — drop `/boot/firstboot.conf` on the flashed disk:
+- **Containers:** replaces the running userland in place. A normal Docker container
+  does not boot systemd or run the first-boot wizard just because it is restarted.
+- **Regular machines, including VMs:** asks for a target disk and erases it before
+  installation. In-place conversion outside a detected container requires the
+  explicit `EZP_INPLACE=1` override and is an advanced, destructive workflow.
+- The installer downloads a rootfs from the latest release and may reboot the machine
+  or stop the container. It requires `curl`, `tar`, and `xz`.
 
-```ini
+Use a disposable environment when evaluating conversion. Full details:
+[online installation](docs/INSTALLATION.md#online-installer).
+
+<a id="-software-catalog-61-stacks"></a>
+
+## Software catalog (61 stacks)
+
+[**Search the catalog on the website →**](https://zarigata.github.io/EZpenguin/#software)
+
+| Category | Entries | Examples |
+|---|---:|---|
+| Servers | 18 | nginx, Caddy, PostgreSQL, MariaDB, Docker, Podman, Samba, Cockpit, Syncthing, Mosquitto |
+| Development | 11 | Python + venv, pipx, Node.js, Java, Go, Rust, PHP, Ruby, build-essential |
+| Network | 7 | WireGuard tools, OpenVPN, Tailscale, Mosh, Nmap, tshark, tcpdump |
+| Security | 6 | Fail2ban, UFW, auditd, ClamAV, rkhunter, unattended-upgrades |
+| Tools | 17 | btop, htop, tmux, ncdu, Git, rsync, iperf3, SMART and NVMe tools |
+| Desktops | 2 | XFCE, LXDE |
+
+The source of truth is [`config/software-catalog.list`](config/software-catalog.list).
+Package versions and availability follow the configured repositories. For example,
+the `gitea-light` recipe currently installs **Gogs**, not Gitea.
+
+## Headless first boot
+
+Place a `firstboot.conf` in `/boot/` on the flashed root filesystem:
+
+~~~ini
 EZ_LOCALE=en_US.UTF-8
-EZ_TIMEZONE=Europe/Lisbon
-EZ_HOSTNAME=mybox
+EZ_TIMEZONE=America/Sao_Paulo
+EZ_KEYMAP=us
+EZ_HOSTNAME=homelab
 EZ_USERNAME=penguin
-EZ_PASSWORD=changeme
-EZ_SSH_ENABLE=1        # ssh-first deployment, zero keystrokes
-EZ_GLOBAL_PASSWORD=1   # DietPi-style: same password for root (opt-in)
-```
+EZ_PASSWORD=replace-with-a-unique-password
+EZ_SSH_ENABLE=1
+EZ_UPGRADE=1
+EZ_REBOOT=1
+~~~
 
-Verified by automated tests: **80 s unattended setup, SSH auto-enabled,
-VM reboots itself.**
+Choose a unique password and protect the configuration file. The wizard retains an
+applied configuration file, which may contain the password; remove it after setup.
+For accepted characters and optional shared user/root password behavior, read the
+[headless setup guide](docs/INSTALLATION.md#headless-setup).
 
-## 🚢 Get it onto a machine
+## Tools included
 
-| Method | How | Best for |
-|---|---|---|
-| **One-liner** | `bash -c "$(curl -sSfL .../online-installer.sh)"` | converting running systems/containers |
-| **Flash image** | `dd` the `.img.xz` to USB → boot | new PCs, fastest path |
-| **Live ISO** | boot `.iso` → "Install EZpenguin to a disk" | classic installer UX |
-| **DietPi-style script** | `sudo installer/install.sh /dev/sdX` | from any Linux |
-
-Artifacts on [releases](https://github.com/zarigata/EZpenguin/releases):
-amd64 `img.xz` (~320 MB) · `iso` (~250 MB) · `rootfs.tar.xz` (~161 MB) ·
-arm64 `img.xz` (~280 MB).
-
-## 🛠️ Ships with
-
-`ez-firstboot` (wizard) · `ez-install` · `ez-software` (catalog) ·
-`ez-config` (full settings tool) · `ez-backup` · `ez-doctor` (health check) ·
-`ez-net` (diagnostics) · `ez-info` (fastfetch-style panel) · `ez-update`
-
-All plain, auditable bash.
-
-## 🏗️ Repository layout
-
-```
-EZpenguin/
-├── build/            # build pipeline: rootfs → image → ISO (Docker-isolated)
-├── config/           # distro config + package + software catalogs
-├── rootfs-overlay/   # files copied verbatim into the OS (tools, units, net)
-├── installer/        # one-liner online installer + bare-metal installer
-├── tests/            # 137-check QA + QEMU boot/ISO/wizard/headless tests
-├── docs/             # full documentation + GitHub Pages site
-└── artifacts/        # build outputs (gitignored binaries)
-```
-
-## 📚 Documentation
-
-| Doc | Contents |
+| Command | Purpose |
 |---|---|
-| [Architecture](docs/ARCHITECTURE.md) | How the distro and build system are designed |
-| [Building](docs/BUILDING.md) | Build it yourself — all stages, amd64 + arm64 |
-| [Installation](docs/INSTALLATION.md) | Install on PCs, VMs, ARM, containers, headless |
-| [Testing](docs/TESTING.md) | QA strategy: static checks → QEMU boot tests |
-| [Quality](docs/QUALITY.md) | Definition of done, size/security budgets |
-| [Roadmap](docs/ROADMAP.md) | v0.4 → v1.0 plan |
-| [Security](docs/SECURITY.md) | Hardening defaults & policy |
-| [Contributing](docs/CONTRIBUTING.md) | How to help |
-| [Changelog](docs/CHANGELOG.md) | Version history |
+| `ez-firstboot` | Initial setup wizard |
+| `ez-install` | Install the live system to a disk |
+| `ez-software` | Browse and install software recipes |
+| `ez-config` | System settings |
+| `ez-backup` | Backup / restore tooling |
+| `ez-doctor` | System health checks |
+| `ez-net` | Network diagnostics |
+| `ez-info` | System overview |
+| `ez-update` | Package updates |
 
-## 🗺️ Roadmap
+## Build and test
 
-- [x] v0.1 foundation — build pipeline, BIOS+UEFI image, 106 checks
-- [x] v0.2 installability — live ISO installer, ARM64, wizard automation
-- [x] v0.3 DietPi-parity UX — catalog, headless, ez-config/ez-backup
-- [x] v0.4 software & UX — 61-entry catalog, global password, ASCII polish
-- [x] v0.4.1 one-liner online installer (in-place conversion, tested in Docker)
-- [ ] v0.5 hardening — Lynis audit, artifact signing, CI matrix
-- [ ] v1.0 — boot-tested on real PCs, docs user-tested, LTS
+Docker, an internet connection, roughly 5 GB free disk, and 2 GB+ RAM are the
+documented starting requirements. Build tools use privileged container operations.
 
-## 🤝 Contributing & License
+~~~bash
+git clone https://github.com/zarigata/EZpenguin.git
+cd EZpenguin
+./build/build.sh all     # full amd64 build + test pipeline
+./build/build.sh arm64   # ARM64 cross-build pipeline
+~~~
 
-PRs welcome — see [CONTRIBUTING](docs/CONTRIBUTING.md). GPL-3.0, see
-[LICENSE](LICENSE). Debian packages follow their own licenses.
+Outputs go in `artifacts/`. The pipeline includes rootfs checks, QEMU BIOS / UEFI
+boot checks, ISO boot checks, and wizard tests. The committed
+[test report](artifacts/test-report.txt) is a historical result, not a guarantee
+that the current checkout was rebuilt or every physical machine is supported.
+See [BUILDING](docs/BUILDING.md) and [TESTING](docs/TESTING.md).
 
-<div align="center">
+## Documentation
 
-**made with 🐧 and boring, proven tech**
+Read the [complete on-site wiki](https://zarigata.github.io/EZpenguin/wiki/) for
+installation, first boot, system tools, troubleshooting, base packages, and all
+61 software guides. The source references below are also available for contributors.
 
-[Website](https://zarigata.github.io/EZpenguin/) · [Releases](https://github.com/zarigata/EZpenguin/releases) · [Issues](https://github.com/zarigata/EZpenguin/issues)
+| Guide | Covers |
+|---|---|
+| [Installation](docs/INSTALLATION.md) | Images, live ISO, online installer, VMs, headless setup |
+| [Building](docs/BUILDING.md) | Build stages and ARM64 cross-builds |
+| [Architecture](docs/ARCHITECTURE.md) | OS layers, boot flow, image layout |
+| [Testing](docs/TESTING.md) | Checks, boot tests, and local verification |
+| [Quality](docs/QUALITY.md) | Release targets and quality goals |
+| [Roadmap](docs/ROADMAP.md) | Completed work and next milestones |
+| [Security](docs/SECURITY.md) | Security defaults and reporting |
+| [Contributing](docs/CONTRIBUTING.md) | Changes, recipes, and bug reports |
+| [Changelog](docs/CHANGELOG.md) | Release history |
+| [Website & discoverability](docs/WEBSITE.md) | Site maintenance, deployment, and search setup |
 
-</div>
+## Help this penguin grow
+
+If EZpenguin is useful to you, [**star the repository**](https://github.com/zarigata/EZpenguin)
+to bookmark it and help others discover it. Real hardware reports are especially
+valuable: share the machine model, architecture, image version, boot mode, and
+what worked or failed in an [issue](https://github.com/zarigata/EZpenguin/issues).
+
+You can also improve an install recipe, clarify a guide, or
+[contribute a fix](docs/CONTRIBUTING.md). Please use the actual project experience
+when recommending it.
+
+## License
+
+EZpenguin code is **GPL-3.0-or-later**; see [LICENSE](LICENSE).
+Individual packages retain their upstream licenses. EZpenguin is independently
+maintained and is not affiliated with or endorsed by the Debian Project.

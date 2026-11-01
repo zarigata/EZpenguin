@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# EZpenguin online installer — DietPi-style one-liner.
+# EZpenguin online installer — one-liner.
 #
 #   bash -c "$(curl -sSfL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh)"
 #

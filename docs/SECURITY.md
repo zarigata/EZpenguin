@@ -5,23 +5,22 @@
 - **Minimal base** — only curated packages; smaller attack surface
 - **No default credentials** — root login via password disabled; wizard forces user password on first boot
 - **No listening services** by default (SSH optional during wizard)
-- **Pinned signed APT sources** — Debian official + security suites
+- **Signed APT sources** — Debian bookworm and its configured update/security suites
 - **sudo, not root** — first user gets sudo; direct root shell discouraged
 
 ## Reporting a vulnerability
 
-Email: security@ezpenguin.org (placeholder until domain live).
-
-- We commit to acknowledging reports within 72 hours
-- Fixes for critical issues ship within 7 days when feasible
-- Credits in CHANGELOG unless anonymity requested
-
-Please do NOT open public issues for security problems.
+Do not publish exploit details, credentials, or private logs in a public issue.
+Use a verified private contact channel for the maintainer. A dedicated security
+mailbox and response SLA have not been established; no placeholder email is a
+working reporting channel. Public, non-sensitive hardening suggestions can be
+raised through the explicit project issue link.
 
 ## Update policy
 
 - Follows Debian stable security updates (bookworm)
-- `ez-update` applies dist-upgrade with apt's atomic, rollback-safe mechanics
+- The current `ez-update` script runs package-list refresh, upgrade, and
+  autoremove with purge. It does not create snapshots or automatic rollback.
 - Breaking security changes documented in CHANGELOG
 
 ## Hardening checklist (per release)

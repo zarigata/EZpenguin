@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Installation — EZpenguin Wiki</title><meta name="description" content="EZpenguin installation: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<link rel="canonical" href="https://zarigata.github.io/EZpenguin/wiki/installation/"><meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#10110f"><meta property="og:type" content="article">
+<meta property="og:title" content="Installation — EZpenguin Wiki"><meta property="og:description" content="EZpenguin installation: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<meta property="og:url" content="https://zarigata.github.io/EZpenguin/wiki/installation/"><meta property="og:image" content="https://zarigata.github.io/EZpenguin/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/webp" href="../../assets/ezpenguin-logo.webp">
+<link rel="stylesheet" href="../../assets/style.css"><script src="../../assets/wiki.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Installation", "description": "EZpenguin installation: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.", "url": "https://zarigata.github.io/EZpenguin/wiki/installation/", "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "EZpenguin", "url": "https://zarigata.github.io/EZpenguin/"}}</script></head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap nav-inner"><a class="brand" href="../../"><img src="../../assets/ezpenguin-logo.webp" width="57" height="57" alt="">ezpenguin<span>.</span></a>
+<nav class="nav-links" aria-label="Main navigation"><a href="../../">Home</a><a href="../">Wiki / help</a><a href="../../#install">Download</a><a href="https://feverdream.dev/">FeverDream ↗</a><a class="star" href="https://github.com/zarigata/EZpenguin">☆ Star on GitHub</a></nav></div></header>
+<div class="wrap wiki-banner"><a href="../../">EZpenguin</a> / <a href="../">Wiki</a> / Installation</div>
+<div class="wrap wiki-layout"><aside class="wiki-sidebar" aria-label="Wiki navigation"><h2>THE FIELD MANUAL</h2>
+<form action="../" method="get" role="search"><label class="sr-only" for="wiki-query">Search the wiki</label><input id="wiki-query" name="q" placeholder="Search 61 software guides…" type="search"><button type="submit">Search wiki →</button></form><nav aria-label="Wiki sections"><a href="index.html" aria-current="page">Installation</a><a href="../first-boot/">First boot &amp; headless</a><a href="../system-tools/">System tools</a><a href="../troubleshooting/">Troubleshooting</a><a href="../base-packages/">Base packages</a><h3>Software / 61 entries</h3><a href="../#server">Servers</a><a href="../#dev">Development</a><a href="../#network">Network &amp; VPN</a><a href="../#security">Security</a><a href="../#tools">Monitoring &amp; tools</a><a href="../#desktop">Desktops</a><h3>Project reference</h3><a href="../building/">Build your own image</a><a href="../architecture/">Architecture</a><a href="../testing/">Testing</a><a href="../security/">Security</a><a href="../roadmap/">Roadmap</a><a href="../contributing/">Contributing</a><a href="../quality/">Quality standards</a><a href="../changelog/">Changelog</a><a href="../license/">License</a></nav></aside>
+<main id="main" class="wiki-article"><div class="eyebrow">EZPENGUIN WIKI / v0.4.1</div><h1 id="install-ezpenguin">Install EZpenguin</h1>
+<p>Start with a VM or a spare machine while evaluating this early-stage OS. Published images are available on <a href="https://github.com/zarigata/EZpenguin/releases">GitHub Releases</a>. Flashing a drive or installing to a disk <strong>erases that selected target</strong>.</p>
+<div class="wiki-toc"><strong>ON THIS PAGE</strong><nav><a href="#choose-an-installation-method">Choose an installation method</a><a href="#flash-a-disk-image">Flash a disk image</a><a href="#live-iso">Live ISO</a><a href="#online-installer">Online installer</a><a href="#local-disk-installer-amd64">Local disk installer (amd64)</a><a href="#headless-setup">Headless setup</a><a href="#virtual-machines-and-defaults">Virtual machines and defaults</a><a href="#after-installation">After installation</a></nav></div><h2 id="choose-an-installation-method">Choose an installation method</h2>
+<div class="table-scroll"><table><thead><tr><th>Method</th><th>Environment</th><th>Result</th></tr></thead><tbody>
+<tr><td>Flashable <code>.img.xz</code></td><td>amd64 PC, compatible UEFI ARM64 system, VM</td><td>Dedicated bootable EZpenguin disk</td></tr>
+<tr><td>Live <code>.iso</code></td><td>amd64 BIOS / UEFI PC or VM</td><td>Live session with optional disk installer</td></tr>
+<tr><td>Online installer</td><td>Debian / Ubuntu environment</td><td>Container conversion or target-disk installation</td></tr>
+<tr><td>Local installer script</td><td>Linux host with required disk tools</td><td>amd64 target-disk installation using a local rootfs</td></tr>
+</tbody></table></div>
+<p>ARM64 images target UEFI boot; they are not universal board-specific images. Secure Boot and individual device compatibility require separate validation.</p>
+<h2 id="flash-a-disk-image">Flash a disk image</h2>
+<ol>
+<li>Download the <code>amd64.img.xz</code> or <code>arm64.img.xz</code> matching your hardware.</li>
+<li>Write it with a flashing tool. Some tools accept compressed images directly;</li>
+</ol>
+<p>   others require decompression with <code>xz -d</code> first.</p>
+<ol>
+<li>Verify the target drive, flash, and boot it.</li>
+<li>Complete the first-boot wizard: locale, timezone, keyboard, hostname, user,</li>
+</ol>
+<p>   password, optional SSH, package updates, and reboot.</p>
+<p>The wizard attempts to expand the root filesystem. Setup time depends on hardware, emulation, and network speed; there is no universal time guarantee.</p>
+<h2 id="live-iso">Live ISO</h2>
+<p>Attach the amd64 ISO to a VM, or write it to a USB drive, then boot it in BIOS or UEFI mode. The wizard offers to install to a disk. Choose the target disk, confirm the erase warning, and continue. Decline to remain in the live session; <code>sudo ez-install</code> starts installation later.</p>
+<h2 id="online-installer">Online installer</h2>
+<p>Review the actual script before running it as root:</p>
+<pre id="code-45"><code>curl -fsSL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh -o ezpenguin-install.sh
+less ezpenguin-install.sh
+sudo bash ezpenguin-install.sh</code></pre><button class="wiki-copy" data-code="code-45" hidden>Copy commands</button>
+<p>Requirements: a supported <code>amd64</code> / <code>arm64</code> environment with <code>curl</code>, <code>tar</code>, and <code>xz</code>, network access to GitHub Releases, and root access.</p>
+<p>The script detects common container environments; <strong>VMs are not automatically treated as containers</strong>.</p>
+<ul>
+<li>In a detected container, it extracts the rootfs over the running system,</li>
+</ul>
+<p>  replacing the userland. Existing software can be overwritten.</p>
+<ul>
+<li>Outside a detected container, it prompts for a target disk, confirms erasure,</li>
+</ul>
+<p>  partitions it, installs a rootfs and GRUB, then requests reboot.</p>
+<ul>
+<li><code>EZP_INPLACE=1</code> forces in-place conversion outside a detected container.</li>
+</ul>
+<p>  This is an advanced override that replaces the running system; use a disposable   environment and do not treat it as a supported upgrade of a valuable host.</p>
+<ul>
+<li><code>EZP_NO_REBOOT=1</code> skips the final reboot / stop action.</li>
+<li><code>EZP_TARBALL=/path/to/rootfs.tar.xz</code> uses a local rootfs instead of release lookup.</li>
+<li><code>EZP_ARCH=amd64</code> or <code>arm64</code> overrides architecture detection.</li>
+</ul>
+<p>The installer does not currently validate the downloaded rootfs against a signed checksum. Artifact signing is roadmap work.</p>
+<h3 id="disposable-container-evaluation">Disposable container evaluation</h3>
+<p>This checks the converted userland without granting the container access to host block devices. It does <strong>not</strong> test a kernel, bootloader, systemd, or the automatic first-boot wizard.</p>
+<pre id="code-83"><code>docker run -d --name ezp-demo ubuntu:24.04 sleep infinity
+docker exec ezp-demo bash -c &#x27;apt-get update -qq &amp;&amp; apt-get install -y -qq curl xz-utils&#x27;
+docker exec ezp-demo curl -fsSL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh -o /tmp/ezpenguin-install.sh
+docker exec ezp-demo cat /tmp/ezpenguin-install.sh
+# After reviewing the script:
+docker exec -e EZP_NO_REBOOT=1 ezp-demo bash /tmp/ezpenguin-install.sh
+docker exec ezp-demo ez-info
+# Remove the disposable environment when finished:
+docker rm -f ezp-demo</code></pre><button class="wiki-copy" data-code="code-83" hidden>Copy commands</button>
+<p>A container restart reruns the configured entrypoint; it does not boot the image&#x27;s init system. Use an image / ISO in QEMU to test a complete boot.</p>
+<h2 id="local-disk-installer-amd64">Local disk installer (amd64)</h2>
+<p>Clone this repository, obtain an amd64 rootfs tarball from Releases or a local build, and inspect <code>installer/install.sh</code>. It requires the disk tools listed in the script, including <code>sgdisk</code>, filesystem tools, <code>rsync</code>, and GRUB.</p>
+<pre id="code-96"><code>sudo bash installer/install.sh /dev/sdX /path/to/ezpenguin-0.4.1-amd64-rootfs.tar.xz</code></pre><button class="wiki-copy" data-code="code-96" hidden>Copy commands</button>
+<p>Replace both placeholder paths. <strong>The target disk is erased after confirmation.</strong> This script is separate from the online installer and does not automatically download its rootfs. For ARM64, use the matching UEFI image or the ARM64-aware online installer.</p>
+<h2 id="headless-setup">Headless setup</h2>
+<p>Mount the flashed root partition and place <code>firstboot.conf</code> in its <code>/boot/</code> directory before first boot:</p>
+<pre id="code-118"><code>EZ_LOCALE=en_US.UTF-8
+EZ_TIMEZONE=America/Sao_Paulo
+EZ_KEYMAP=us
+EZ_HOSTNAME=homelab
+EZ_USERNAME=penguin
+EZ_PASSWORD=replace-with-a-unique-password
+EZ_SSH_ENABLE=1
+EZ_UPGRADE=1
+EZ_REBOOT=1</code></pre><button class="wiki-copy" data-code="code-118" hidden>Copy commands</button>
+<p>Values accept <code>[A-Za-z0-9_.:/+@-]</code> only. Other characters are rejected. Omit <code>EZ_PASSWORD</code> to create a locked account; configure a working access method before relying on remote login. Use a unique password, protect the configuration file, and remove the retained <code>firstboot.conf.applied</code> after setup because it may contain that password.</p>
+<p><code>EZ_GLOBAL_PASSWORD=1</code>, together with <code>EZ_PASSWORD</code>, optionally unlocks root console login using the same password as the created user. SSH root login remains disabled. Leave this option unset to keep root password login locked.</p>
+<h2 id="virtual-machines-and-defaults">Virtual machines and defaults</h2>
+<p>Use the amd64 live ISO in VirtualBox / VMware, or attach a decompressed disk image to QEMU. ARM64 testing uses the QEMU <code>virt</code> machine with AAVMF UEFI firmware. See <a href="../building/">BUILDING</a> and <a href="../testing/">TESTING</a>.</p>
+<p>There is no default user password. Root password login starts locked and the wizard creates your user. Optional global-password setup changes the root console-login behavior described above.</p>
+<h2 id="after-installation">After installation</h2>
+<pre id="code-149"><code>ez-info
+ez-doctor
+ez-net
+sudo ez-config
+sudo ez-update
+sudo ez-software</code></pre><button class="wiki-copy" data-code="code-149" hidden>Copy commands</button>
+<p>See the <a href="../">software catalog</a> for install recipes.</p>
+<p class="wiki-meta">Recipe reference: current repository catalog. Application availability and versions depend on your configured repositories. Documentation is hosted here; no repository visit is needed to read these guides.</p><p id="wiki-copy-status" role="status"></p></main></div>
+<footer class="footer"><div class="wrap footer-top"><span class="fine">EZpenguin · An open-source project from <a href="https://feverdream.dev/">FeverDream.dev ↗</a></span><nav aria-label="Footer"><a href="../">Wiki home</a><a href="../license/">License</a><a href="https://github.com/zarigata/EZpenguin/issues">Report an issue</a></nav></div></footer></body></html>

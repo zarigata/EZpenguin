@@ -171,7 +171,7 @@ chroot_run 'ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf 2>/dev
 chroot_run 'systemctl set-default multi-user.target'
 
 # ------------------------------------------------------- 7. slimming --------
-log "slimming: locales, docs, man (DietPi-style)"
+log "slimming: locales, docs, man"
 if [[ -d "$TARGET/usr/share/locale" ]]; then
     ( cd "$TARGET/usr/share/locale"
       for d in *; do

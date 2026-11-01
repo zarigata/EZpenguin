@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>First boot &amp; headless — EZpenguin Wiki</title><meta name="description" content="EZpenguin first boot &amp; headless: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<link rel="canonical" href="https://zarigata.github.io/EZpenguin/wiki/first-boot/"><meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#10110f"><meta property="og:type" content="article">
+<meta property="og:title" content="First boot &amp; headless — EZpenguin Wiki"><meta property="og:description" content="EZpenguin first boot &amp; headless: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.">
+<meta property="og:url" content="https://zarigata.github.io/EZpenguin/wiki/first-boot/"><meta property="og:image" content="https://zarigata.github.io/EZpenguin/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/webp" href="../../assets/ezpenguin-logo.webp">
+<link rel="stylesheet" href="../../assets/style.css"><script src="../../assets/wiki.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "First boot & headless", "description": "EZpenguin first boot & headless: practical documentation for the Debian-based operating system, hosted in the official EZpenguin wiki.", "url": "https://zarigata.github.io/EZpenguin/wiki/first-boot/", "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "EZpenguin", "url": "https://zarigata.github.io/EZpenguin/"}}</script></head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap nav-inner"><a class="brand" href="../../"><img src="../../assets/ezpenguin-logo.webp" width="57" height="57" alt="">ezpenguin<span>.</span></a>
+<nav class="nav-links" aria-label="Main navigation"><a href="../../">Home</a><a href="../">Wiki / help</a><a href="../../#install">Download</a><a href="https://feverdream.dev/">FeverDream ↗</a><a class="star" href="https://github.com/zarigata/EZpenguin">☆ Star on GitHub</a></nav></div></header>
+<div class="wrap wiki-banner"><a href="../../">EZpenguin</a> / <a href="../">Wiki</a> / First boot &amp; headless</div>
+<div class="wrap wiki-layout"><aside class="wiki-sidebar" aria-label="Wiki navigation"><h2>THE FIELD MANUAL</h2>
+<form action="../" method="get" role="search"><label class="sr-only" for="wiki-query">Search the wiki</label><input id="wiki-query" name="q" placeholder="Search 61 software guides…" type="search"><button type="submit">Search wiki →</button></form><nav aria-label="Wiki sections"><a href="../installation/">Installation</a><a href="index.html" aria-current="page">First boot &amp; headless</a><a href="../system-tools/">System tools</a><a href="../troubleshooting/">Troubleshooting</a><a href="../base-packages/">Base packages</a><h3>Software / 61 entries</h3><a href="../#server">Servers</a><a href="../#dev">Development</a><a href="../#network">Network &amp; VPN</a><a href="../#security">Security</a><a href="../#tools">Monitoring &amp; tools</a><a href="../#desktop">Desktops</a><h3>Project reference</h3><a href="../building/">Build your own image</a><a href="../architecture/">Architecture</a><a href="../testing/">Testing</a><a href="../security/">Security</a><a href="../roadmap/">Roadmap</a><a href="../contributing/">Contributing</a><a href="../quality/">Quality standards</a><a href="../changelog/">Changelog</a><a href="../license/">License</a></nav></aside>
+<main id="main" class="wiki-article"><div class="eyebrow">EZPENGUIN WIKI / v0.4.1</div><h1 id="first-boot-and-headless-setup">First boot and headless setup</h1>
+<p>EZpenguin configures a flashed system on its first real OS boot. The interactive wizard runs through systemd on tty1. Restarting a normal Docker container does not boot systemd and is not a complete first-boot test.</p>
+<div class="wiki-toc"><strong>ON THIS PAGE</strong><nav><a href="#interactive-setup">Interactive setup</a><a href="#headless-setup">Headless setup</a><a href="#after-setup">After setup</a></nav></div><h2 id="interactive-setup">Interactive setup</h2>
+<ol>
+<li>Boot a compatible image or complete installation from the live ISO.</li>
+<li>Set locale, timezone, keyboard layout, and hostname.</li>
+<li>Create a regular user with a unique password.</li>
+<li>Choose whether to enable SSH and update packages.</li>
+<li>Complete the wizard and reboot when prompted.</li>
+</ol>
+<p>The optional global-password setting also unlocks root console login using the same password as your user. Root SSH login remains disabled. Leave this option off if you do not need root password login.</p>
+<h2 id="headless-setup">Headless setup</h2>
+<p>Mount the flashed root filesystem on another machine and put a firstboot.conf file in its /boot directory before first boot.</p>
+<pre id="code-33"><code>EZ_LOCALE=en_US.UTF-8
+EZ_TIMEZONE=America/Sao_Paulo
+EZ_KEYMAP=us
+EZ_HOSTNAME=homelab
+EZ_USERNAME=penguin
+EZ_PASSWORD=replace-with-a-unique-password
+EZ_SSH_ENABLE=1
+EZ_UPGRADE=1
+EZ_REBOOT=1</code></pre><button class="wiki-copy" data-code="code-33" hidden>Copy commands</button>
+<p>The current parser accepts only letters, digits, and the characters _.:/+@- in values. Protect the file: it includes a plaintext password. The retained firstboot.conf.applied file may still contain that password; remove it after successful configuration. Omitting the password creates a locked account.</p>
+<h2 id="after-setup">After setup</h2>
+<pre id="code-47"><code>ez-info
+ez-doctor
+ez-net
+sudo ez-config</code></pre><button class="wiki-copy" data-code="code-47" hidden>Copy commands</button>
+<p>Use ez-config for subsequent changes. The configured marker prevents repeating initial setup automatically; re-running the wizard is not the usual settings workflow.</p>
+<p>See <a href="../installation/">Installation</a> for every install method and <a href="../system-tools/">System tools</a> for the commands included in EZpenguin.</p>
+<p class="wiki-meta">Recipe reference: current repository catalog. Application availability and versions depend on your configured repositories. Documentation is hosted here; no repository visit is needed to read these guides.</p><p id="wiki-copy-status" role="status"></p></main></div>
+<footer class="footer"><div class="wrap footer-top"><span class="fine">EZpenguin · An open-source project from <a href="https://feverdream.dev/">FeverDream.dev ↗</a></span><nav aria-label="Footer"><a href="../">Wiki home</a><a href="../license/">License</a><a href="https://github.com/zarigata/EZpenguin/issues">Report an issue</a></nav></div></footer></body></html>

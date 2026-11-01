@@ -2,14 +2,14 @@
 
 ## v0.1 — Foundation (COMPLETE)
 - [x] Project structure & full documentation set
-- [x] Docker-based reproducible build pipeline
+- [x] Docker-based scripted build pipeline
 - [x] Debian bookworm minimal rootfs (amd64)
 - [x] EZpenguin identity layer (os-release, /etc/ezpenguin, tools)
 - [x] Automated test suite L1–L4 (106 checks, all green)
 - [x] First-boot wizard service (QEMU-verified: BIOS + UEFI)
 - [x] Flashable disk image (BIOS + UEFI hybrid, 185MB compressed)
 - [x] QEMU boot validation integrated in pipeline
-- [x] DietPi-style bare-metal installer script (install.sh)
+- [x] bare-metal installer script (install.sh)
 
 ## v0.2 — Installability (COMPLETE)
 - [x] Bootable ISO with live installer (hybrid BIOS+UEFI, squashfs live root)
@@ -19,7 +19,7 @@
 - [x] ez-doctor health check + ez-net diagnostics tools
 - [x] Expanded QA suite + ISO/wizard boot tests in pipeline
 
-## v0.3 — DietPi-parity UX (COMPLETE)
+## v0.3 — Appliance UX (COMPLETE)
 - [x] Interactive software catalog (`ez-software`, 25 entries, TUI + CLI)
 - [x] Headless/SSH-first install mode (`firstboot.conf`, zero-touch)
 - [x] `ez-config` full system configuration tool (menu + one-shot)
@@ -28,7 +28,7 @@
 
 ## v0.4 — Software & UX (COMPLETE)
 - [x] Software catalog scaled to 61 entries with post-install hooks
-- [x] DietPi-style global password (opt-in, wizard + headless)
+- [x] global password (opt-in, wizard + headless)
 - [x] Terminal UX: banner lib, branded motd/issue, fastfetch-style ez-info
 - [x] Catalog QA: field validation + postcmd syntax checks
 
