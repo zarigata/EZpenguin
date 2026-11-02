@@ -17,6 +17,14 @@ OVERALL=0
 run_tier() { # run_tier <name> <logfile> <cmd...>
     local name="$1" logf="$2"; shift 2
     echo "==== tier: $name ===="
+    # vm tier must prove a FRESH conversion: drop any disk left by a prior
+    # run (a leftover converted disk makes the boot show the EZpenguin
+    # banner while SSH auth silently fails on the old authorized_keys)
+    if [[ "$name" == vm ]]; then
+        rm -rf "$(dirname "$logf")/vm/debian12-inplace" \
+               "$(dirname "$logf")/vm/debian-12-generic-amd64.qcow2" \
+               "$(dirname "$logf")/vm/image-verified-deb12" 2>/dev/null || true
+    fi
     if "$@" >"$logf" 2>&1; then
         echo "  -> $name OK (log: $logf)"
     else
