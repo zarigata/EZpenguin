@@ -57,7 +57,7 @@ tui() {
     require_root
     # category menu
     local cats
-    cats=$(parse | awk -F'|' '{print $4}' | sort -u)
+    cats=$(parse | cut -f4 | sort -u)
     [[ -n "$cats" ]] || { echo "catalog empty" >&2; exit 1; }
 
     local cargs=() sel_all="all"
@@ -99,7 +99,7 @@ case "${1:-tui}" in
         say "${DIM}$(parse | wc -l) entries — install with: sudo ez-software install <id>${RST}"
         ;;
     categories)
-        parse | awk -F'|' '{print $4}' | sort | uniq -c | sort -rn
+        parse | cut -f4 | sort | uniq -c | sort -rn
         ;;
     search)
         [[ -n "${2:-}" ]] || { echo "usage: ez-software search TERM" >&2; exit 1; }
