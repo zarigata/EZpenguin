@@ -5,19 +5,33 @@
 #
 # What it does:
 #   • Downloads the latest EZpenguin rootfs from GitHub releases
-#   • CONTAINERS/VMs (default): in-place conversion — replaces the running
+#   • CONTAINERS (auto/default): in-place conversion — replaces the running
 #     system userland with EZpenguin, then reboots (container restart = boot)
-#   • BARE METAL: pick a target disk, partition, install, reboot
+#   • VMS/PHYSICAL with EZP_MODE=inplace: converts the running OS in place
+#     (systemd+GRUB2 required — validated BEFORE any destructive step)
+#   • VMS/PHYSICAL (auto/default): pick a target disk, partition, install, reboot
+#
+# Contract (documented in README + docs/INSTALLATION.md):
+#   Conversion REPLACES the operating system userland with EZpenguin
+#   (Debian bookworm). User data in regular directories is preserved;
+#   OS-owned files (/etc, /usr, /bin, package databases, bootloader config)
+#   become EZpenguin's. This is a replacement, not a package-level merge.
 #
 # Environment overrides:
 #   EZP_TARBALL=<path-or-url>   skip the release lookup (local testing)
 #   EZP_ARCH=<amd64|arm64>      force architecture
+#   EZP_MODE=<inplace|disk|auto> install mode (auto: container=inplace, else disk)
+#   EZP_API_URL=<url>           release API endpoint override (testing)
+#   EZP_DOWNLOAD_URL=<url>      asset base URL override (testing)
 #   EZP_NO_REBOOT=1             don't reboot/restart when done
+#   EZP_ASSUME_YES=1            skip interactive confirms (automation)
 set -euo pipefail
 trap 'rc=$?; say "${RED}installer aborted unexpectedly (rc=$rc) at line $LINENO (BASH_COMMAND=${BASH_COMMAND:-?})${RST}" >&2' ERR
 
 REPO="zarigata/EZpenguin"
-BOLD='\033[1;36m'; YEL='\033[1;33m'; RED='\033[1;31m'; RST='\033[0m'
+API_URL="${EZP_API_URL:-https://api.github.com/repos/$REPO/releases/latest}"
+DL_BASE="${EZP_DOWNLOAD_URL:-}"
+BOLD='\033[1;36m'; YEL='\033[1;33m'; RED='\033[1;31m'; GRN='\033[1;32m'; RST='\033[0m'
 say() { printf "%b\n" "$*"; }
 die() { printf "%b\n" "${RED}ERROR:${RST} $*" >&2; exit 1; }
 
@@ -26,27 +40,44 @@ banner() {
         .--.
        |o_o |
        |:_/ |
-      //   \ \\
+      //   \ \
      (|     | )
     /\"\_   _/\`\\
     \\___)=(___/
      E Z P E N G U I N — online installer${RST}"
 }
 
-[[ $EUID -eq 0 ]] || die "run as root"
-for cmd in curl tar xz; do command -v "$cmd" >/dev/null || die "missing tool: $cmd"; done
+# ------------------------------------------------------------ prereqs -------
+[[ $EUID -eq 0 ]] || die "run as root.
+  sudo bash -c \"\$(curl -sSfL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/online-installer.sh)\""
+for cmd in curl tar xz sha256sum; do
+    command -v "$cmd" >/dev/null || die "missing tool: $cmd (install it and re-run)"
+done
 
-# ---------------------------------------------------------------- detect ----
-IN_DOCKER=0
-[[ -f /.dockerenv || -f /run/.containerenv ]] && IN_DOCKER=1
-grep -qsE 'docker|containerd|kubepods' /proc/1/cgroup 2>/dev/null && IN_DOCKER=1
+# ------------------------------------------------------------- detect -------
+IS_CONTAINER=0
+[[ -f /.dockerenv || -f /run/.containerenv ]] && IS_CONTAINER=1
+grep -qsE '(docker|containerd|kubepods|/lxc/)' /proc/1/cgroup 2>/dev/null && IS_CONTAINER=1
+# systemd running as PID1 = booted OS (VM or physical); containers rarely have it
+IS_BOOTED=0
+[[ "$(cat /proc/1/comm 2>/dev/null)" == "systemd" ]] && IS_BOOTED=1
+
+MODE="${EZP_MODE:-auto}"
+case "$MODE" in
+    inplace|disk|auto) ;;
+    *) die "EZP_MODE must be inplace, disk or auto (got: $MODE)" ;;
+esac
+if [[ "$MODE" == "auto" ]]; then
+    if (( IS_CONTAINER )); then MODE=inplace; else MODE=disk; fi
+fi
 
 # idempotent: already converted? (container restart re-runs this installer
-# when it was the container command — become a keep-alive instead)
+# when it was the container command — become a keep-alive ONLY as PID1;
+# a `docker exec` re-run must exit normally, not hang the exec session)
 if [[ -f /etc/ezpenguin/.install-source ]] && grep -q '^ID=ezpenguin' /etc/os-release 2>/dev/null; then
     . /etc/os-release
     say "already EZpenguin ($PRETTY_NAME) — nothing to install."
-    if [[ "$IN_DOCKER" == 1 ]]; then
+    if (( IS_CONTAINER )) && [[ "$$" -eq 1 ]]; then
         say "keeping container alive (PID1). use: docker exec -it <ctr> bash"
         exec sleep infinity
     fi
@@ -59,33 +90,84 @@ ARCH="${EZP_ARCH:-$(uname -m)}"
 case "$ARCH" in
     x86_64|amd64) ARCH=amd64 ;;
     aarch64|arm64) ARCH=arm64 ;;
-    *) die "unsupported architecture: $ARCH" ;;
+    *) die "unsupported architecture: $ARCH (supported: amd64, arm64)" ;;
 esac
-say "architecture: ${BOLD}$ARCH${RST}  environment: ${BOLD}$([[ $IN_DOCKER = 1 ]] && echo container || echo host)${RST}"
+env_label="unknown"
+if (( IS_CONTAINER )); then env_label="container"
+elif (( IS_BOOTED )); then env_label="booted-os"; fi
+say "architecture: ${BOLD}$ARCH${RST}  environment: ${BOLD}$env_label${RST}  mode: ${BOLD}$MODE${RST}"
 
-# ------------------------------------------------------------- download ----
+# ------------------------------------------------------------- download -----
 TMPDIR_EZP=$(mktemp -d)
 trap 'command -v rm >/dev/null && { rm -rf "$TMPDIR_EZP" 2>/dev/null || true; }' EXIT
 TARBALL="${EZP_TARBALL:-}"
+SUMS_FILE=""
 
 if [[ -z "$TARBALL" ]]; then
     say "locating latest release..."
     REL_JSON="$TMPDIR_EZP/release.json"
-    curl -fsSL "https://api.github.com/repos/$REPO/releases/latest" -o "$REL_JSON"
+    curl -sSfL --max-time 30 "$API_URL" -o "$REL_JSON" \
+        || die "release lookup failed ($API_URL) — check network/DNS or set EZP_TARBALL"
     TAG=$(grep -o '"tag_name": *"[^"]*"' "$REL_JSON" | head -1 | cut -d'"' -f4)
-    TARBALL_URL=$(grep -o '"browser_download_url": *"[^"]*-'"$ARCH"'-rootfs.tar.xz"' "$REL_JSON" \
-        | head -1 | cut -d'"' -f4)
-    [[ -n "$TARBALL_URL" ]] || die "no rootfs asset found for $ARCH in latest release"
+    [[ -n "$TAG" ]] || die "release metadata malformed (no tag_name) — is $REPO published?"
+    # asset name from metadata; full URL from metadata, or joined onto EZP_DOWNLOAD_URL
+    ASSET_NAME=$(grep -o '"name": *"[^"]*-'"$ARCH"'-rootfs.tar.xz"' "$REL_JSON" | head -1 | cut -d'"' -f4)
+    if [[ -n "$DL_BASE" ]]; then
+        [[ -n "$ASSET_NAME" ]] || ASSET_NAME="ezpenguin-$TAG-$ARCH-rootfs.tar.xz"
+        TARBALL_URL="${DL_BASE%/}/$ASSET_NAME"
+    else
+        TARBALL_URL=$(grep -o '"browser_download_url": *"[^"]*-'"$ARCH"'-rootfs.tar.xz"' "$REL_JSON" | head -1 | cut -d'"' -f4)
+    fi
+    # checksum manifest ships alongside the artifacts (SHA256SUMS)
+    if [[ -n "$DL_BASE" ]]; then
+        SUMS_URL="$DL_BASE/SHA256SUMS"
+    else
+        SUMS_URL=$(grep -o '"browser_download_url": *"[^"]*/SHA256SUMS"' "$REL_JSON" | head -1 | cut -d'"' -f4)
+    fi
     TARBALL="$TMPDIR_EZP/ezpenguin-rootfs.tar.xz"
     say "downloading: ${TARBALL_URL}"
-    say "             (tag ${BOLD}${TAG:-?}${RST})"
-    curl -fSL --progress-bar -o "$TARBALL" "$TARBALL_URL"
+    say "             (tag ${BOLD}$TAG${RST})"
+    curl -fSL --progress-bar --max-time 1800 -o "$TARBALL" "$TARBALL_URL" \
+        || die "download failed: $TARBALL_URL"
+    if [[ -n "$SUMS_URL" ]]; then
+        if curl -sSfL --max-time 60 -o "$TMPDIR_EZP/SHA256SUMS" "$SUMS_URL"; then
+            SUMS_FILE="$TMPDIR_EZP/SHA256SUMS"
+        else
+            say "${YEL}warning: checksum manifest present in metadata but download failed${RST}"
+        fi
+    else
+        say "${YEL}warning: release has no SHA256SUMS asset — integrity NOT verified${RST}"
+    fi
 else
     if [[ "$TARBALL" =~ ^https?:// ]]; then
         dl_tmp="$TMPDIR_EZP/ezpenguin-rootfs.tar.xz"
-        curl -fSL --progress-bar -o "$dl_tmp" "$TARBALL"; TARBALL="$dl_tmp"
+        curl -fSL --progress-bar --max-time 1800 -o "$dl_tmp" "$TARBALL" || die "download failed: $TARBALL"
+        TARBALL="$dl_tmp"
     fi
     [[ -s "$TARBALL" ]] || die "tarball not found: $TARBALL"
+    # local file: verify a sidecar <file>.sha256 if present
+    [[ -f "$TARBALL.sha256" ]] && SUMS_FILE="$TARBALL.sha256"
+fi
+
+if [[ -n "$SUMS_FILE" ]]; then
+    # match on the EXACT asset this run uses (arch+tag) — manifests list
+    # every arch's artifact, and picking the first entry silently compared
+    # amd64 sums on arm64 hosts (observed: spurious mismatch / false pass)
+    base=$(basename "$TARBALL")
+    want=$(awk -v b="$base" '{f=$NF; sub(/.*\//, "", f); if (f == b) {print $1; exit}}' "$SUMS_FILE")
+    if [[ -n "$want" ]]; then
+        have=$(sha256sum "$TARBALL" | awk '{print $1}')
+        [[ "$have" == "$want" ]] || die "CHECKSUM MISMATCH
+  expected: $want ($base)
+  got:      $have
+the download is corrupt or tampered — aborting."
+        say "${GRN}checksum verified (sha256: $base)${RST}"
+    else
+        say "${YEL}warning: $base not listed in checksum manifest${RST}"
+        [[ "${EZP_STRICT:-0}" == 1 ]] && die "EZP_STRICT=1: unlisted artifact refused"
+    fi
+elif [[ "${EZP_STRICT:-0}" == 1 ]]; then
+    die "EZP_STRICT=1: no checksum manifest available — refusing to install unverified artifact"
 fi
 say "download OK: $(du -h "$TARBALL" | cut -f1)"
 
@@ -145,6 +227,7 @@ EOF
 
 inplace_install() {
     say "${YEL}IN-PLACE CONVERSION${RST} — this replaces the running system userland."
+    say "contract: user data in /home, /srv, /opt, /var/local is kept; OS files become EZpenguin."
 
     # trust boundary: only Debian-family systems may be converted in place.
     # Extracting a Debian userland over rpm/apk/pacman systems destroys their
@@ -392,6 +475,7 @@ inplace_install() {
     cp "$TMPDIR_EZP/resolv.conf" /etc/resolv.conf 2>/dev/null || \
         printf 'nameserver 1.1.1.1\nnameserver 8.8.8.8\n' > /etc/resolv.conf
     cp "$TMPDIR_EZP/hostname" /etc/hostname 2>/dev/null || true
+    local HN
     HN=$(cat /etc/hostname 2>/dev/null || echo ezpenguin)
     printf '127.0.0.1\tlocalhost\n127.0.1.1\t%s\n' "$HN" > /etc/hosts
 
@@ -445,13 +529,13 @@ inplace_install() {
         say "${GRN}bootloader regenerated${RST}"
     fi
 
-    # fresh identity + first-boot on next start
+    # fresh identity + first-boot on next start (priv toolbox still valid here)
     rm -f /etc/machine-id; : > /etc/machine-id
     rm -f /etc/ezpenguin/.configured
     mkdir -p /etc/ezpenguin
     printf 'online-installer %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > /etc/ezpenguin/.install-source
 
-    # clear apt lists (stale from build container? tarball ships clean — cheap safety)
+    # clear apt lists (stale from the previous distro — tarball ships clean, cheap safety)
     rm -rf /var/lib/apt/lists/* 2>/dev/null || true
 
     # hotpatch: banner.sh tty-detection deadlock in 0.4.0 tarballs (fixed upstream)
@@ -467,16 +551,38 @@ inplace_install() {
     say ""
 }
 
-# -------------------------------------------------------- bare metal -------
+# -------------------------------------------------------- bare metal --------
+part_names() { # echo "<ESP> <ROOT>" for a freshly partitioned disk
+    local d="$1" esp root
+    if [[ "$ARCH" == arm64 ]]; then
+        esp="${d}1"; root="${d}2"
+        [[ -e "$esp" && -e "$root" ]] || { esp="${d}p1"; root="${d}p2"; }
+    else
+        esp="${d}2"; root="${d}3"
+        [[ -e "$esp" && -e "$root" ]] || { esp="${d}p2"; root="${d}p3"; }
+    fi
+    [[ -e "$esp" && -e "$root" ]] || return 1
+    echo "$esp $root"
+}
+
 disk_install() {
     say "${YEL}BARE-METAL INSTALL${RST}"
-    lsblk -dnpo NAME,SIZE,MODEL,TYPE | awk '$4=="disk"{print "  " $1 "  " $2 "  " $3}' >&2
+    command -v lsblk >/dev/null || die "lsblk not found (install util-linux)"
+    lsblk -dnpo NAME,SIZE,MODEL,TYPE 2>/dev/null | awk '$4=="disk"{print "  " $1 "  " $2 "  " $3}' >&2
+    local TARGET_DISK
     read -r -p "Target disk (e.g. /dev/sda — WILL BE ERASED): " TARGET_DISK
     [[ -b "$TARGET_DISK" ]] || die "not a block device: $TARGET_DISK"
     read -r -p "Type 'YES' to wipe $TARGET_DISK: " CONF
     [[ "$CONF" == YES ]] || die "aborted"
 
-    command -v sgdisk >/dev/null || { apt-get update -qq && apt-get install -y -qq gdisk; } || die "install gdisk first"
+    if ! command -v sgdisk >/dev/null; then
+        if command -v apt-get >/dev/null; then
+            if ! apt-get update -qq; then die "apt-get update failed — install gdisk manually"; fi
+            apt-get install -y -qq gdisk || die "install gdisk first"
+        else
+            die "sgdisk not found — install gdisk first"
+        fi
+    fi
 
     swapoff "$TARGET_DISK"* 2>/dev/null || true
     umount "$TARGET_DISK"* 2>/dev/null || true
@@ -485,38 +591,52 @@ disk_install() {
         sgdisk -Z "$TARGET_DISK"
         sgdisk -n 1:0:+260M -t 1:ef00 -c 1:ESP "$TARGET_DISK"
         sgdisk -n 2:0:0     -t 2:8300 -c 2:root "$TARGET_DISK"
-        ESP="${TARGET_DISK}1"; ROOT="${TARGET_DISK}2"
     else
         sgdisk -Z "$TARGET_DISK"
         sgdisk -n 1:0:+1M   -t 1:ef02 -c 1:BIOSBOOT "$TARGET_DISK"
         sgdisk -n 2:0:+260M -t 2:ef00 -c 2:ESP "$TARGET_DISK"
         sgdisk -n 3:0:0     -t 3:8300 -c 3:root "$TARGET_DISK"
-        ESP="${TARGET_DISK}2"; ROOT="${TARGET_DISK}3"
     fi
     partprobe "$TARGET_DISK" 2>/dev/null || true; sleep 2
-    [[ -e "$ROOT" ]] || ROOT="${TARGET_DISK}p3"; [[ -e "$ESP" ]] || ESP="${TARGET_DISK}p2"
+    local ESP ROOT
+    read -r ESP ROOT < <(part_names "$TARGET_DISK") || die "cannot find partitions on $TARGET_DISK"
 
+    command -v mkfs.vfat >/dev/null || die "mkfs.vfat missing (dosfstools)"
     mkfs.vfat -F32 -n EZP_BOOT "$ESP"
     mkfs.ext4 -L EZP_ROOT -q "$ROOT"
 
+    local MNT
     MNT=$(mktemp -d)
     mount "$ROOT" "$MNT"; mkdir -p "$MNT/boot/efi"; mount "$ESP" "$MNT/boot/efi"
-    tar -xJf "$TARBALL" -C "$MNT" --numeric-owner
+    tar -xJf "$TARBALL" -C "$MNT" --numeric-owner || { umount -R "$MNT" || true; die "tar extraction to target failed"; }
     printf 'LABEL=EZP_ROOT  /         ext4 defaults,noatime 0 1\nLABEL=EZP_BOOT  /boot/efi vfat defaults 0 2\n' > "$MNT/etc/fstab"
     rm -f "$MNT/etc/machine-id"; : > "$MNT/etc/machine-id"
     rm -f "$MNT/etc/ezpenguin/.configured"
     for d in dev proc sys; do mount --bind "/$d" "$MNT/$d"; done
+    local ROOT_UUID KVER ESP ROOT
     ROOT_UUID=$(blkid -s UUID -o value "$ROOT")
-    KVER=$(basename "$(ls "$MNT"/boot/vmlinuz-* | sort -V | tail -1)" | sed 's/vmlinuz-//')
-    chroot "$MNT" /usr/bin/env -i PATH=/usr/sbin:/usr/bin:/sbin:/bin bash -exc '
-        if [ "'$ARCH'" = arm64 ]; then
-            grub-install --target=arm64-efi --efi-directory=/boot/efi --boot-directory=/boot --no-nvram --removable
+    KVER=$(find "$MNT/boot" -maxdepth 1 -name 'vmlinuz-*' | sort -V | tail -1)
+    [[ -n "$KVER" ]] || { umount -R "$MNT" 2>/dev/null || true; die "no kernel found in extracted rootfs"; }
+    KVER=${KVER##*/}; KVER=${KVER#vmlinuz-}
+    local GRUB_TARGET
+    GRUB_TARGET=$([[ "$ARCH" == arm64 ]] && echo arm64-efi || echo x86_64-efi)
+    # EFI first; amd64 falls back to i386-pc on the same disk if EFI fails.
+    # BOTH failing = unbootable disk → abort (never suppress silently).
+    if ! chroot "$MNT" /usr/bin/env -i PATH=/usr/sbin:/usr/bin:/sbin:/bin \
+            grub-install --target="$GRUB_TARGET" --efi-directory=/boot/efi \
+            --boot-directory=/boot --no-nvram --removable >&2; then
+        if [[ "$ARCH" == amd64 ]]; then
+            chroot "$MNT" /usr/bin/env -i PATH=/usr/sbin:/usr/bin:/sbin:/bin \
+                grub-install --target=i386-pc --boot-directory=/boot "$TARGET_DISK" >&2 \
+                || { umount -R "$MNT" 2>/dev/null || true; die "grub installation failed — target would be unbootable, aborting"; }
         else
-            grub-install --target=x86_64-efi --efi-directory=/boot/efi --boot-directory=/boot --no-nvram --removable || true
-            grub-install --target=i386-pc --boot-directory=/boot '"$TARGET_DISK"' || true
-        fi' >&2
+            umount -R "$MNT" 2>/dev/null || true
+            die "grub (arm64-efi) installation failed — target would be unbootable, aborting"
+        fi
+    fi
     mkdir -p "$MNT/boot/grub"
-    CONSOLE=$([[ "$ARCH" = arm64 ]] && echo 'console=tty0 console=ttyAMA0,115200' || echo 'console=tty0 console=ttyS0,115200n8')
+    local CONSOLE
+    if [[ "$ARCH" == arm64 ]]; then CONSOLE='console=tty0 console=ttyAMA0,115200'; else CONSOLE='console=tty0 console=ttyS0,115200n8'; fi
     cat > "$MNT/boot/grub/grub.cfg" <<EOF
 set default=0
 set timeout=3
@@ -526,14 +646,15 @@ menuentry "EZpenguin GNU/Linux" {
     initrd /boot/initrd.img-$KVER
 }
 EOF
-    umount "$MNT/dev" "$MNT/proc" "$MNT/sys" "$MNT/boot/efi" "$MNT"; sync
+    grep -q "root=UUID=$ROOT_UUID" "$MNT/boot/grub/grub.cfg" || { umount -R "$MNT" 2>/dev/null || true; die "grub.cfg sanity check failed"; }
+    umount "$MNT/dev" "$MNT/proc" "$MNT/sys" "$MNT/boot/efi" "$MNT" 2>/dev/null || true; rm -rf "$MNT"; sync
     say "${BOLD}Installed to $TARGET_DISK — reboot into EZpenguin.${RST}"
 }
 
 # ----------------------------------------------------------------- main -----
-if [[ "$IN_DOCKER" == 1 || "${EZP_INPLACE:-0}" == 1 ]]; then
+if [[ "$MODE" == "inplace" ]]; then
     inplace_install
-    ACTION="restart this container"
+    if (( IS_CONTAINER )); then ACTION="restart this container"; else ACTION="reboot"; fi
 else
     disk_install
     ACTION="reboot"
@@ -544,12 +665,8 @@ if [[ "${EZP_NO_REBOOT:-0}" == 1 ]]; then
 else
     say "rebooting now: ${BOLD}$ACTION${RST} → boots into EZpenguin, first-boot wizard starts"
     sleep 2
-    if [[ "$IN_DOCKER" == 1 ]]; then
-        # if this installer IS the container command (PID1), exiting stops the
-        # container — the restart policy boots it again into EZpenguin
-        # (idempotent guard above turns the re-run into a keep-alive).
-        # when run via `docker exec`, signal PID1 as a best effort.
-        if [[ $$ -eq 1 ]]; then
+    if (( IS_CONTAINER )); then
+        if [[ "$$" -eq 1 ]]; then
             exit 0
         else
             kill -TERM 1 2>/dev/null || kill -KILL 1 2>/dev/null || true
