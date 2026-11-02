@@ -457,7 +457,20 @@ command -v lightdm >/dev/null && dpkg -l 2>/dev/null | grep -q lxsession \
 EOF
             ;;
         *)
-            echo ": # no probe for $1"
+            # generic install-verification probe: every package token of the
+            # catalog row must be installed (dpkg status) — the deeper service
+            # roundtrips stay with the hand-written daemons above.
+            cat <<EOF
+ok=1; n=0
+for p in ${E_PKGS[$1]}; do
+  if dpkg-query -W -f='\${Status}' "\$p" 2>/dev/null | grep -q 'install ok installed'; then
+    n=\$((n+1))
+  else
+    echo "FUNC-BLOCKED: package missing after install: \$p"; ok=0
+  fi
+done
+[ "\$ok" = 1 ] && echo "FUNC-OK: \$n/\$n packages installed and verified (generic probe)"
+EOF
             ;;
     esac
 }

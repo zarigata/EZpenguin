@@ -108,7 +108,10 @@ case "${1:-tui}" in
         [[ -n "${2:-}" ]] || { echo "usage: ez-software search TERM" >&2; exit 1; }
         parse | grep -i -- "$2" | while IFS=$'\t' read -r id name pkgs cat desc post; do
             printf '%-17s %-11s %s\n    %s\n    packages: %s\n' "$id" "$cat" "$name" "$desc" "$pkgs"
-            [[ -n "${post// /}" ]] && printf '    post: %s\n' "$post"
+            # NB: an empty post must not turn the search's exit status bad
+            # (last loop iteration decides the pipeline status; nginx-stream
+            # has no hook — observed rc=1 on the 261-entry catalog)
+            if [[ -n "${post// /}" ]]; then printf '    post: %s\n' "$post"; fi
         done
         ;;
     install)
