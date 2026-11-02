@@ -26,7 +26,7 @@ Start small, choose your software, and keep control of your machine.
 ## What is EZpenguin?
 
 EZpenguin builds on **Debian 12 (bookworm)** with an automated first-boot wizard,
-a **61-entry software catalog**, and auditable Bash tools for everyday server tasks.
+a **261-entry software catalog**, and auditable Bash tools for everyday server tasks.
 Use it as a starting point for a container host, development box, file server,
 network lab, or optional lightweight desktop.
 
@@ -41,7 +41,7 @@ network lab, or optional lightweight desktop.
 | Local administration | Configuration, diagnostics, backups, and updates through `ez-*` tools |
 | Build it yourself | Versioned Docker-based build scripts and rootfs / QEMU test suites |
 
-**Project status:** v1.0.0 — the first stable release. Wider real-hardware testing,
+**Project status:** v1.1.0 — 261-entry software catalog with the new `ez-soft` full-screen TUI. Wider real-hardware testing,
 artifact signing, and further hardening remain on the [roadmap](docs/ROADMAP.md).
 ARM64 support does not imply compatibility with every single-board computer.
 Docker makes the build process consistent; bit-for-bit identical artifacts are
@@ -52,15 +52,15 @@ not currently guaranteed.
 ### 1. Pick an image
 
 Download from [GitHub Releases](https://github.com/zarigata/EZpenguin/releases).
-These are the published **v1.0.0** artifacts (sizes rounded, decimal MB):
+These are the published **v1.1.0** artifacts (sizes rounded, decimal MB):
 
 | Artifact | Size | Use |
 |---|---:|---|
-| [amd64 disk image](https://github.com/zarigata/EZpenguin/releases/download/v1.0.0/ezpenguin-1.0.0-amd64.img.xz) | 309 MB | Flash to a dedicated drive or use in a VM |
-| [amd64 live ISO](https://github.com/zarigata/EZpenguin/releases/download/v1.0.0/ezpenguin-1.0.0-amd64.iso) | 260 MB | Boot a live environment and optionally install to disk |
-| [amd64 rootfs](https://github.com/zarigata/EZpenguin/releases/download/v1.0.0/ezpenguin-1.0.0-amd64-rootfs.tar.xz) | 169 MB | Online installer or custom image workflows |
-| [ARM64 disk image](https://github.com/zarigata/EZpenguin/releases/download/v1.0.0/ezpenguin-1.0.0-arm64.img.xz) | 292 MB | Compatible UEFI ARM64 hardware / VMs |
-| [ARM64 rootfs](https://github.com/zarigata/EZpenguin/releases/download/v1.0.0/ezpenguin-1.0.0-arm64-rootfs.tar.xz) | 152 MB | ARM64 installer / custom image workflows |
+| [amd64 disk image](https://github.com/zarigata/EZpenguin/releases/download/v1.1.0/ezpenguin-1.1.0-amd64.img.xz) | 307 MB | Flash to a dedicated drive or use in a VM |
+| [amd64 live ISO](https://github.com/zarigata/EZpenguin/releases/download/v1.1.0/ezpenguin-1.1.0-amd64.iso) | 260 MB | Boot a live environment and optionally install to disk |
+| [amd64 rootfs](https://github.com/zarigata/EZpenguin/releases/download/v1.1.0/ezpenguin-1.1.0-amd64-rootfs.tar.xz) | 169 MB | Online installer or custom image workflows |
+| [ARM64 disk image](https://github.com/zarigata/EZpenguin/releases/download/v1.1.0/ezpenguin-1.1.0-arm64.img.xz) | 277 MB | Compatible UEFI ARM64 hardware / VMs |
+| [ARM64 rootfs](https://github.com/zarigata/EZpenguin/releases/download/v1.1.0/ezpenguin-1.1.0-arm64-rootfs.tar.xz) | 152 MB | ARM64 installer / custom image workflows |
 
 ### 2. Boot in a VM or spare machine
 
@@ -108,7 +108,7 @@ Use a disposable environment when evaluating conversion. Full details:
 
 <a id="-software-catalog-61-stacks"></a>
 
-## Software catalog (61 stacks)
+## Software catalog (261 stacks)
 
 [**Search the catalog on the website →**](https://zarigata.github.io/EZpenguin/#software)
 

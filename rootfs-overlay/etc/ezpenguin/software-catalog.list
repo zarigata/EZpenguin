@@ -19,9 +19,9 @@ nfs|NFS server|nfs-kernel-server|server|Network file sharing (Linux)|systemctl e
 syncthing|Syncthing|syncthing|server|Continuous file sync between devices|systemctl enable --now syncthing@${SUDO_USER:-root}
 cockpit|Cockpit web console|cockpit|server|Web-based system management on port 9090|systemctl enable --now cockpit.socket
 prometheus-node|Prometheus node exporter|prometheus-node-exporter|server|Machine metrics exporter|systemctl enable --now prometheus-node-exporter
-gitea-light|Gogs git service|gogs|server|Self-hosted lightweight Git service|systemctl enable --now gogs
+gitweb|GitWeb repository browser|gitweb|server|Built-in git web interface (git-daemon ready)|
 mosquitto|MQTT broker (mosquitto)|mosquitto mosquitto-clients|server|IoT MQTT broker + pub/sub clients|systemctl enable --now mosquitto
-gitdaemon|git daemon|git daemon|server|Serve git repositories over git://|
+gitdaemon|Git daemon|git|server|Serve git repositories over git://|
 
 # ---------------- languages / dev ----------------
 python|Python 3 + pip + venv|python3-full python3-pip python3-venv python3-dev|dev|Python with virtualenv support|
@@ -75,3 +75,203 @@ git|Git|git|tools|Version control|
 # ---------------- desktop ----------------
 xfce|XFCE desktop|task-xfce-desktop lightdm|desktop|Lightweight full desktop|systemctl set-default graphical.target
 lxde|LXDE desktop|task-lxde-desktop lightdm|desktop|Ultra-light desktop|systemctl set-default graphical.target
+nginx-stream|Nginx stream proxy (TCP/UDP)|libnginx-mod-stream|server|TCP/UDP load-balancing module for nginx|
+lighttpd-webdav|Lighttpd WebDAV|lighttpd-mod-webdav|server|WebDAV module for lighttpd|
+apache-utils|Apache benchmark tools|apache2-utils|server|ab + htpasswd + log tools (no daemon)|
+mysql-client|MySQL/MariaDB client|default-mysql-client|server|SQL client for remote DB servers|
+pgpool|Pgpool-II connection pooler|pgpool2|server|Connection pooling + replication for postgresql|systemctl enable --now pgpool2
+pgbouncer|PgBouncer pooler|pgbouncer|server|Lightweight postgresql connection pooler|systemctl enable --now pgbouncer
+postfix|Postfix mail transfer agent|postfix|server|The standard SMTP mail server|systemctl enable --now postfix
+dovecot|Dovecot IMAP server|dovecot-core dovecot-imapd|server|Secure IMAP + POP3 mail server|systemctl enable --now dovecot
+rspamd|Rspamd spam filter|rspamd|server|Fast spam filtering + DKIM signing|systemctl enable --now rspamd
+spamassassin|SpamAssassin|spamassassin|server|Classic mail spam filtering engine|systemctl enable --now spamassassin
+opendkim|OpenDKIM milter|opendkim|server|DKIM signing/verification for mail|systemctl enable --now opendkim
+prosody|Prosody XMPP server|prosody|server|Modern lightweight XMPP chat server|systemctl enable --now prosody
+ejabberd|ejabberd XMPP server|ejabberd|server|Feature-rich fault-tolerant XMPP server|systemctl enable --now ejabberd
+mumble-server|Mumble voice server|mumble-server|server|Low-latency VoIP chat server|systemctl enable --now mumble-server
+icecast|Icecast streaming server|icecast2|server|Audio/media streaming server|systemctl enable --now icecast2
+minidlna|MiniDLNA media server|minidlna|server|DLNA/UPnP media server for smart TVs|systemctl enable --now minidlna
+transmission-daemon|Transmission daemon|transmission-daemon|server|Lightweight BitTorrent daemon + web UI|systemctl enable --now transmission-daemon
+motion|Motion surveillance|motion|server|Camera motion detection + video capture|
+zoneminder|ZoneMinder CCTV|zoneminder|server|Full CCTV camera surveillance suite|
+cups|CUPS print server|cups|server|Print server with web admin on 631|systemctl enable --now cups
+haproxy|HAProxy load balancer|haproxy|server|Reliable high-performance TCP/HTTP LB|systemctl enable --now haproxy
+varnish|Varnish HTTP cache|varnish|server|High-speed HTTP accelerator/cache|systemctl enable --now varnish
+squid|Squid proxy cache|squid|server|Caching forward web proxy|systemctl enable --now squid
+tinyproxy|Tinyproxy forward proxy|tinyproxy|server|Small POSIX-compliant HTTP(S) proxy|systemctl enable --now tinyproxy
+privoxy|Privoxy privacy proxy|privoxy|server|Non-caching web proxy w/ ad filtering|systemctl enable --now privoxy
+bind9|BIND9 DNS server|bind9|server|The reference authoritative+recursive DNS|systemctl enable --now named
+unbound|Unbound DNS resolver|unbound|server|Validating recursive caching DNS resolver|systemctl enable --now unbound
+knot|Knot DNS server|knot|server|High-performance authoritative DNS|systemctl enable --now knot
+pdns|PowerDNS authoritative|pdns-server pdns-backend-sqlite3|server|Authoritative DNS w/ many backends|
+dnsmasq|dnsmasq DNS/DHCP|dnsmasq|server|Lightweight DNS + DHCP + TFTP|systemctl enable --now dnsmasq
+backuppc|BackupPC backup server|backuppc|server|Disk-based dedup backup server suite|systemctl enable --now backuppc
+monit|Monit process watchdog|monit|server|Watch processes/files and self-repair|systemctl enable --now monit
+munin|Munin monitoring server|munin munin-node|server|Plug-in based resource monitoring + graphs|systemctl enable --now munin-node
+netdata|Netdata real-time monitoring|netdata|server|Per-second metrics, health alarms, web UI|systemctl enable --now netdata
+zabbix-agent|Zabbix agent|zabbix-agent|server|Monitoring agent for Zabbix server|systemctl enable --now zabbix-agent
+zabbix-server|Zabbix server (postgresql)|zabbix-server-pgsql|server|Full Zabbix monitoring server (DB: postgresql)|
+iscsi|iSCSI initiator|open-iscsi|server|iSCSI storage networking client|systemctl enable --now open-iscsi
+sqlite|SQLite 3 CLI|sqlite3|dev|Serverless SQL database engine + CLI|
+lua54|Lua 5.4|lua5.4|dev|Lightweight embeddable scripting language|
+lua53|Lua 5.3|lua5.3|dev|Lua scripting (5.3 series)|
+tcl|Tcl 8.6 + dev headers|tcl8.6 tcl-dev|dev|Tool command language + dev headers|
+valac|Vala compiler|valac|dev|GNOME-stack language compiling to C|
+cmake|CMake build system|cmake|dev|Cross-platform build generator|
+clang|Clang compiler|clang|dev|C/C++/Objective-C compiler (LLVM)|
+llvm|LLVM toolchain|llvm|dev|LLVM optimizer + codegen toolchain|
+gdc|GNU D compiler|gdc|dev|D language front-end for GCC|
+fortran|GNU Fortran|gfortran|dev|Fortran compiler (gcc)|
+pascal|Free Pascal compiler|fp-compiler|dev|Free Pascal / Object Pascal toolchain|
+ocaml|OCaml|ocaml|dev|ML-family functional language toolchain|
+ghc|Glasgow Haskell Compiler|ghc|dev|Haskell compiler + toolchain|
+guile|GNU Guile 3.0|guile-3.0|dev|Scheme implementation (GNU extension lang)|
+racket|Racket|racket|dev|Racket language runtime + DrRacket|
+erlang|Erlang/OTP|erlang|dev|BEAM concurrency runtime + tools|
+elixir|Elixir|elixir|dev|Dynamic BEAM language (on Erlang/OTP)|
+clojure|Clojure|clojure|dev|Lisp on the JVM|
+scala|Scala|scala|dev|JVM functional/OO hybrid language|
+kotlin|Kotlin|kotlin|dev|JVM language by JetBrains|
+groovy|Groovy|groovy|dev|Dynamic JVM scripting language|
+maven|Maven build tool|maven|dev|Java project build/dependency manager|
+gradle|Gradle|gradle|dev|Modern JVM build tool|
+default-jre|Java runtime (default JRE)|default-jre|dev|Just the Java runtime, no compiler|
+node-typescript|TypeScript (npm)|node-typescript|dev|Typed JavaScript, tsc via npm|
+yarnpkg|Yarn package manager|yarnpkg|dev|Alternative Node.js package manager|
+mono|Mono runtime + tools|mono-devel|dev|.NET-compatible CLR runtime stack|
+ansible|Ansible automation|ansible|dev|Agentless config management + provisioning|
+pre-commit|pre-commit hooks|pre-commit|dev|Git hook framework manager|
+shellcheck|ShellCheck|shellcheck|dev|Static analysis for shell scripts|
+shfmt|shfmt formatter|shfmt|dev|shellfmt: POSIX/shell code formatter|
+editorconfig|EditorConfig CLI|editorconfig|dev|Check/enforce .editorconfig rules|
+vagrant|Vagrant|vagrant|dev|Reproducible dev VM workflows|
+packer|Packer image builder|packer|dev|Machine image build automation|
+rpy2|R via Python (rpy2)|python3-rpy2|dev|R statistical bridge for Python 3|
+rust-all|Rust full toolchain|rust-all|dev|rustc + cargo + docs + std for all targets|
+duc|duc disk usage index|duc|dev|Indexes disk usage, explores with GUI/ncurses/cgi|
+npm-check|npm check updates|npm|dev|npm registry query helper tools|
+socat|socat relay|socat|network|Multipurpose bidirectional pipe/relay|
+netcat|OpenBSD netcat|netcat-openbsd|network|TCP/UDP swiss army knife|
+mtr|Mtr traceroute (curses)|mtr-tiny|network|Traceroute + ping combined diagnostics|
+whois|whois client|whois|network|Domain/IP registry lookups|
+dig|dig DNS utility|dnsutils|network|DNS lookup tool from ISC bind|
+wget|wget downloader|wget|network|Classic HTTP/FTP downloader|
+aria2|aria2 downloader|aria2|network|Multi-protocol segmented download utility|
+axel|Axel accelerator|axel|network|Lightweight multi-connection downloader|
+lftp|lftp file transfer|lftp|network|Sophisticated FTP/SFTP/HTTP client|
+ncftp|NcFTP client|ncftp|network|User-friendly FTP client suite|
+rclone|rclone cloud sync|rclone|network|Rsync for 70+ cloud storage providers|
+speedtest-cli|Speedtest CLI|speedtest-cli|network|Internet bandwidth testing (Ookla)|
+iperf|iperf (v2)|iperf|network|Legacy iperf throughput tool|
+nftables|nftables firewall|nftables|network|Modern kernel packet filtering (iptables successor)|
+shorewall|Shorewall firewall|shorewall|network|Netfilter rules from config files|
+ferm|ferm firewall DSL|ferm|network|Domain-specific language for iptables rules|
+hostapd|hostapd access point|hostapd|network|Turn wifi card into an access point|
+radvd|radvd router adverts|radvd|network|IPv6 router advertisement daemon|
+isc-dhcp|ISC DHCP server|isc-dhcp-server|network|Classic DHCP server daemon|
+strongswan|strongSwan IPsec VPN|strongswan|network|Standards-based IPsec IKEv2 VPN suite|
+libreswan|Libreswan IPsec VPN|libreswan|network|IPsec IKE implementation (fork of freeswan)|
+ocserv|OpenConnect VPN server|ocserv|network|Cisco AnyConnect-compatible VPN server|
+nebula|Nebula overlay network|nebula|network|Scalable mesh VPN built on Noise protocol|
+zerotier-bridge|ZeroTier bridge utils|bridge-utils vlan|network|Ethernet bridging + 802.1q VLAN tools|
+ethtool|ethtool NIC tuning|ethtool|network|NIC driver/hardware diagnostics + tuning|
+ndisc6|ndisc6 IPv6 toolbox|ndisc6|network|IPv6 neighbor discovery diagnostic tools|
+bmon|bmon bandwidth monitor|bmon|network|Bandwidth monitor + rate estimator|
+slurm-wlm|Slurm node monitor (slurm)|slurm|network|Tiny live network load monitor (not the HPC one)|
+debsecan|debsecan CVE monitor|debsecan|security|Debian security vulnerability auditor|
+chkrootkit|chkrootkit|chkrootkit|security|Alternative rootkit detection scanner|
+tiger|Tiger security audit|tiger|security|UNIX security audit + intrusion detection|
+lynis|Lynis auditor|lynis|security|Security auditing + hardening scanner|
+testssl|testssl.sh TLS auditor|testssl.sh|security|TLS/SSL cipher + cert auditing|
+john|John the Ripper|john|security|Classic password cracker (auditing)|
+hashcat|hashcat|hashcat|security|GPU/CPU password recovery (auditing)|
+hydra|THC Hydra|hydra|security|Network login cracker (auditing)|
+dirb|dirb web fuzzer|dirb|security|Web content scanner (hidden dirs)|
+sqlmap|sqlmap|sqlmap|security|Automatic SQL injection scanner|
+wireshark-qt|Wireshark GUI|wireshark-qt tshark|security|Full Wireshark protocol analyzer GUI|
+signify-openbsd|signify signature tool|signify-openbsd|security|OpenBSD-style cryptogs signing/verification|
+aide|AIDE file integrity|aide|security|File/directory integrity database + checker|
+samhain|Samhain HIDS|samhain|security|Host integrity + log monitoring|
+apparmor|AppArmor LSM|apparmor apparmor-utils|security|Mandatory access control framework|
+selinux|SELinux basics|selinux-basics|security|SELinux policy tooling base|
+usbguard|USBGuard device policy|usbguard|security|Whitelist/deny USB devices at kernel level|
+yubikey-manager|YubiKey manager|yubikey-manager|security|Configure/audit YubiKey devices over USB|
+pass|pass password manager|pass gnupg2|security|The standard unix password manager (gpg)|
+age|age encryption|age|security|Modern simple file encryption (X25519)|
+keepassxc|KeePassXC|keepassxc|security|Cross-platform password safe (GUI)|
+yubikey-piv|PC/SC smartcard daemon|pcscd|security|PC/SC smart card daemon for PIV/security keys|
+gnome-passwordsafe|GNOME Password Safe|gnome-passwordsafe|security|Password manager for GNOME (keepass)|
+bmon-dup|bmon bandwidth monitor|bmon|tools|Bandwidth monitor + rate estimator|
+dstat-dup|dstat resource stats|dstat|tools|Versatile resource statistics tool|
+atop-dup|atop advanced monitor|atop|tools|Advanced system + process monitor (logging)|
+duf|duf disk usage|duf|tools|Better df: disk usage in pretty tables|
+htop-proc|procps process tools|procps|tools|ps/top/pkill/pgrep core process tools|
+ripgrep|ripgrep search|ripgrep|tools|Fast recursive regex search (grep replacement)|
+fd-find|fd-find|fd-find|tools|Fast user-friendly find replacement|
+fzf|fzf fuzzy finder|fzf|tools|Interactive fuzzy filter for pipes/lists|
+glances|Glances monitor|glances|tools|Cross-platform system monitoring (curses+web)|
+nload|nload traffic monitor|nload|tools|Real-time network traffic visualization|
+iftop|iftop per-connection|iftop|tools|Bandwidth usage by host/connection|
+vnstat|vnstat traffic logger|vnstat|tools|Month/day network traffic logging daemon|systemctl enable --now vnstat
+iotop|iotop I/O monitor|iotop|tools|Per-process disk I/O monitor|
+sysstat|sysstat (sar/iostat)|sysstat|tools|Collect + report system activity (sar)|
+lsof|lsof|lsof|tools|List open files/sockets per process|
+strace|strace|strace|tools|Trace system calls of a process|
+ltrace|ltrace|ltrace|tools|Trace library calls of a process|
+inotify-tools|inotify-tools|inotify-tools|tools|Watch file/directory change events from shell|
+stress-ng|stress-ng|stress-ng|tools|System stress/soak test workload generator|
+bonnie|bonnie++ disk bench|bonnie++|tools|Classic filesystem + disk benchmark|
+fio|fio storage bench|fio|tools|Flexible I/O tester (blkio benchmarking)|
+hdparm|hdparm ATA tune|hdparm|tools|SATA/IDE drive parameters + benchmarks|
+sdparm|sdparm SCSI tune|sdparm|tools|SCSI device parameter utility|
+ddrescue|ddrescue data recovery|gddrescue|tools|Data recovery with retry/sector mapping|
+testdisk|TestDisk recovery|testdisk|tools|Partition recovery + repair (incl. PhotoRec)|
+extundelete|extundelete|extundelete|tools|Recover deleted files from ext3/ext4|
+jdupes|jdupes duplicate finder|jdupes|tools|Find + act on duplicate files|
+rmlint|rmlint|rmlint|tools|Find lint/dupes/broken links in trees|
+progress|progress viewer|progress|tools|Coreutils progress (cp/mv/dd progress bar)|
+pv|pv pipe viewer|pv|tools|Pipe throughput/progress meter|
+exa|exa modern ls|exa|tools|Modern ls with colors/git status|
+lsd|lsd modern ls|lsd|tools|LSDeluxe: ls with icons + colors|
+bat|bat pager|bat|tools|cat clone with syntax highlighting|
+yq|yq (python edition)|yq|tools|YAML/XML processor (kislyuk python yq)|
+xmlstarlet|xmlstarlet|xmlstarlet|tools|Command-line XML toolkit (xpath/xslt)|
+miller|Miller (mlr) data tool|miller|tools|awk/sed/cut for CSV/JSON named data|
+csvkit|csvkit|python3-csvkit|tools|CSV swiss army knife (in2csv, csvsql...)|
+pandoc|pandoc converter|pandoc|tools|Universal document format converter|
+tidy|tidy HTML checker|tidy|tools|HTML/XHTML validator + reformatter|
+exiftool|ExifTool|libimage-exiftool-perl|tools|Read/write/edit EXIF + file metadata|
+zip|zip/unzip archivers|zip unzip|tools|Standard zip compress/decompress tools|
+xz-utils|xz/bzip2/pigz compressors|xz-utils bzip2 pigz pbzip2|tools|Modern + parallel compression tools|
+parallel|GNU parallel|parallel|tools|Run jobs in parallel on cores/hosts|
+moreutils|moreutils|moreutils|tools|Extra unix tools (ts, sponge, chronic...)|
+lshw|lshw hardware lister|lshw|tools|Full hardware configuration report|
+exfatprogs|exFAT fs tools|exfatprogs|tools|exFAT filesystem mkfs + fsck|
+f2fs-tools|F2FS fs tools|f2fs-tools|tools|Flash-friendly filesystem utilities|
+btrfs-progs|btrfs tools|btrfs-progs|tools|btrfs filesystem management tools|
+xfsprogs|XFS tools|xfsprogs|tools|SGI XFS filesystem administration|
+jfsutils|JFS tools|jfsutils|tools|IBM JFS filesystem utilities|
+mdadm|mdadm software RAID|mdadm|tools|Linux software RAID administration|
+lvm2|LVM2 volumes|lvm2|tools|Logical volume manager administration|
+cryptsetup|cryptsetup LUKS|cryptsetup|tools|LUKS/dm-crypt disk encryption tools|
+parted|parted partitioner|parted|tools|GNU partition manager (CLI)|
+gdisk|gdisk GPT fdisk|gdisk|tools|Interactive GPT partitioner (sgdisk)|
+file-magic|file type ID|file|tools|File type identification (magic numbers)|
+lxqt|LXQt desktop|task-lxqt-desktop sddm|desktop|Modern Qt lightweight desktop|systemctl set-default graphical.target
+kde|KDE Plasma desktop|task-kde-desktop sddm|desktop|Full-featured Plasma desktop|systemctl set-default graphical.target
+gnome|GNOME desktop|task-gnome-desktop gdm3|desktop|The standard GNOME desktop|systemctl set-default graphical.target
+cinnamon|Cinnamon desktop|task-cinnamon-desktop lightdm|desktop|Linux Mint-style desktop|systemctl set-default graphical.target
+mate|MATE desktop|task-mate-desktop lightdm|desktop|GNOME 2 continuation desktop|systemctl set-default graphical.target
+openbox|Openbox WM|openbox|desktop|Minimal stacking window manager|
+i3|i3 tiling WM|i3-wm|desktop|Popular tiling window manager|
+firefox-esr|Firefox ESR|firefox-esr|desktop|Mozilla browser, extended support channel|
+thunderbird|Thunderbird mail|thunderbird|desktop|Mozilla email + calendar client|
+vlc|VLC media player|vlc|desktop|Plays everything audio/video|
+gimp|GIMP image editor|gimp|desktop|GNU image manipulation program|
+libreoffice|LibreOffice suite|libreoffice|desktop|Full office suite (writer/calc/impress)|
+keepassxc-gui|KeePassXC (desktop)|keepassxc|desktop|Password safe GUI (also in security)|
+alacritty|Alacritty terminal|alacritty|desktop|GPU-accelerated terminal emulator|
+terminator|Terminator terminal|terminator|desktop|Multi-pane terminal emulator|
+gparted-gui|GP partition editor|gparted|desktop|Partition editor GUI|
+ddcutil|ddcutil monitor control|ddcutil|desktop|Control external monitor settings (DDC/CI)|
+needrestart|needrestart checker|needrestart|desktop|Restart services after lib upgrades|

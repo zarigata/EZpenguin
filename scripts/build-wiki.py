@@ -136,7 +136,7 @@ def nav(page):
         dest='wiki/'+key+'/index.html'
         current=' aria-current="page"' if dest==page else ''
         result+=f'<a href="{rel(dest,page)}"{current}>{esc(title)}</a>'
-    result+=f'<a href="{rel("wiki/base-packages/index.html",page)}">Base packages</a><h3>Software / 61 entries</h3>'
+    result+=f'<a href="{rel("wiki/base-packages/index.html",page)}">Base packages</a><h3>Software / 261 entries</h3>'
     for key,title in CATEGORY.items():
         result+=f'<a href="{rel("wiki/index.html",page)}#{key}">{esc(title)}</a>'
     result+='<h3>Project reference</h3>'
@@ -170,8 +170,8 @@ def shell(page,title,description,body,toc=(),breadcrumb=''):
 <nav class="nav-links" aria-label="Main navigation"><a href="{rel('index.html',page)}">Home</a><a href="{rel('wiki/index.html',page)}">Wiki / help</a><a href="{rel('index.html',page)}#install">Download</a><a href="https://feverdream.dev/">FeverDream ↗</a><a class="star" href="https://github.com/zarigata/EZpenguin">☆ Star on GitHub</a></nav></div></header>
 <div class="wrap wiki-banner"><a href="{rel('index.html',page)}">EZpenguin</a> / <a href="{rel('wiki/index.html',page)}">Wiki</a>{' / '+esc(breadcrumb or title) if page!='wiki/index.html' else ''}</div>
 <div class="wrap wiki-layout"><aside class="wiki-sidebar" aria-label="Wiki navigation"><h2>THE FIELD MANUAL</h2>
-<form action="{rel('wiki/index.html',page)}" method="get" role="search"><label class="sr-only" for="wiki-query">Search the wiki</label><input id="wiki-query" name="q" placeholder="Search 61 software guides…" type="search"><button type="submit">Search wiki →</button></form><nav aria-label="Wiki sections">{nav(page)}</nav></aside>
-<main id="main" class="wiki-article"><div class="eyebrow">EZPENGUIN WIKI / v0.4.1</div>{body}
+<form action="{rel('wiki/index.html',page)}" method="get" role="search"><label class="sr-only" for="wiki-query">Search the wiki</label><input id="wiki-query" name="q" placeholder="Search 261 software guides…" type="search"><button type="submit">Search wiki →</button></form><nav aria-label="Wiki sections">{nav(page)}</nav></aside>
+<main id="main" class="wiki-article"><div class="eyebrow">EZPENGUIN WIKI / v1.1.0</div>{body}
 <p class="wiki-meta">Recipe reference: current repository catalog. Application availability and versions depend on your configured repositories. Documentation is hosted here; no repository visit is needed to read these guides.</p><p id="wiki-copy-status" role="status"></p></main></div>
 <footer class="footer"><div class="wrap footer-top"><span class="fine">EZpenguin · An open-source project from <a href="https://feverdream.dev/">FeverDream.dev ↗</a></span><nav aria-label="Footer"><a href="{rel('wiki/index.html',page)}">Wiki home</a><a href="{rel('wiki/license/index.html',page)}">License</a><a href="https://github.com/zarigata/EZpenguin/issues">Report an issue</a></nav></div></footer></body></html>
 '''
@@ -225,7 +225,7 @@ def generate():
             pkg,_,comment=line.partition('#')
             groups.setdefault(current,[]).append((pkg.strip(),comment.strip() or 'Debian archive trust anchors'))
     count=sum(len(v) for v in groups.values())
-    body=f'<h1>Base image package reference</h1><p>The build explicitly requests <strong>{count} base packages</strong> before dependencies and cleanup. These are separate from the 61 optional catalog recipes. The installed package count is larger because Debian resolves dependencies.</p>'
+    body=f'<h1>Base image package reference</h1><p>The build explicitly requests <strong>{count} base packages</strong> before dependencies and cleanup. These are separate from the 261 optional catalog recipes. The installed package count is larger because Debian resolves dependencies.</p>'
     body+='<p class="notice">Architecture mapping: ARM64 replaces linux-image-amd64 with linux-image-arm64, uses ARM64 EFI GRUB packages, and omits grub-pc-bin. This reference starts from the common amd64-oriented base list.</p>'
     toc=[]
     for group,pkgs in groups.items():
@@ -241,7 +241,7 @@ def generate():
     body+='<p>The package database on your running machine is authoritative for its installed versions. This list is a build specification, not a claim that every package is present in every historical release artifact.</p>'
     pages[page]=shell(page,'Base image packages','Complete reference for explicitly requested EZpenguin base packages, architecture mappings, deliberately excluded packages, and installed-package inspection.',body,toc+[('excluded','Excluded packages'),('inventory','Local inventory')])
     page='wiki/index.html'
-    body='<h1>The field manual.</h1><p>Real documentation for your little Linux box. Read installation guides, learn the built-in tools, and explore all <strong>61 software recipes</strong> without leaving this website.</p>'
+    body='<h1>The field manual.</h1><p>Real documentation for your little Linux box. Read installation guides, learn the built-in tools, and explore all <strong>261 software recipes</strong> without leaving this website.</p>'
     body+='<p class="notice">Catalog software is optional, not bundled by default. For software included in the image, read the base-package reference and system-tools guide.</p>'
     body+='<h2 id="start">Start here</h2><div class="wiki-grid">'
     for key in ('installation','first-boot','system-tools','troubleshooting'):
@@ -249,7 +249,7 @@ def generate():
         descriptions={'installation':'Images, live ISO, online installer, and virtual machines.','first-boot':'Interactive setup, headless configuration, user accounts, and SSH.','system-tools':'Configuration, package updates, diagnostics, and what backups cover.','troubleshooting':'Package failures, service logs, boot problems, and remote access.'}
         body+='<a class="wiki-card" href="'+rel('wiki/'+key+'/index.html',page)+'"><strong>'+esc(title)+'</strong><p>'+esc(descriptions[key])+'</p></a>'
     body+='<a class="wiki-card" href="'+rel('wiki/base-packages/index.html',page)+'"><strong>Base image packages</strong><p>'+str(count)+' explicitly requested packages, architecture notes, and exclusions.</p></a></div>'
-    body+='<h2 id="directory">Software encyclopedia / 61 entries</h2><p>Search by software name, package, purpose, or recipe ID. Every entry includes installation, the exact post-install hook, verification commands, and operating notes.</p><p class="wiki-search-status" id="wiki-search-status" role="status">61 software guides</p>'
+    body+='<h2 id="directory">Software encyclopedia / 261 entries</h2><p>Search by software name, package, purpose, or recipe ID. Every entry includes installation, the exact post-install hook, verification commands, and operating notes.</p><p class="wiki-search-status" id="wiki-search-status" role="status">261 software guides</p>'
     for category,label in CATEGORY.items():
         group=[r for r in rows if r[3]==category]
         body+='<section class="wiki-category" id="'+category+'"><h3>'+esc(label)+' / '+str(len(group))+'</h3><div class="wiki-grid">'
@@ -258,7 +258,7 @@ def generate():
             body+='<a class="wiki-card software-guide" data-guide="'+esc(app_id)+'" data-search="'+esc(searchable,quote=True)+'" href="'+rel('wiki/software/'+app_id+'/index.html',page)+'"><strong>'+esc(name)+'</strong><p>'+esc(description)+'</p><small>'+esc(app_id)+' / read guide →</small></a>'
         body+='</div></section>'
     body+='<p id="wiki-empty" hidden>No software matches this search. Try a different term or clear the search field.</p>'
-    pages[page]=shell(page,'Wiki & software guides','Official EZpenguin wiki: installation, headless setup, built-in system tools, base packages, troubleshooting, and all 61 software recipes.',body)
+    pages[page]=shell(page,'Wiki & software guides','Official EZpenguin wiki: installation, headless setup, built-in system tools, base packages, troubleshooting, and all 261 software recipes.',body)
     locs=['index.html']+sorted(pages)
     sitemap='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sitemap+=''.join('  <url><loc>'+xml_escape(BASE+p.removesuffix('index.html'))+'</loc></url>\n' for p in locs)

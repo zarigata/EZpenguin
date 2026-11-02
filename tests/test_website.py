@@ -40,9 +40,9 @@ class WebsiteTests(unittest.TestCase):
         cards = [a for tag, a in self.page.tags if tag == 'article' and 'data-app-id' in a]
         self.assertEqual([c['data-app-id'] for c in cards], [r[0] for r in self.rows])
         self.assertEqual(len({r[0] for r in self.rows}), len(self.rows))
-        self.assertEqual(len(self.rows), 61, 'Update site and README counts if the catalog changes')
+        self.assertEqual(len(self.rows), 261, 'Update site and README counts if the catalog changes')
         self.assertEqual(Counter(r[3] for r in self.rows),
-                         Counter(server=18, dev=11, network=7, security=6, tools=17, desktop=2))
+                         Counter(server=55, dev=49, network=35, security=29, tools=73, desktop=20))
 
     def test_local_links_and_unique_ids(self):
         ids = [a['id'] for _, a in self.page.tags if 'id' in a]
@@ -115,7 +115,7 @@ class WikiTests(unittest.TestCase):
         expected = module.generate()
         for relative, source in expected.items():
             self.assertEqual((DOCS / relative).read_text(), source, 'Regenerate: ' + relative)
-        self.assertEqual(len(self.pages), 76)
+        self.assertEqual(len(self.pages), 276)
         recipes = [line.split('|', 5) for line in (ROOT / 'config/software-catalog.list').read_text().splitlines()
                    if line.strip() and not line.lstrip().startswith('#')]
         notes = json.loads((ROOT / 'wiki-content/software.json').read_text())
@@ -163,7 +163,7 @@ class WikiTests(unittest.TestCase):
     def test_wiki_canonical_schema_and_sitemap(self):
         sitemap = ET.parse(DOCS / 'sitemap.xml')
         locations = [el.text for el in sitemap.findall('.//{*}loc')]
-        self.assertEqual(len(locations), 77)
+        self.assertEqual(len(locations), 277)
         self.assertEqual(len(locations), len(set(locations)))
         for path, parsed in self.pages.items():
             expected = CANONICAL + str(path.relative_to(DOCS)).removesuffix('index.html')

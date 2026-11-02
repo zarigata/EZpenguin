@@ -12,7 +12,6 @@ set -euo pipefail
 
 CATALOG="/etc/ezpenguin/software-catalog.list"
 [[ -r "$CATALOG" ]] || { echo "catalog missing: $CATALOG" >&2; exit 1; }
-
 BOLD='\033[1;36m'; DIM='\033[2m'; RST='\033[0m'
 say() { printf '%b\n' "$*"; }
 
@@ -54,6 +53,10 @@ install_entry() {
 }
 
 tui() {
+    # pure-bash TUI lives in ez-soft; delegate when present + interactive
+    if command -v ez-soft >/dev/null 2>&1 && [[ -t 0 && -t 1 && "${TERM:-dumb}" != dumb ]]; then
+        exec ez-soft "$@"
+    fi
     require_root
     # category menu
     local cats

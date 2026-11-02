@@ -3,6 +3,33 @@
 All notable changes to EZpenguin. Format follows Keep-a-Changelog;
 versioning is SemVer. Dates are YYYY-MM-DD.
 
+## [1.1.0] — 2026-11-02
+
+The software catalog goes from 61 to 261 entries and gains a full-screen
+terminal UI: `ez-soft` (also reached via `ez-software` on a real TTY).
+
+### Added
+- software catalog: 261 entries across server (55), tools (73), dev (49),
+  network (35), security (29), desktop (20) — every package token verified
+  present in Debian bookworm (`apt-cache policy`, 295/295 green).
+- `ez-soft` — pure-bash ANSI full-screen TUI (no new dependencies, works
+  over SSH): two-pane category/entry browser, live filter (`/`), detail
+  pane, multi-select (`Space`), batch install with per-entry status,
+  quit confirmation; `ez-software` delegates to it automatically when
+  stdin+stdout are TTYs.
+- `tests/test_ezsoft.sh` — 33-assertion self-check for the TUI.
+- `tests/matrix/qualify-tui.sh` — drives the real TUI through a pty
+  (setup/render/toggle/install/quit-confirm/delegation) on
+  debian:12, ubuntu:24.04 and debian:11 — 18/18 PASS.
+
+### Fixed
+- catalog ids now match `^[a-z0-9-]+$` (`lua5.4`→`lua54`, `lua5.3`→`lua53`,
+  `bonnie++`→`bonnie`) — grep- and awk-based counters agreed at 261 after.
+- `gogs` package is not in bookworm → replaced with `gitweb`.
+- `ez-software`: undefined `C_OK` under `set -u` crashed the summary after
+  every install; EOF during key-read now quits cleanly; 0x0 pty size falls
+  back to 24x80.
+
 ## Unreleased — project presentation
 
 - Adopted the approved wild-cartoon mascot and Y2K website theme.

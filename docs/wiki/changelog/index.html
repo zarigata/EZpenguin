@@ -13,10 +13,36 @@
 <nav class="nav-links" aria-label="Main navigation"><a href="../../">Home</a><a href="../">Wiki / help</a><a href="../../#install">Download</a><a href="https://feverdream.dev/">FeverDream ↗</a><a class="star" href="https://github.com/zarigata/EZpenguin">☆ Star on GitHub</a></nav></div></header>
 <div class="wrap wiki-banner"><a href="../../">EZpenguin</a> / <a href="../">Wiki</a> / Changelog</div>
 <div class="wrap wiki-layout"><aside class="wiki-sidebar" aria-label="Wiki navigation"><h2>THE FIELD MANUAL</h2>
-<form action="../" method="get" role="search"><label class="sr-only" for="wiki-query">Search the wiki</label><input id="wiki-query" name="q" placeholder="Search 61 software guides…" type="search"><button type="submit">Search wiki →</button></form><nav aria-label="Wiki sections"><a href="../installation/">Installation</a><a href="../first-boot/">First boot &amp; headless</a><a href="../system-tools/">System tools</a><a href="../troubleshooting/">Troubleshooting</a><a href="../base-packages/">Base packages</a><h3>Software / 61 entries</h3><a href="../#server">Servers</a><a href="../#dev">Development</a><a href="../#network">Network &amp; VPN</a><a href="../#security">Security</a><a href="../#tools">Monitoring &amp; tools</a><a href="../#desktop">Desktops</a><h3>Project reference</h3><a href="../building/">Build your own image</a><a href="../architecture/">Architecture</a><a href="../testing/">Testing</a><a href="../security/">Security</a><a href="../roadmap/">Roadmap</a><a href="../contributing/">Contributing</a><a href="../quality/">Quality standards</a><a href="index.html">Changelog</a><a href="../license/">License</a></nav></aside>
-<main id="main" class="wiki-article"><div class="eyebrow">EZPENGUIN WIKI / v0.4.1</div><h1 id="changelog">Changelog</h1>
+<form action="../" method="get" role="search"><label class="sr-only" for="wiki-query">Search the wiki</label><input id="wiki-query" name="q" placeholder="Search 261 software guides…" type="search"><button type="submit">Search wiki →</button></form><nav aria-label="Wiki sections"><a href="../installation/">Installation</a><a href="../first-boot/">First boot &amp; headless</a><a href="../system-tools/">System tools</a><a href="../troubleshooting/">Troubleshooting</a><a href="../base-packages/">Base packages</a><h3>Software / 261 entries</h3><a href="../#server">Servers</a><a href="../#dev">Development</a><a href="../#network">Network &amp; VPN</a><a href="../#security">Security</a><a href="../#tools">Monitoring &amp; tools</a><a href="../#desktop">Desktops</a><h3>Project reference</h3><a href="../building/">Build your own image</a><a href="../architecture/">Architecture</a><a href="../testing/">Testing</a><a href="../security/">Security</a><a href="../roadmap/">Roadmap</a><a href="../contributing/">Contributing</a><a href="../quality/">Quality standards</a><a href="index.html">Changelog</a><a href="../license/">License</a></nav></aside>
+<main id="main" class="wiki-article"><div class="eyebrow">EZPENGUIN WIKI / v1.1.0</div><h1 id="changelog">Changelog</h1>
 <p>All notable changes to EZpenguin. Format follows Keep-a-Changelog; versioning is SemVer. Dates are YYYY-MM-DD.</p>
-<div class="wiki-toc"><strong>ON THIS PAGE</strong><nav><a href="#unreleased-project-presentation">Unreleased — project presentation</a><a href="#041-2026-10-27">[0.4.1] — 2026-10-27</a><a href="#040-2026-10-26">[0.4.0] — 2026-10-26</a><a href="#030-2026-10-25">[0.3.0] — 2026-10-25</a><a href="#020-2026-10-24">[0.2.0] — 2026-10-24</a><a href="#010-2026-10-24">[0.1.0] — 2026-10-24</a></nav></div><h2 id="unreleased-project-presentation">Unreleased — project presentation</h2>
+<div class="wiki-toc"><strong>ON THIS PAGE</strong><nav><a href="#110-2026-11-02">[1.1.0] — 2026-11-02</a><a href="#unreleased-project-presentation">Unreleased — project presentation</a><a href="#100-2026-11-01">[1.0.0] — 2026-11-01</a><a href="#041-2026-10-27">[0.4.1] — 2026-10-27</a><a href="#040-2026-10-26">[0.4.0] — 2026-10-26</a><a href="#030-2026-10-25">[0.3.0] — 2026-10-25</a><a href="#020-2026-10-24">[0.2.0] — 2026-10-24</a><a href="#010-2026-10-24">[0.1.0] — 2026-10-24</a></nav></div><h2 id="110-2026-11-02">[1.1.0] — 2026-11-02</h2>
+<p>The software catalog goes from 61 to 261 entries and gains a full-screen terminal UI: <code>ez-soft</code> (also reached via <code>ez-software</code> on a real TTY).</p>
+<h3 id="added">Added</h3>
+<ul>
+<li>software catalog: 261 entries across server (55), tools (73), dev (49),</li>
+</ul>
+<p>  network (35), security (29), desktop (20) — every package token verified   present in Debian bookworm (<code>apt-cache policy</code>, 295/295 green).</p>
+<ul>
+<li><code>ez-soft</code> — pure-bash ANSI full-screen TUI (no new dependencies, works</li>
+</ul>
+<p>  over SSH): two-pane category/entry browser, live filter (<code>/</code>), detail   pane, multi-select (<code>Space</code>), batch install with per-entry status,   quit confirmation; <code>ez-software</code> delegates to it automatically when   stdin+stdout are TTYs.</p>
+<ul>
+<li><code>tests/test_ezsoft.sh</code> — 33-assertion self-check for the TUI.</li>
+<li><code>tests/matrix/qualify-tui.sh</code> — drives the real TUI through a pty</li>
+</ul>
+<p>  (setup/render/toggle/install/quit-confirm/delegation) on   debian:12, ubuntu:24.04 and debian:11 — 18/18 PASS.</p>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>catalog ids now match <code>^[a-z0-9-]+$</code> (<code>lua5.4</code>→<code>lua54</code>, <code>lua5.3</code>→<code>lua53</code>,</li>
+</ul>
+<p>  <code>bonnie++</code>→<code>bonnie</code>) — grep- and awk-based counters agreed at 261 after.</p>
+<ul>
+<li><code>gogs</code> package is not in bookworm → replaced with <code>gitweb</code>.</li>
+<li><code>ez-software</code>: undefined <code>C_OK</code> under <code>set -u</code> crashed the summary after</li>
+</ul>
+<p>  every install; EOF during key-read now quits cleanly; 0x0 pty size falls   back to 24x80.</p>
+<h2 id="unreleased-project-presentation">Unreleased — project presentation</h2>
 <ul>
 <li>Adopted the approved wild-cartoon mascot and Y2K website theme.</li>
 <li>Added FeverDream.dev attribution and a complete on-site wiki: 61 software</li>
@@ -38,9 +64,59 @@
 <li>Added host-side website integrity checks and checks before Pages deployment.</li>
 <li>Removed comparison branding from documentation, comments, and CLI messages.</li>
 </ul>
+<h2 id="100-2026-11-01">[1.0.0] — 2026-11-01</h2>
+<p>First stable release. The one-liner installer is now proven across the full compatibility matrix, including real in-place conversion of a booted Debian 12 system (QEMU) that reboots from disk into a healthy EZpenguin with 0 failed systemd units.</p>
+<h3 id="fixed-1">Fixed</h3>
+<ul>
+<li>installer: strict OS gating for in-place conversion — Debian 11/12 and</li>
+</ul>
+<p>  Ubuntu 22.04/24.04 only; non-Debian systems and Debian derivatives   (Linux Mint detected via its packages, since its os-release impersonates   <code>ID=ubuntu</code>) are refused safely before anything is modified.</p>
+<ul>
+<li>installer: <code>/usr</code> overwrite on booted systems uses <code>tar --unlink-first</code></li>
+</ul>
+<p>  — <code>cp -a</code> overwrote running binaries&#x27; text pages in place (journald/PID1   SIGSEGV mid-conversion on Ubuntu).</p>
+<ul>
+<li>installer: mount capture looped per-target (<code>findmnt</code> accepts only one</li>
+</ul>
+<p>  target; multi-arg call silently captured nothing) with <code>/proc/mounts</code>   fallback; fstab root-line check reads the mount-target field, not source.</p>
+<ul>
+<li>installer: priv-toolbox wrappers snapshot the loader/libpath so EXIT</li>
+</ul>
+<p>  cleanup cannot call a dead wrapper (masked real exit codes with <code>set -u</code>).</p>
+<ul>
+<li>installer: downloaded artifact is <code>xz -t</code>-validated before any destructive</li>
+</ul>
+<p>  step (a 404 page used to fail only mid-conversion).</p>
+<ul>
+<li>installer: ERR trap reports abort line/rc for diagnosability.</li>
+<li>rootfs/installer: mask legacy <code>networking.service</code> (ifupdown) — userland</li>
+</ul>
+<p>  uses systemd-networkd and ships no <code>ifup</code>; the generated unit failed on   every boot.</p>
+<ul>
+<li>rootfs: <code>systemd-networkd-wait-online</code> drop-in uses the absolute</li>
+</ul>
+<p>  <code>/usr/lib/systemd/...</code> path (bare name failed with 203/EXEC — unit not on   systemd&#x27;s default unit PATH) — the last boot-failed unit, now 0.</p>
+<ul>
+<li>ez-software: <code>categories</code>/<code>tui</code> field-splitting used <code>awk -F&#x27;|&#x27;</code> on</li>
+</ul>
+<p>  TAB-joined parse output (every entry collapsed into one blank category).</p>
+<h3 id="verified">Verified</h3>
+<ul>
+<li>faults tier 11/11 PASS; container matrix 18/18 PASS (5 supported rows</li>
+</ul>
+<p>  convert + 7 reject rows refused safely, incl. Linux Mint 22).</p>
+<ul>
+<li>cli tier 36 PASS / 0 FAIL / 3 BLOCKED (non-TTY-only probes).</li>
+<li>catalog tier: all 61 entries functionally probed in guests.</li>
+<li>vm tier: debian12-inplace-amd64 — install → reboot from disk →</li>
+</ul>
+<p>  <code>ID=ezpenguin</code>, <code>failed-count=0</code>, outbound <code>https:200</code>.</p>
+<ul>
+<li>one-liner smoke-tested via <code>EZP_API_URL</code> override against a draft release.</li>
+</ul>
 <h2 id="041-2026-10-27">[0.4.1] — 2026-10-27</h2>
 <p>One-liner online installer + GitHub Pages.</p>
-<h3 id="added">Added</h3>
+<h3 id="added-1">Added</h3>
 <ul>
 <li><code>installer/online-installer.sh</code> — one-liner:</li>
 </ul>
@@ -63,14 +139,14 @@
 <li>README overhaul: one-liner install section, catalog table, roadmap,</li>
 </ul>
 <p>  centered landing layout</p>
-<h3 id="fixed">Fixed</h3>
+<h3 id="fixed-2">Fixed</h3>
 <ul>
 <li><code>banner.sh</code> tty-detection could deadlock when stdout was a pipe</li>
 </ul>
 <p>  (grep reading its own stdout) — now plain <code>-t 1</code> test; installer also   hotpatches older tarballs</p>
 <h2 id="040-2026-10-26">[0.4.0] — 2026-10-26</h2>
 <p>Software &amp; UX release: Expanded catalog, global password, polished terminal experience.</p>
-<h3 id="added-1">Added</h3>
+<h3 id="added-2">Added</h3>
 <ul>
 <li>Software catalog scaled to 61 installable entries across 6 categories</li>
 </ul>
@@ -97,7 +173,7 @@
 <p>  checks, global-password wiring checks (135 checks total)</p>
 <h2 id="030-2026-10-25">[0.3.0] — 2026-10-25</h2>
 <p>Appliance UX release: software catalog, headless installs, full configuration and backup tooling.</p>
-<h3 id="added-2">Added</h3>
+<h3 id="added-3">Added</h3>
 <ul>
 <li><code>ez-software</code> — software catalog (25 curated entries: servers, VPNs,</li>
 </ul>
@@ -123,7 +199,7 @@
 </ul>
 <h2 id="020-2026-10-24">[0.2.0] — 2026-10-24</h2>
 <p>Installability release: live ISO installer, ARM64 cross-builds, interactive test automation, new diagnostic tools.</p>
-<h3 id="added-3">Added</h3>
+<h3 id="added-4">Added</h3>
 <ul>
 <li>Bootable hybrid BIOS+UEFI live ISO (<code>build/iso.sh</code>, grub-mkrescue +</li>
 </ul>
@@ -164,7 +240,7 @@
 <li>Builder image: squashfs-tools, grub BIOS/UEFI binaries,</li>
 </ul>
 <p>  qemu-system-arm, AAVMF firmware, isolinux</p>
-<h3 id="fixed-1">Fixed</h3>
+<h3 id="fixed-3">Fixed</h3>
 <ul>
 <li>live-boot initramfs hooks slowed emulated boots ~10x → disk images now</li>
 </ul>
@@ -178,7 +254,7 @@
 </ul>
 <h2 id="010-2026-10-24">[0.1.0] — 2026-10-24</h2>
 <p>First working release: complete build→test→image pipeline, bootable BIOS+UEFI image, verified in QEMU.</p>
-<h3 id="added-4">Added</h3>
+<h3 id="added-5">Added</h3>
 <ul>
 <li>Full documentation set (ARCHITECTURE, BUILDING, INSTALLATION, TESTING,</li>
 </ul>

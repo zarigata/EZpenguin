@@ -1,0 +1,457 @@
+#!/usr/bin/env bash
+# ez-soft — EZpenguin software catalog TUI. Pure bash + ANSI escapes, no
+# dependencies (works over SSH). Reads /etc/ezpenguin/software-catalog.list
+# and installs via the same apt+postcmd logic pattern as ez-software.
+# `sudo ez-software` on a TTY delegates here (see ez-software).
+#
+# Test mode: run with EZP_EZSOFT_TEST=1 (or --selftest) to skip the
+# interactive main; source this file to use the logic functions —
+# tests/test_ezsoft.sh does exactly that.
+set -u
+
+CATALOG="${EZP_CATALOG:-/etc/ezpenguin/software-catalog.list}"
+
+# palette (mirrors ez-software/banner.sh); test mode keeps piped stdout clean
+if [[ -n "${EZP_EZSOFT_TEST:-}" && ! -t 1 ]]; then
+    C_BOLD='' C_DIM='' C_RST='' C_KEY='' C_OK='' C_ERR=''
+else
+    C_BOLD=$'\033[1m' C_DIM=$'\033[2m' C_RST=$'\033[0m' C_KEY=$'\033[1;33m'
+    C_OK=$'\033[1;32m' C_ERR=$'\033[1;31m'
+fi
+
+# ---------------------------------------------------------------- parsing ---
+# catalog format: id|name|pkgs|category|description|post-install-command.
+# postcmd may contain '|', so field 6 is everything after the 5th pipe
+# (same rule as ez-software's awk parse).
+
+# parse_catalog [category] [id] — TAB rows, postcmd kept intact
+parse_catalog() {
+    local cf="${1:-}" idf="${2:-}" line id rest p1 p2 p3 p4
+    [[ -r "$CATALOG" ]] || return 0
+    while IFS= read -r line; do
+        [[ "$line" =~ ^[a-z0-9-]+\| ]] || continue
+        id=${line%%|*}
+        rest=${line#"$id|"}
+        p1=${rest%%|*}; rest=${rest#*|}
+        p2=${rest%%|*}; rest=${rest#*|}
+        p3=${rest%%|*}; rest=${rest#*|}
+        p4=${rest%%|*}; rest=${rest#*|}
+        [[ -n "$cf" && "$p3" != "$cf" ]] && continue
+        [[ -n "$idf" && "$id" != "$idf" ]] && continue
+        printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$id" "$p1" "$p2" "$p3" "$p4" "$rest"
+    done < "$CATALOG"
+}
+
+declare -A E_NAME E_PKGS E_CAT E_DESC E_POST
+declare -a E_ORDER=()   # ids in catalog file order (arrays above are hashed)
+
+parse_catalog_load() { # parse_catalog_load — (re)load catalog into E_* arrays
+    E_NAME=(); E_PKGS=(); E_CAT=(); E_DESC=(); E_POST=(); E_ORDER=()
+    local id name pkgs cat desc post
+    [[ -r "$CATALOG" ]] || return 1
+    while IFS=$'\t' read -r id name pkgs cat desc post; do
+        [[ -n "${E_NAME[$id]+x}" ]] && continue        # first occurrence wins
+        E_NAME[$id]=$name E_PKGS[$id]=$pkgs E_CAT[$id]=$cat
+        E_DESC[$id]=$desc E_POST[$id]=$post
+        E_ORDER+=("$id")
+    done < <(parse_catalog)
+    return 0
+}
+
+entry_line() { # entry_line <id> — one TAB row, ez-software parse() format
+    local id="$1"
+    [[ -n "${E_NAME[$id]+x}" ]] || return 1
+    printf '%s\t%s\t%s\t%s\t%s\t%s\n' \
+        "$id" "${E_NAME[$id]}" "${E_PKGS[$id]}" "${E_CAT[$id]}" \
+        "${E_DESC[$id]}" "${E_POST[$id]}"
+}
+
+catalog_count() { # catalog_count [category] — entry count on stdout
+    local cf="${1:-}" id n=0
+    for id in "${E_ORDER[@]}"; do
+        [[ -z "$cf" || "${E_CAT[$id]}" == "$cf" ]] && ((n++))
+    done
+    printf '%s' "$n"
+}
+
+catalog_categories() { # catalog_categories — unique cats, catalog order
+    local id c out=''
+    for id in "${E_ORDER[@]}"; do
+        c=${E_CAT[$id]}
+        [[ "$out" == *"$c|"* ]] || out+="$c|"
+    done
+    [[ -n "$out" ]] && printf '%s\n' "${out%|}" | tr '|' '\n'
+}
+
+# ------------------------------------------------------------- view state ---
+declare -a VIEW_IDS=()      # ids in current view (category x filter)
+declare -A SELECTED=()      # id present (any value) => selected
+declare -a CATS_ARR=(all)   # 'all' + real categories, pane order
+ACTIVE_CAT=all FILTER= CURSOR=0 CAT_CURSOR=0 VIEW_OFF=0
+pane=entries                # entries | cats
+
+build_cats_arr() {
+    CATS_ARR=(all)
+    local c
+    while IFS= read -r c; do CATS_ARR+=("$c"); done < <(catalog_categories)
+}
+
+view_rebuild() { # view_rebuild — VIEW_IDS from active category + filter
+    VIEW_IDS=()
+    local id hay
+    for id in "${E_ORDER[@]}"; do
+        [[ "$ACTIVE_CAT" == all || "${E_CAT[$id]}" == "$ACTIVE_CAT" ]] || continue
+        if [[ -n "$FILTER" ]]; then
+            hay="$id ${E_NAME[$id]} ${E_DESC[$id]} ${E_PKGS[$id]}"
+            [[ "${hay,,}" == *"${FILTER,,}"* ]] || continue
+        fi
+        VIEW_IDS+=("$id")
+    done
+    (( CURSOR >= ${#VIEW_IDS[@]} )) && CURSOR=$(( ${#VIEW_IDS[@]} - 1 ))
+    (( CURSOR < 0 )) && CURSOR=0
+    (( VIEW_OFF > CURSOR )) && VIEW_OFF=$CURSOR
+    return 0
+}
+
+toggle_select() { # toggle_select <id>
+    if [[ -n "${SELECTED[$1]+x}" ]]; then unset "SELECTED[$1]"; else SELECTED[$1]=1; fi
+}
+
+select_all_view() { # select_all_view — toggle: all-on -> clear, else select all
+    local id all_on=1
+    for id in "${VIEW_IDS[@]}"; do
+        [[ -n "${SELECTED[$id]+x}" ]] || { all_on=0; break; }
+    done
+    if (( all_on )); then
+        for id in "${VIEW_IDS[@]}"; do unset "SELECTED[$id]"; done
+    else
+        for id in "${VIEW_IDS[@]}"; do SELECTED[$id]=1; done
+    fi
+    return 0
+}
+
+filter_set()   { FILTER=$1; CURSOR=0 VIEW_OFF=0; view_rebuild; }
+filter_clear() { filter_set ''; }
+
+# ---------------------------------------------------------------- install ---
+require_root() {
+    [[ $EUID -eq 0 ]] || { echo 'run as root (sudo ez-soft)' >&2; return 1; }
+}
+
+run_post() { # run_post <snippet> <id> — non-fatal, like ez-software
+    local snippet="$1" id="$2"
+    [[ -n "${snippet// /}" ]] || return 0
+    printf '%b\n' "${C_DIM}  post-install: ${snippet}${C_RST}"
+    bash -c "$snippet" || printf '%b\n' "${C_DIM}  (post-install step returned non-zero — continuing)${C_RST}"
+}
+
+install_entry() { # install_entry <id> — apt install + postcmd; rc = success
+    local id="$1"
+    [[ -n "${E_NAME[$id]+x}" ]] || { echo "unknown id: $id" >&2; return 1; }
+    printf '%b\n' "${C_BOLD}==> installing:${C_RST} ${E_NAME[$id]} ${C_DIM}[$id]${C_RST}"
+    apt-get update -qq 2>/dev/null || apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ${E_PKGS[$id]}
+    run_post "${E_POST[$id]}" "$id"
+    printf '%b\n' "${C_BOLD}<== done:${C_RST} ${E_NAME[$id]}"
+}
+
+install_plan() { # install_plan — selected ids on stdout, catalog order
+    local id
+    for id in "${E_ORDER[@]}"; do
+        [[ -n "${SELECTED[$id]+x}" ]] && printf '%s\n' "$id"
+    done
+    return 0
+}
+
+install_selected() { # install_selected — sequential; successes deselect
+    (( ${#SELECTED[@]} )) || { echo 'nothing selected'; return 0; }
+    require_root || return 1
+    local ok=0 fail=0 id
+    local -a failed=()
+    while IFS= read -r id; do
+        [[ -n "$id" ]] || continue
+        printf '\n'
+        if install_entry "$id"; then
+            ((ok++)); unset "SELECTED[$id]"
+            printf '%b\n' "${C_OK}  OK: ${id}${C_RST}"
+        else
+            ((fail++))          # stays selected: rerun `i` to retry failures
+            failed+=("$id")
+        fi
+    done < <(install_plan)
+    local f
+    for f in "${failed[@]:-}"; do
+        [[ -n "$f" ]] && printf '%b\n' "${C_ERR}FAIL: ${f}${C_RST}"
+    done
+    printf '\ninstalled %d item(s)%s\n' "$ok" "${fail:+, $fail failed}"
+    (( fail == 0 ))
+}
+
+# --------------------------------------------------------------- terminal ---
+LINES=24 COLUMNS=80
+term_size() { # term_size — LINES/COLUMNS from stty (re-run on refresh)
+    local sz
+    sz=$(stty size </dev/tty 2>/dev/null) || sz=$(stty size 2>/dev/null) || sz='24 80'
+    LINES=${sz% *}; COLUMNS=${sz#* }
+    # headless ptys (docker exec, CI) report 0x0 — fall back to sane defaults
+    [[ "$LINES" =~ ^[0-9]+$ && "$LINES" -ge 10 ]] || LINES=24
+    [[ "$COLUMNS" =~ ^[0-9]+$ && "$COLUMNS" -ge 40 ]] || COLUMNS=80
+}
+
+read_key() { # read_key — one keypress on stdout (arrows: up/down/left/right)
+    local p rest
+    IFS= read -rsn1 p || { printf 'eof'; return; }
+    case "$p" in
+        $'\x1b')
+            if IFS= read -rsn2 -t 0.05 rest 2>/dev/null && [[ "$rest" == '['* ]]; then
+                case "$rest" in
+                    '[A') printf 'up' ;;
+                    '[B') printf 'down' ;;
+                    '[D') printf 'left' ;;
+                    '[C') printf 'right' ;;
+                    *)    printf 'esc' ;;
+                esac
+            else
+                printf 'esc'
+            fi ;;
+        ' ') printf 'space' ;;
+        *)   printf '%s' "$p" ;;
+    esac
+}
+
+enter_screen() { printf '\033[?1049h\033[?25l'; }   # smcup + hide cursor
+leave_screen() { printf '\033[?1049l\033[?25h'; }   # rmcup + show cursor
+
+# --------------------------------------------------------------- rendering ---
+# ponytail: full redraw into one buffer per keypress (O(frame) not O(diff));
+# upgrade path if serial consoles ever struggle: dirty-region diff rendering.
+hr() { printf '%*s' "$(( ${1:-40} > 1 ? ${1:-40} : 1 ))" '' | tr ' ' '-'; }
+
+clamp_scroll() { # clamp_scroll <visible-rows>
+    local vis=$(( $1 > 1 ? $1 : 1 ))
+    (( CURSOR < VIEW_OFF )) && VIEW_OFF=$CURSOR
+    (( CURSOR >= VIEW_OFF + vis )) && VIEW_OFF=$(( CURSOR - vis + 1 ))
+    (( VIEW_OFF < 0 )) && VIEW_OFF=0
+    return 0
+}
+
+draw_frame() { # draw_frame — paint whole screen as a single write
+    local buf='' id i c nsel=0
+    for id in "${!SELECTED[@]}"; do
+        [[ -n "${SELECTED[$id]+x}" ]] && ((nsel++))
+    done
+    local width=$COLUMNS
+    (( width < 40 )) && width=40
+
+    # header: title + counts (+ active filter)
+    buf+=$'\033[H\033[2J'
+    buf+=" ${C_BOLD}EZpenguin software${C_RST}  ${C_DIM}${#E_NAME[@]} entries / ${nsel} selected${C_RST}"
+    [[ -n "$FILTER" ]] && buf+="  ${C_KEY}filter: ${FILTER}${C_RST}"
+    buf+=$'\n'" $(hr $((width-1)))"$'\n'
+
+    # pane geometry
+    local catw=$(( COLUMNS / 4 ))
+    (( catw < 18 )) && catw=18
+    (( catw > 26 )) && catw=26
+    local nmw=24
+    local dw=$(( COLUMNS - catw - nmw - 12 ))
+    local rows=$(( LINES - 8 ))
+    (( rows < 1 )) && rows=1
+    clamp_scroll "$rows"
+
+    # left pane: categories ('all' + per-category selection counts)
+    local -a lbuf=()
+    local mark n selcnt catw_txt=$(( catw - 9 ))
+    (( catw_txt < 8 )) && catw_txt=8
+    for ((i=0; i<${#CATS_ARR[@]}; i++)); do
+        c=${CATS_ARR[i]}
+        n=0 selcnt=0
+        for id in "${E_ORDER[@]}"; do
+            [[ "$c" == all || "${E_CAT[$id]}" == "$c" ]] || continue
+            ((n++))
+            [[ -n "${SELECTED[$id]+x}" ]] && ((selcnt++))
+        done
+        mark=' '
+        [[ "$pane" == cats && $i -eq $CAT_CURSOR ]] && mark='>'
+        lbuf+=("$(printf '%s %-*.*s %2d sel' "$mark" "$catw_txt" "$catw_txt" "$c" "$selcnt")")
+    done
+
+    # right pane: entry rows (scroll window over VIEW_IDS)
+    local -a rbuf=()
+    local end=$(( VIEW_OFF + rows )) idx=0 shown=0 cur mseld
+    for id in "${VIEW_IDS[@]}"; do
+        if (( idx >= VIEW_OFF && idx < end )); then
+            mseld='[ ]'
+            [[ -n "${SELECTED[$id]+x}" ]] && mseld='[x]'
+            cur=' '
+            [[ "$pane" == entries && $idx -eq $CURSOR ]] && cur='>'
+            if (( dw > 10 )); then
+                rbuf+=("$(printf '%s %-3s %-*.*s  %.*s' "$cur" "$mseld" \
+                    "$nmw" "$nmw" "${E_NAME[$id]}" "$dw" "${E_DESC[$id]}")")
+            else
+                rbuf+=("$(printf '%s %-3s %-*.*s' "$cur" "$mseld" \
+                    "$nmw" "$nmw" "${E_NAME[$id]}")")
+            fi
+            ((shown++))
+        fi
+        ((idx++))
+    done
+    (( shown == 0 )) && rbuf+=('(no entries match)')
+
+    # merge panes side by side
+    local maxr=$(( ${#lbuf[@]} > ${#rbuf[@]} ? ${#lbuf[@]} : ${#rbuf[@]} ))
+    local lc rc
+    for ((i=0; i<maxr; i++)); do
+        lc=${lbuf[i]-} rc=${rbuf[i]-}
+        buf+=" $(printf '%-*s│ %s' "$((catw-2))" "$lc" "$rc")"$'\n'
+    done
+
+    # detail pane: cursor entry's description + packages + postcmd
+    local cid=${VIEW_IDS[$CURSOR]-}
+    buf+=" $(hr $((width-1)))"$'\n'
+    if [[ -n "$cid" ]]; then
+        local d
+        d="$(printf '%s — %s [%s]' "${E_NAME[$cid]}" "${E_DESC[$cid]}" "$cid")"
+        buf+=" ${d:0:$((width-3))}"$'\n'
+        buf+=" ${C_DIM}packages: ${E_PKGS[$cid]}${C_RST}"$'\n'
+        buf+=" ${C_DIM}post: ${E_POST[$cid]:-—}${C_RST}"$'\n'
+    else
+        buf+=' (no entry under cursor)'$'\n'$'\n'$'\n'
+    fi
+
+    # footer: key help
+    buf+=" ${C_KEY}up/dn${C_RST} move  ${C_KEY}tab${C_RST} pane  ${C_KEY}spc${C_RST} toggle  ${C_KEY}a${C_RST} all  ${C_KEY}i${C_RST} install  ${C_KEY}/${C_RST} filter  ${C_KEY}esc${C_RST} clear  ${C_KEY}r${C_RST} refresh  ${C_KEY}?${C_RST} help  ${C_KEY}q${C_RST} quit"$'\n'
+    printf '%s' "$buf"
+}
+
+cat_jump() { # cat_jump — follow CAT_CURSOR (0 = 'all')
+    if (( CAT_CURSOR == 0 )); then ACTIVE_CAT=all; else ACTIVE_CAT=${CATS_ARR[$CAT_CURSOR]}; fi
+    CURSOR=0 VIEW_OFF=0
+    view_rebuild
+}
+
+confirm_yn() { # confirm_yn <question> — reverse-video overlay; rc0 = yes
+    local q="$1" y=$(( LINES / 2 )) x
+    x=$(( COLUMNS / 2 - ${#q} / 2 - 6 )); (( x < 1 )) && x=1
+    printf '\033[%d;%dH\033[7m %s [y/N] \033[0m' "$y" "$x" "$q"
+    local k
+    k=$(read_key)
+    printf '\033[%d;%dH%*s' "$y" "$x" $(( ${#q} + 8 )) ''
+    [[ "$k" == y || "$k" == Y ]]
+}
+
+filter_prompt() { # filter_prompt — read filter substring on the footer line
+    printf '\033[%d;1H\033[2K filter (enter=apply, empty=clear): ' "$(( LINES - 1 ))"
+    local line=''
+    IFS= read -r line || line=''
+    filter_set "$line"
+}
+
+print_help() {
+    cat <<EOF
+${C_BOLD}ez-soft keys${C_RST}
+ up/down             move cursor (in category pane: change category)
+ tab / left / right  switch pane (entries <-> categories)
+ space               toggle selection of cursor entry
+ a                   select all in view (again: clear selection)
+ i                   install selected (confirm; per-entry progress + summary)
+ /                   filter entries (substring, case-insensitive)
+ esc                 clear filter
+ r                   refresh catalog + terminal size
+ q                   quit (asks when selection non-empty)
+ ?                   this help
+EOF
+}
+
+help_overlay() { # help_overlay — centered help; any key closes
+    local x=$(( COLUMNS / 2 - 28 )) y=$(( LINES / 2 - 7 ))
+    (( x < 1 )) && x=1; (( y < 1 )) && y=1
+    printf '\033[%d;%dH' "$y" "$x"
+    print_help
+    read_key >/dev/null
+    return 0
+}
+
+run_tui() { # run_tui — the interactive main loop
+    term_size
+    while true; do
+        draw_frame
+        local k cid
+        k=$(read_key)
+        case "$k" in
+            eof)    leave_screen; return 0 ;;   # stdin closed: exit without nagging
+            up)     if [[ "$pane" == entries ]]; then
+                        (( CURSOR > 0 )) && ((CURSOR--)) || true
+                    else
+                        (( CAT_CURSOR > 0 )) && ((CAT_CURSOR--)) || true
+                        cat_jump
+                    fi ;;
+            down)   if [[ "$pane" == entries ]]; then
+                        (( CURSOR < ${#VIEW_IDS[@]} - 1 )) && ((CURSOR++)) || true
+                    else
+                        (( CAT_CURSOR < ${#CATS_ARR[@]} - 1 )) && ((CAT_CURSOR++)) || true
+                        cat_jump
+                    fi ;;
+            tab|left|right)
+                    if [[ "$pane" == entries ]]; then pane=cats; else pane=entries; fi ;;
+            space)  cid=${VIEW_IDS[$CURSOR]-}
+                    [[ -n "$cid" ]] && toggle_select "$cid" ;;
+            a)      select_all_view ;;
+            i)      if confirm_yn "install $(selection_count) selected entry(ies)?"; then
+                        leave_screen
+                        install_selected || true
+                        printf '\n(press enter to return)'
+                        IFS= read -r
+                        enter_screen
+                    fi ;;
+            /)      filter_prompt ;;
+            esc)    [[ -n "$FILTER" ]] && filter_clear ;;
+            r)      term_size; parse_catalog_load || true; build_cats_arr; view_rebuild ;;
+            '?'|h)  help_overlay ;;
+            q|Q)    if (( $(selection_count) == 0 )) || confirm_yn 'quit with selection pending?'; then
+                        leave_screen
+                        return 0
+                    fi ;;
+        esac
+    done
+}
+
+selection_count() { # selection_count — number of selected entries
+    local id n=0
+    for id in "${!SELECTED[@]}"; do
+        [[ -n "${SELECTED[$id]+x}" ]] && ((n++))
+    done
+    printf '%s' "$n"
+}
+
+usage() { # usage — non-TTY / TERM=dumb fallback
+    cat <<'EOF'
+ez-soft — full-screen TUI over the EZpenguin software catalog.
+Needs an interactive terminal (stdin+stdout TTY, TERM != dumb).
+Use the CLI instead:
+  ez-software list | categories | search TERM | install ID...
+  sudo ez-software            (whiptail category picker)
+EOF
+}
+
+main() { # main — interactive entry point
+    [[ "${TERM:-dumb}" == dumb || "${TERM:-}" == "" ]] && { usage >&2; exit 2; }
+    [[ -t 0 && -t 1 ]] || { usage >&2; exit 2; }
+    parse_catalog_load || { echo "catalog missing: $CATALOG" >&2; exit 1; }
+    (( ${#E_NAME[@]} )) || { echo "catalog empty" >&2; exit 1; }
+    build_cats_arr
+    view_rebuild
+    enter_screen
+    trap 'leave_screen' EXIT INT TERM
+    run_tui
+}
+
+# only run interactively when executed directly (not sourced for tests)
+if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
+    : # sourced — functions exposed (EZP_EZSOFT_TEST also skips main if exec'd)
+elif [[ -n "${EZP_EZSOFT_TEST:-}" || "${1-}" == "--selftest" ]]; then
+    echo "ez-soft: test mode — source this file to use its functions" >&2
+    exit 0
+else
+    main
+fi

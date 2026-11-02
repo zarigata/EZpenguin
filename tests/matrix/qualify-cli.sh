@@ -123,7 +123,7 @@ t net-verdict 0 "$EX; timeout 60 ez-net 2>&1 | grep -qE 'ONLINE|OFFLINE'"
 
 note "=== ez-software ==="
 t sw-list 0 "$EX; timeout 30 ez-software list"
-t sw-list-count 0 "$EX; test \$(ez-software list | grep -cE '^[a-z0-9-]+ ') -ge 50"
+t sw-list-count 0 "$EX; test \$(ez-software list | grep -cE '^[a-z0-9-]+ ') -ge 150"
 t sw-categories 0 "$EX; timeout 30 ez-software categories"
 t sw-search 0 "$EX; timeout 30 ez-software search nginx"
 t sw-search-nomatch 0 "$EX; timeout 30 ez-software search zzzznotpresent | wc -l"
