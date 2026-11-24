@@ -72,6 +72,16 @@ to set your locale, timezone, hostname, user, and optional SSH access.
 and check the target carefully. See the [installation guide](docs/INSTALLATION.md)
 for each method, headless setup, and environment limitations.
 
+### Or run it in Docker
+
+~~~bash
+bash -c "$(curl -sSfL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/docker-pull.sh)"
+~~~
+
+Downloads the prebuilt image for your architecture (amd64/arm64) from Releases
+and starts an interactive EZpenguin container. See
+[Run in Docker](docs/INSTALLATION.md#run-in-docker).
+
 ### 3. Choose your software
 
 ~~~bash
