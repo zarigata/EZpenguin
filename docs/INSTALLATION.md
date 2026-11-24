@@ -86,6 +86,28 @@ docker rm -f ezp-demo
 A container restart reruns the configured entrypoint; it does not boot the image's
 init system. Use an image / ISO in QEMU to test a complete boot.
 
+## Run in Docker
+
+Prebuilt images are attached to every release — no build step needed:
+
+~~~bash
+bash -c "$(curl -sSfL https://raw.githubusercontent.com/zarigata/EZpenguin/main/installer/docker-pull.sh)"
+~~~
+
+That downloads the Docker image for your architecture (amd64/arm64), loads it,
+and starts an interactive EZpenguin container (`exit` discards it). Prefix
+`EZP_NO_RUN=1` to only load the image. With the tarball downloaded manually:
+
+~~~bash
+docker load < ezpenguin-1.1.0-docker-amd64.tar.gz
+docker run -it --rm ezpenguin:1.1.0
+~~~
+
+A Docker container runs the EZpenguin userland and `ez-*` tools, not the
+kernel, systemd, or the first-boot wizard. For a complete boot use an image /
+ISO in QEMU. To convert an existing Debian/Ubuntu container in place, use the
+[online installer](#online-installer).
+
 ## Local disk installer (amd64)
 
 Clone this repository, obtain an amd64 rootfs tarball from Releases or a local
