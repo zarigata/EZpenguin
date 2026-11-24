@@ -38,20 +38,14 @@ say "downloading: ${BOLD}${ASSET_URL}${RST}"
 curl -fSL --progress-bar --max-time 3600 -o "$TMP/img.tar.gz" "$ASSET_URL" \
     || die "download failed"
 say "loading image..."
-docker load < "$TMP/img.tar.gz"
-
-# tarballs built before tag standardization carry ezpenguin:<ver>-<arch>
-if docker image inspect "$NAME:$VER" >/dev/null 2>&1; then
-    TAG="$VER"
-elif docker image inspect "$NAME:$VER-$ARCH" >/dev/null 2>&1; then
-    TAG="$VER-$ARCH"
-else
-    die "image loaded but $NAME:$VER / $NAME:$VER-$ARCH not found"
-fi
+# read the actual image ref from docker load output — never guess tags
+# (release tag is v1.1.0, saved images are tagged 1.1.0 / 1.1.0-arm64)
+IMG_REF=$(docker load < "$TMP/img.tar.gz" 2>&1 | awk '/Loaded image:/{print $3; exit}')
+[[ -n "$IMG_REF" ]] || die "image loaded but its tag could not be determined"
 
 say "${BOLD}EZpenguin $VER image ready ($ARCH).${RST}"
 if [[ "${EZP_NO_RUN:-0}" == 1 ]]; then
-    say "image loaded — run it with: docker run -it --rm $NAME:$TAG"
+    say "image loaded — run it with: docker run -it --rm $IMG_REF"
 else
-    exec docker run -it --rm --name ezpenguin "$NAME:$TAG"
+    exec docker run -it --rm --name ezpenguin "$IMG_REF"
 fi
