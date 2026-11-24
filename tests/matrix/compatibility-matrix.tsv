@@ -1,0 +1,17 @@
+# compatibility-matrix.tsv — reconstructed 2026-11-24 from the installer's
+# documented contract (installer/online-installer.sh: qualified bases
+# debian 11/12 + ubuntu 22.04/24.04 convert in place; other families must
+# refuse safely). Consumed by qualify-container-matrix.sh.
+# Columns: id	distro	arch	env	mode	expectation	priority
+EZP-MATRIX-CT01	debian:12	amd64	container	inplace	supported	P0
+EZP-MATRIX-CT02	ubuntu:24.04	amd64	container	inplace	supported	P0
+EZP-MATRIX-CT03	debian:11	amd64	container	inplace	supported	P1
+EZP-MATRIX-CT04	ubuntu:22.04	amd64	container	inplace	supported	P1
+EZP-MATRIX-CT05	debian:12	arm64	container	inplace	supported	P2
+EZP-MATRIX-CT06	linuxmint:22	amd64	container	reject	unsupported-base	P1
+EZP-MATRIX-CT07	fedora:latest	amd64	container	reject	unsupported-base	P1
+EZP-MATRIX-CT08	rockylinux:9	amd64	container	reject	unsupported-base	P2
+EZP-MATRIX-CT09	almalinux:9	amd64	container	reject	unsupported-base	P2
+EZP-MATRIX-CT10	opensuse:leap:15	amd64	container	reject	unsupported-base	P2
+EZP-MATRIX-CT11	archlinux:latest	amd64	container	reject	unsupported-base	P2
+EZP-MATRIX-CT12	alpine:3.20	amd64	container	reject	unsupported-base	P1
