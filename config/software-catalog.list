@@ -278,7 +278,6 @@ needrestart|needrestart checker|needrestart|desktop|Restart services after lib u
 
 # === 2026-11 expansion: +300 plugins ===
 zabbix-proxy|Zabbix proxy|zabbix-proxy-pgsql|server|Distributed monitoring proxy for Zabbix|
-nagios-core|Nagios Core|nagios3|server|Classic IT infrastructure monitoring|
 icinga2|Icinga 2|icinga2|server|Modern monitoring with Icinga Web compat|
 cacti|Cacti|cacti|server|Network graphing with RRDtool|
 smokeping|SmokePing|smokeping|server|Latency probes with graphs|
@@ -328,7 +327,6 @@ home-assistant|Home Assistant|python3-full python3-venv|server|Smart home automa
 code-server|code-server (browser VS Code)|curl ca-certificates|server|VS Code running in the browser|curl -fsSL https://code-server.dev/install.sh -o /tmp/cs-install.sh && sh /tmp/cs-install.sh
 jupyterhub|JupyterHub|pipx|server|Multi-user Jupyter notebook server|pipx install jupyterhub
 archivebox|ArchiveBox|pipx|server|Self-hosted web archiving|pipx install archivebox
-asterisk|Asterisk PBX|asterisk|server|Open-source telephony PBX|
 xrdp|xrdp|xrdp|server|RDP server - remote desktop to Linux|
 freeradius|FreeRADIUS|freeradius|server|RADIUS authentication (WiFi, VPN)|
 redmine|Redmine|redmine|server|Project tracking with wiki and issues|
@@ -337,7 +335,6 @@ dokuwiki|DokuWiki|dokuwiki|server|File-based lightweight wiki|
 wordpress|WordPress|wordpress|server|Blog and CMS with Apache + MySQL|
 ikiwiki|ikiwiki|ikiwiki|server|Wiki compiler (markdown to static)|
 sphinxsearch|Sphinx search|sphinxsearch|server|Full-text search server|
-couchdb|Apache CouchDB|couchdb|server|Document-oriented NoSQL database|
 percona-toolkit|Percona toolkit|percona-toolkit|server|MySQL/MongoDB admin toolkit|
 mydumper|mydumper|mydumper|server|Fast parallel MySQL dump|
 pgloader|pgloader|pgloader|server|Migrate data into PostgreSQL|
@@ -383,10 +380,10 @@ poetry|Poetry|pipx|dev|Python dependency and packaging manager|pipx install poet
 uv|uv|pipx|dev|Very fast Python package manager|pipx install uv
 ruff|Ruff|pipx|dev|Extremely fast Python linter|pipx install ruff
 mypy|mypy|python3-mypy|dev|Static type checker for Python|
-black|Black|python3-black|dev|Uncompromising Python formatter|
+black|Black|black|dev|Uncompromising Python formatter|
 isort|isort|python3-isort|dev|Python import sorter|
 flake8|flake8|python3-flake8|dev|Python style and lint checks|
-pylint|pylint|python3-pylint|dev|Python static analysis|
+pylint|pylint|pylint|dev|Python static analysis|
 pytest|pytest|python3-pytest|dev|Python testing framework|
 tox|tox|pipx|dev|Test automation across environments|pipx install tox
 pipenv|pipenv|pipenv|dev|Python virtualenv workflow manager|
@@ -438,12 +435,8 @@ wavemon|wavemon|wavemon|network|Terminal Wi-Fi monitor|
 can-utils|can-utils|can-utils|network|SocketCAN bus utilities|
 linuxptp|linuxptp|linuxptp|network|Precision Time Protocol (PTP)|
 chrony|chrony|chrony|network|NTP time sync daemon (drift-proof)|
-suricata|Suricata|suricata|security|IDS/IPS engine with rule sets|
-zeek|Zeek|zeek|security|Network security monitor (Bro)|
-ntopng|ntopng|ntopng|security|Web-based traffic analysis and flows|
 aircrack-ng|Aircrack-ng|aircrack-ng|security|Wi-Fi security auditing suite|
 kismet|Kismet|curl ca-certificates gnupg|security|Wi-Fi device detector and sniffer (upstream repo)|curl -sSL https://www.kismetwireless.net/repos/kismet-release.gpg.key -o /etc/apt/trusted.gpg.d/kismet.asc && echo "deb https://www.kismetwireless.net/repo/debian bookworm main" > /etc/apt/sources.list.d/kismet.list && apt-get update -qq && apt-get install -y -qq kismet
-radare2|radare2|radare2|security|Reverse engineering framework|
 binwalk|binwalk|binwalk|security|Firmware analysis and extraction|
 sleuthkit|Sleuth Kit|sleuthkit|security|Forensic disk analysis tools|
 volatility3|Volatility 3|pipx|security|Memory forensics framework|pipx install volatility3
@@ -497,7 +490,7 @@ multitail|multitail|multitail|tools|Multi-window log tailer|
 lnav|lnav|lnav|tools|Log file navigator with parsing|
 scrub|scrub|scrub|tools|Secure disk wipe with patterns|
 nwipe|nwipe|nwipe|tools|Secure disk eraser (ncurses)|
-srm|srm|srm|tools|Secure file deletion|
+srm|Secure delete (srm)|secure-delete|tools|Secure file deletion|
 wipe|wipe|wipe|tools|Secure file erase|
 attr|attr|attr|tools|Extended attribute tools|
 acl|ACL tools|acl|tools|POSIX access control list tools|
@@ -546,7 +539,6 @@ hydrogen|Hydrogen|hydrogen|desktop|Advanced drum machine|
 mixxx|Mixxx|mixxx|desktop|DJ mixing software|
 obs-studio|OBS Studio|obs-studio|desktop|Streaming and screen recording studio|
 kdenlive|Kdenlive|kdenlive|desktop|KDE video editor|
-openshot|OpenShot|openshot|desktop|Easy video editor|
 shotcut|Shotcut|shotcut|desktop|Cross-platform video editor|
 blender|Blender|blender|desktop|3D creation suite (model, render, animate)|
 freecad|FreeCAD|freecad|desktop|Parametric 3D CAD modeler|
@@ -569,11 +561,19 @@ blueman|Blueman|blueman|desktop|Bluetooth manager GUI|
 pavucontrol|pavucontrol|pavucontrol|desktop|PulseAudio/PipeWire mixer GUI|
 easyeffects|EasyEffects|easyeffects|desktop|Audio effects for PipeWire|
 remmina|Remmina|remmina|desktop|RDP/VNC/SSH remote desktop client|
-tigervnc|TigerVNC|tigervnc-standalone tigervnc-viewer|desktop|VNC server and viewer|
+tigervnc|TigerVNC|tigervnc-standalone-server tigervnc-viewer|desktop|VNC server and viewer|
 filezilla|FileZilla|filezilla|desktop|FTP/SFTP GUI client|
 nautilus|GNOME Files|nautilus|desktop|GNOME file manager|
 nemo|Nemo|nemo|desktop|Cinnamon file manager|
 pcmanfm|PCManFM|pcmanfm|desktop|Lightweight file manager|
 fonts-firacode|FiraCode font|fonts-firacode|desktop|Coding font with ligatures|
-fonts-jetbrainsmono|JetBrains Mono font|fonts-jetbrainsmono|desktop|Coding font by JetBrains|
+fonts-jetbrainsmono|JetBrains Mono font|fonts-jetbrains-mono|desktop|Coding font by JetBrains|
 fish|Friendly interactive shell|fish|tools|User-friendly shell with autosuggestions|
+sl|Steam Locomotive|sl|tools|The classic joke train across your terminal|
+cowsay|cowsay|cowsay|tools|ASCII cow says things|
+figlet|figlet|figlet|tools|Big ASCII banner text|
+fortune-mod|fortune|fortune-mod|tools|Random quotes and fortunes|
+boxes|boxes|boxes|tools|Draw ASCII boxes around text|
+toilet|toilet|toilet|tools|Colorful ASCII banners|
+bb|bb|bb|tools|ASCII art demo (aa3d)|
+cmatrix|cmatrix|cmatrix|tools|Terminal matrix screensaver|

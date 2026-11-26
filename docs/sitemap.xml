@@ -35,7 +35,6 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/arping/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/arpwatch/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/asciinema/</loc></url>
-  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/asterisk/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/atop-dup/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/attr/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/audacious/</loc></url>
@@ -48,6 +47,7 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/barman/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/bat/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/bazel/</loc></url>
+  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/bb/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/bc/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/bear/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/bind9/</loc></url>
@@ -61,6 +61,7 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/bonnie/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/borgbackup/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/borgmatic/</loc></url>
+  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/boxes/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/bpfcc-tools/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/bpftrace/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/brightnessctl/</loc></url>
@@ -91,6 +92,7 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/clementine/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/clojure/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/cmake/</loc></url>
+  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/cmatrix/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/cmus/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/cockpit/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/code-help/</loc></url>
@@ -100,7 +102,7 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/collectl/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/copyq/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/coturn/</loc></url>
-  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/couchdb/</loc></url>
+  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/cowsay/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/cppcheck/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/cpu-x/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/cpufetch/</loc></url>
@@ -166,6 +168,7 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/feh/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/ferm/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/fierce/</loc></url>
+  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/figlet/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/file-magic/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/filezilla/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/fio/</loc></url>
@@ -177,6 +180,7 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/fonts-firacode/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/fonts-jetbrainsmono/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/fortran/</loc></url>
+  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/fortune-mod/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/fossil/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/freecad/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/freeradius/</loc></url>
@@ -334,7 +338,6 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/mypaint/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/mypy/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/mysql-client/</loc></url>
-  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/nagios-core/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/nautilus/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/ncdu/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/ncftp/</loc></url>
@@ -362,7 +365,6 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/notmuch/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/npm-check/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/nsd/</loc></url>
-  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/ntopng/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/nuttcp/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/nvme/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/nwipe/</loc></url>
@@ -376,7 +378,6 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/opendkim/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/openocd/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/openscad/</loc></url>
-  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/openshot/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/opensmtpd/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/openvpn/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/openvswitch/</loc></url>
@@ -429,7 +430,6 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/r-base/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/rabbitmq-server/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/racket/</loc></url>
-  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/radare2/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/radvd/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/ranger/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/rawtherapee/</loc></url>
@@ -469,6 +469,7 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/shotcut/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/shotwell/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/signify-openbsd/</loc></url>
+  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/sl/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/sleuthkit/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/slurm-wlm/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/smartmontools/</loc></url>
@@ -490,7 +491,6 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/stress-ng/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/strongswan/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/subversion/</loc></url>
-  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/suricata/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/sway/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/sweethome3d/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/sxiv/</loc></url>
@@ -520,6 +520,7 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/tldr/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/tlp/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/tmux/</loc></url>
+  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/toilet/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/tox/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/traceroute/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/transmission-daemon/</loc></url>
@@ -568,7 +569,6 @@
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/zabbix-agent/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/zabbix-proxy/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/zabbix-server/</loc></url>
-  <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/zeek/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/zerotier-bridge/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/zip/</loc></url>
   <url><loc>https://zarigata.github.io/EZpenguin/wiki/software/zmap/</loc></url>
