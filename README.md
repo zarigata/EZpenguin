@@ -26,14 +26,14 @@ Start small, choose your software, and keep control of your machine.
 ## What is EZpenguin?
 
 EZpenguin builds on **Debian 12 (bookworm)** with an automated first-boot wizard,
-a **261-entry software catalog**, and auditable Bash tools for everyday server tasks.
+a **561-entry software catalog**, and auditable Bash tools for everyday server tasks.
 Use it as a starting point for a container host, development box, file server,
 network lab, or optional lightweight desktop.
 
 | Feature | What you get |
 |---|---|
 | Minimal base | Terminal-focused Debian system; install the software you need |
-| Software selection | 61 install recipes across servers, development, networking, security, tools, and desktops |
+| Software selection | 561 install recipes across servers, development, networking, security, tools, and desktops |
 | First-boot setup | Interactive wizard or unattended configuration with optional SSH |
 | amd64 images | Flashable disk image and live ISO targeting BIOS and UEFI |
 | ARM64 images | Rootfs and disk image targeting compatible UEFI ARM64 systems |
@@ -41,7 +41,7 @@ network lab, or optional lightweight desktop.
 | Local administration | Configuration, diagnostics, backups, and updates through `ez-*` tools |
 | Build it yourself | Versioned Docker-based build scripts and rootfs / QEMU test suites |
 
-**Project status:** v1.1.0 — 261-entry software catalog with the new `ez-soft` full-screen TUI. Wider real-hardware testing,
+**Project status:** v1.1.0 — 561-entry software catalog with the new `ez-soft` full-screen TUI. Wider real-hardware testing,
 artifact signing, and further hardening remain on the [roadmap](docs/ROADMAP.md).
 ARM64 support does not imply compatibility with every single-board computer.
 Docker makes the build process consistent; bit-for-bit identical artifacts are
@@ -118,7 +118,7 @@ Use a disposable environment when evaluating conversion. Full details:
 
 <a id="-software-catalog-61-stacks"></a>
 
-## Software catalog (261 stacks)
+## Software catalog (561 stacks)
 
 [**Search the catalog on the website →**](https://zarigata.github.io/EZpenguin/#software)
 
@@ -192,7 +192,7 @@ See [BUILDING](docs/BUILDING.md) and [TESTING](docs/TESTING.md).
 
 Read the [complete on-site wiki](https://zarigata.github.io/EZpenguin/wiki/) for
 installation, first boot, system tools, troubleshooting, base packages, and all
-61 software guides. The source references below are also available for contributors.
+561 software guides. The source references below are also available for contributors.
 
 | Guide | Covers |
 |---|---|

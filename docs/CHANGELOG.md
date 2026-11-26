@@ -3,6 +3,15 @@
 All notable changes to EZpenguin. Format follows Keep-a-Changelog;
 versioning is SemVer. Dates are YYYY-MM-DD.
 
+## Unreleased — catalog expansion
+
+- software catalog: 561 entries (+300 new one-line installers) across server (121), tools (132),
+  dev (113), network (66), security (48), desktop (81). Every package verified against
+  Debian 12 (bookworm) main; apps without bookworm packages (jellyfin, plex, home assistant,
+  code-server, k3s, minio, deno, ...) install via their official upstream installer in the
+  post-install hook, DietPi-style.
+- wiki and website regenerated for all 561 entries (576 wiki pages).
+
 ## [1.1.0] — 2026-11-02
 
 The software catalog goes from 61 to 261 entries and gains a full-screen

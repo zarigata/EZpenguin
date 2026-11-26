@@ -2141,5 +2141,2405 @@
   ],
   "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
   "notes": "Installs the zoneminder package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "acl": {
+  "purpose": "POSIX access control list tools",
+  "quick_start": [
+   "sudo ez-software install acl"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the acl package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "acpi": {
+  "purpose": "Battery and thermal info from ACPI",
+  "quick_start": [
+   "sudo ez-software install acpi"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the acpi package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "aircrack-ng": {
+  "purpose": "Wi-Fi security auditing suite",
+  "quick_start": [
+   "sudo ez-software install aircrack-ng"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the aircrack-ng package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "amanda-server": {
+  "purpose": "Enterprise backup server. Part of the server stacks catalog.",
+  "quick_start": [
+   "sudo ez-software install amanda-server"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the amanda-server package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "ansible-lint": {
+  "purpose": "Ansible playbook linter. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install ansible-lint"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the ansible-lint package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "ant": {
+  "purpose": "Java build tool. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install ant"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the ant package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "apticron": {
+  "purpose": "Email notifications for apt updates",
+  "quick_start": [
+   "sudo ez-software install apticron"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the apticron package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "arandr": {
+  "purpose": "Screen layout editor. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install arandr"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the arandr package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "archivebox": {
+  "purpose": "Self-hosted web archiving. Part of the server stacks catalog.",
+  "quick_start": [
+   "sudo ez-software install archivebox"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pipx package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "ardour": {
+  "purpose": "Professional digital audio workstation",
+  "quick_start": [
+   "sudo ez-software install ardour"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the ardour package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "arp-scan": {
+  "purpose": "LAN host discovery via ARP",
+  "quick_start": [
+   "sudo ez-software install arp-scan"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the arp-scan package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "arping": {
+  "purpose": "Send ARP requests to a host",
+  "quick_start": [
+   "sudo ez-software install arping"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the arping package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "arpwatch": {
+  "purpose": "MAC/IP change watcher (arp spoof alerts)",
+  "quick_start": [
+   "sudo ez-software install arpwatch"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the arpwatch package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "asciinema": {
+  "purpose": "Terminal session recorder. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install asciinema"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the asciinema package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "asterisk": {
+  "purpose": "Open-source telephony PBX. Part of the server stacks catalog.",
+  "quick_start": [
+   "sudo ez-software install asterisk"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the asterisk package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "attr": {
+  "purpose": "Extended attribute tools. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install attr"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the attr package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "audacious": {
+  "purpose": "Lightweight audio player. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install audacious"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the audacious package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "audacity": {
+  "purpose": "Audio editor and recorder. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install audacity"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the audacity package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "awstats": {
+  "purpose": "Server log file analyzer with reports",
+  "quick_start": [
+   "sudo ez-software install awstats"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the awstats package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "bacula-server": {
+  "purpose": "Network backup server with catalog",
+  "quick_start": [
+   "sudo ez-software install bacula-server"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the bacula-server package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "barman": {
+  "purpose": "PostgreSQL backup manager. Part of the server stacks catalog.",
+  "quick_start": [
+   "sudo ez-software install barman"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the barman package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "bazel": {
+  "purpose": "Hermetic build and test system",
+  "quick_start": [
+   "sudo ez-software install bazel"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the bazel-bootstrap package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "bc": {
+  "purpose": "Arbitrary precision calculator",
+  "quick_start": [
+   "sudo ez-software install bc"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the bc package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "bear": {
+  "purpose": "Generate compile_commands.json for LSP",
+  "quick_start": [
+   "sudo ez-software install bear"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the bear package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "binwalk": {
+  "purpose": "Firmware analysis and extraction",
+  "quick_start": [
+   "sudo ez-software install binwalk"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the binwalk package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "bird2": {
+  "purpose": "BGP/OSPF routing daemon. Part of the network tools catalog.",
+  "quick_start": [
+   "sudo ez-software install bird2"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the bird2 package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "black": {
+  "purpose": "Uncompromising Python formatter",
+  "quick_start": [
+   "sudo ez-software install black"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the python3-black package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "blender": {
+  "purpose": "3D creation suite (model, render, animate)",
+  "quick_start": [
+   "sudo ez-software install blender"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the blender package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "blueman": {
+  "purpose": "Bluetooth manager GUI. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install blueman"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the blueman package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "borgbackup": {
+  "purpose": "Deduplicating encrypted backup",
+  "quick_start": [
+   "sudo ez-software install borgbackup"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the borgbackup package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "borgmatic": {
+  "purpose": "Declarative wrapper for Borg",
+  "quick_start": [
+   "sudo ez-software install borgmatic"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pipx package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "bpfcc-tools": {
+  "purpose": "eBPF instrumentation toolkit",
+  "quick_start": [
+   "sudo ez-software install bpfcc-tools"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the bpfcc-tools package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "bpftrace": {
+  "purpose": "eBPF tracing one-liners. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install bpftrace"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the bpftrace package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "brightnessctl": {
+  "purpose": "Screen brightness control. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install brightnessctl"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the brightnessctl package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "bun": {
+  "purpose": "Fast all-in-one JavaScript toolkit",
+  "quick_start": [
+   "sudo ez-software install bun"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the curl unzip package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "burp": {
+  "purpose": "Network backup and restore tool",
+  "quick_start": [
+   "sudo ez-software install burp"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the burp package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "cacti": {
+  "purpose": "Network graphing with RRDtool",
+  "quick_start": [
+   "sudo ez-software install cacti"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the cacti package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "can-utils": {
+  "purpose": "SocketCAN bus utilities. Part of the network tools catalog.",
+  "quick_start": [
+   "sudo ez-software install can-utils"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the can-utils package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "ccache": {
+  "purpose": "Compiler output cache. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install ccache"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the ccache package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "ccls": {
+  "purpose": "C/C++ language server. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install ccls"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the ccls package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "celluloid": {
+  "purpose": "GTK frontend for mpv. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install celluloid"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the celluloid package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "ceph": {
+  "purpose": "Distributed object, block and file storage",
+  "quick_start": [
+   "sudo ez-software install ceph"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the ceph package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "cewl": {
+  "purpose": "Custom wordlist generator from sites",
+  "quick_start": [
+   "sudo ez-software install cewl"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the cewl package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "cgit": {
+  "purpose": "Fast git repository web frontend",
+  "quick_start": [
+   "sudo ez-software install cgit"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the cgit package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "chromium": {
+  "purpose": "Open-source Chrome browser",
+  "quick_start": [
+   "sudo ez-software install chromium"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the chromium package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "chrony": {
+  "purpose": "NTP time sync daemon (drift-proof)",
+  "quick_start": [
+   "sudo ez-software install chrony"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the chrony package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "clang-format": {
+  "purpose": "C/C++ code formatter. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install clang-format"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the clang-format package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "clang-tidy": {
+  "purpose": "C/C++ static analysis and linting",
+  "quick_start": [
+   "sudo ez-software install clang-tidy"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the clang-tidy package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "clangd": {
+  "purpose": "C/C++ language server (LLVM)",
+  "quick_start": [
+   "sudo ez-software install clangd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the clangd package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "clementine": {
+  "purpose": "Music library and playlist player",
+  "quick_start": [
+   "sudo ez-software install clementine"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the clementine package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "cmus": {
+  "purpose": "Terminal music player. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install cmus"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the cmus package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "code-server": {
+  "purpose": "VS Code running in the browser",
+  "quick_start": [
+   "sudo ez-software install code-server"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the curl ca-certificates package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "codeblocks": {
+  "purpose": "Cross-platform C/C++ IDE. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install codeblocks"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the codeblocks package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "collectd": {
+  "purpose": "System statistics collection daemon",
+  "quick_start": [
+   "sudo ez-software install collectd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the collectd package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "collectl": {
+  "purpose": "All-in-one performance data collector",
+  "quick_start": [
+   "sudo ez-software install collectl"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the collectl package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "copyq": {
+  "purpose": "Advanced clipboard manager",
+  "quick_start": [
+   "sudo ez-software install copyq"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the copyq package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "coturn": {
+  "purpose": "TURN/STUN server for WebRTC",
+  "quick_start": [
+   "sudo ez-software install coturn"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the coturn package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "couchdb": {
+  "purpose": "Document-oriented NoSQL database",
+  "quick_start": [
+   "sudo ez-software install couchdb"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the couchdb package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "cppcheck": {
+  "purpose": "Static analysis for C/C++. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install cppcheck"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the cppcheck package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "cpu-x": {
+  "purpose": "Hardware info TUI/GUI (like CPU-Z)",
+  "quick_start": [
+   "sudo ez-software install cpu-x"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the cpu-x package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "cpufetch": {
+  "purpose": "CPU architecture info tool",
+  "quick_start": [
+   "sudo ez-software install cpufetch"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the cpufetch package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "cpufrequtils": {
+  "purpose": "CPU frequency scaling control",
+  "quick_start": [
+   "sudo ez-software install cpufrequtils"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the cpufrequtils package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "crunch": {
+  "purpose": "Wordlist generator. Part of the security tools catalog.",
+  "quick_start": [
+   "sudo ez-software install crunch"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the crunch package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "crystal": {
+  "purpose": "Compiled Ruby-like language",
+  "quick_start": [
+   "sudo ez-software install crystal"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the crystal package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "cvs": {
+  "purpose": "Concurrent versions system (legacy)",
+  "quick_start": [
+   "sudo ez-software install cvs"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the cvs package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "dante-server": {
+  "purpose": "SOCKSv4/v5 proxy server. Part of the network tools catalog.",
+  "quick_start": [
+   "sudo ez-software install dante-server"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the dante-server package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "darktable": {
+  "purpose": "Photo workflow and RAW editing",
+  "quick_start": [
+   "sudo ez-software install darktable"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the darktable package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "datamash": {
+  "purpose": "Text and stats one-liners. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install datamash"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the datamash package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "deborphan": {
+  "purpose": "Find orphaned packages. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install deborphan"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the deborphan package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "debsums": {
+  "purpose": "Verify installed files against packages",
+  "quick_start": [
+   "sudo ez-software install debsums"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the debsums package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "delve": {
+  "purpose": "Debugger for Go. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install delve"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the delve package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "deno": {
+  "purpose": "Secure JavaScript/TypeScript runtime",
+  "quick_start": [
+   "sudo ez-software install deno"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the curl unzip package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "devscripts": {
+  "purpose": "Debian packaging helper tools",
+  "quick_start": [
+   "sudo ez-software install devscripts"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the devscripts package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "dhcping": {
+  "purpose": "Probe DHCP server responses",
+  "quick_start": [
+   "sudo ez-software install dhcping"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the dhcping package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "digikam": {
+  "purpose": "Advanced photo library manager",
+  "quick_start": [
+   "sudo ez-software install digikam"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the digikam package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "direnv": {
+  "purpose": "Per-directory environment variables",
+  "quick_start": [
+   "sudo ez-software install direnv"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the direnv package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "disktype": {
+  "purpose": "Disk and image format identifier",
+  "quick_start": [
+   "sudo ez-software install disktype"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the disktype package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "distcc": {
+  "purpose": "Distributed compilation across hosts",
+  "quick_start": [
+   "sudo ez-software install distcc"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the distcc package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "dnsdist": {
+  "purpose": "DNS load balancer and DoS protector",
+  "quick_start": [
+   "sudo ez-software install dnsdist"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the dnsdist package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "dnsrecon": {
+  "purpose": "DNS enumeration and recon. Part of the security tools catalog.",
+  "quick_start": [
+   "sudo ez-software install dnsrecon"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the dnsrecon package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "docker-registry": {
+  "purpose": "Local container image registry",
+  "quick_start": [
+   "sudo ez-software install docker-registry"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the docker-registry package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "dokuwiki": {
+  "purpose": "File-based lightweight wiki",
+  "quick_start": [
+   "sudo ez-software install dokuwiki"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the dokuwiki package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "doxygen": {
+  "purpose": "Code documentation generator",
+  "quick_start": [
+   "sudo ez-software install doxygen"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the doxygen package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "easyeffects": {
+  "purpose": "Audio effects for PipeWire",
+  "quick_start": [
+   "sudo ez-software install easyeffects"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the easyeffects package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "emacs": {
+  "purpose": "Extensible editor and lisp environment",
+  "quick_start": [
+   "sudo ez-software install emacs"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the emacs package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "entr": {
+  "purpose": "Run commands when files change",
+  "quick_start": [
+   "sudo ez-software install entr"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the entr package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "eog": {
+  "purpose": "Simple image viewer. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install eog"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the eog package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "epiphany": {
+  "purpose": "Simple GNOME browser. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install epiphany"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the epiphany-browser package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "etcd": {
+  "purpose": "Distributed key-value store (Raft)",
+  "quick_start": [
+   "sudo ez-software install etcd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the etcd-server etcd-client package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "etckeeper": {
+  "purpose": "Keep /etc in git automatically",
+  "quick_start": [
+   "sudo ez-software install etckeeper"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the etckeeper package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "etherape": {
+  "purpose": "Graphical network monitor. Part of the network tools catalog.",
+  "quick_start": [
+   "sudo ez-software install etherape"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the etherape package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "falkon": {
+  "purpose": "KDE Qt web browser. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install falkon"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the falkon package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "feh": {
+  "purpose": "Fast lightweight image viewer",
+  "quick_start": [
+   "sudo ez-software install feh"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the feh package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "fierce": {
+  "purpose": "DNS reconnaissance tool. Part of the security tools catalog.",
+  "quick_start": [
+   "sudo ez-software install fierce"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the fierce package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "filezilla": {
+  "purpose": "FTP/SFTP GUI client. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install filezilla"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the filezilla package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "firejail": {
+  "purpose": "Application sandboxing. Part of the security tools catalog.",
+  "quick_start": [
+   "sudo ez-software install firejail"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the firejail package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "fish": {
+  "purpose": "User-friendly shell with autosuggestions",
+  "quick_start": [
+   "sudo ez-software install fish"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the fish package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "flake8": {
+  "purpose": "Python style and lint checks",
+  "quick_start": [
+   "sudo ez-software install flake8"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the python3-flake8 package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "flameshot": {
+  "purpose": "Featureful screenshot tool",
+  "quick_start": [
+   "sudo ez-software install flameshot"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the flameshot package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "fonts-firacode": {
+  "purpose": "Coding font with ligatures",
+  "quick_start": [
+   "sudo ez-software install fonts-firacode"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the fonts-firacode package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "fonts-jetbrainsmono": {
+  "purpose": "Coding font by JetBrains. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install fonts-jetbrainsmono"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the fonts-jetbrainsmono package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "fossil": {
+  "purpose": "Self-contained git-like SCM with web UI",
+  "quick_start": [
+   "sudo ez-software install fossil"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the fossil package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "freecad": {
+  "purpose": "Parametric 3D CAD modeler. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install freecad"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the freecad package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "freeradius": {
+  "purpose": "RADIUS authentication (WiFi, VPN)",
+  "quick_start": [
+   "sudo ez-software install freeradius"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the freeradius package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "frr": {
+  "purpose": "BGP, OSPF, ISIS routing suite",
+  "quick_start": [
+   "sudo ez-software install frr"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the frr package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "fsarchiver": {
+  "purpose": "Filesystem archiver with compression",
+  "quick_start": [
+   "sudo ez-software install fsarchiver"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the fsarchiver package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "ganeti": {
+  "purpose": "Cluster-based VM management on KVM/Xen",
+  "quick_start": [
+   "sudo ez-software install ganeti"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the ganeti package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "gdb-multiarch": {
+  "purpose": "Multi-architecture debugger",
+  "quick_start": [
+   "sudo ez-software install gdb-multiarch"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the gdb-multiarch package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "geany": {
+  "purpose": "Lightweight IDE with plugins",
+  "quick_start": [
+   "sudo ez-software install geany"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the geany package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "gh": {
+  "purpose": "Official GitHub command line",
+  "quick_start": [
+   "sudo ez-software install gh"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the gh package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "git-annex": {
+  "purpose": "Manage large files with git",
+  "quick_start": [
+   "sudo ez-software install git-annex"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the git-annex package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "git-crypt": {
+  "purpose": "Transparent encryption of git files",
+  "quick_start": [
+   "sudo ez-software install git-crypt"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the git-crypt package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "git-lfs": {
+  "purpose": "Large file support for git",
+  "quick_start": [
+   "sudo ez-software install git-lfs"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the git-lfs package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "git-svn": {
+  "purpose": "SVN bridge for git workflows",
+  "quick_start": [
+   "sudo ez-software install git-svn"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the git-svn package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "gitk": {
+  "purpose": "Git history visualizer (Tcl/Tk)",
+  "quick_start": [
+   "sudo ez-software install gitk"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the gitk package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "gitolite3": {
+  "purpose": "Fine-grained git hosting ACLs",
+  "quick_start": [
+   "sudo ez-software install gitolite3"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the gitolite3 package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "glab": {
+  "purpose": "GitLab command line (MR, issues)",
+  "quick_start": [
+   "sudo ez-software install glab"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the curl package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "glusterfs-server": {
+  "purpose": "Scale-out network filesystem",
+  "quick_start": [
+   "sudo ez-software install glusterfs-server"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the glusterfs-server package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "gnuplot": {
+  "purpose": "Plotting and graphing tool",
+  "quick_start": [
+   "sudo ez-software install gnuplot"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the gnuplot package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "goaccess": {
+  "purpose": "Real-time terminal web log analyzer",
+  "quick_start": [
+   "sudo ez-software install goaccess"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the goaccess package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "gpm": {
+  "purpose": "Console mouse support. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install gpm"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the gpm package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "graphite-web": {
+  "purpose": "Metrics storage and graphing UI",
+  "quick_start": [
+   "sudo ez-software install graphite-web"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the graphite-web package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "graphviz": {
+  "purpose": "Graph visualization (dot). Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install graphviz"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the graphviz package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "gthumb": {
+  "purpose": "Image viewer and organizer",
+  "quick_start": [
+   "sudo ez-software install gthumb"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the gthumb package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "guake": {
+  "purpose": "Drop-down terminal (Quake style)",
+  "quick_start": [
+   "sudo ez-software install guake"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the guake package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "ha-cluster": {
+  "purpose": "High-availability resource clustering",
+  "quick_start": [
+   "sudo ez-software install ha-cluster"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pacemaker corosync package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "hashid": {
+  "purpose": "Hash type identifier. Part of the security tools catalog.",
+  "quick_start": [
+   "sudo ez-software install hashid"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the hashid package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "home-assistant": {
+  "purpose": "Smart home automation platform",
+  "quick_start": [
+   "sudo ez-software install home-assistant"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the python3-full python3-venv package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "homebridge": {
+  "purpose": "HomeKit bridge for non-HomeKit devices",
+  "quick_start": [
+   "sudo ez-software install homebridge"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the nodejs npm package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "hub": {
+  "purpose": "GitHub wrapper for git. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install hub"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the hub package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "hydrogen": {
+  "purpose": "Advanced drum machine. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install hydrogen"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the hydrogen package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "icinga2": {
+  "purpose": "Modern monitoring with Icinga Web compat",
+  "quick_start": [
+   "sudo ez-software install icinga2"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the icinga2 package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "ikiwiki": {
+  "purpose": "Wiki compiler (markdown to static)",
+  "quick_start": [
+   "sudo ez-software install ikiwiki"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the ikiwiki package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "influxdb": {
+  "purpose": "Time-series database for metrics",
+  "quick_start": [
+   "sudo ez-software install influxdb"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the influxdb package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "inkscape": {
+  "purpose": "Professional vector graphics editor",
+  "quick_start": [
+   "sudo ez-software install inkscape"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the inkscape package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "inxi": {
+  "purpose": "Full hardware and system report",
+  "quick_start": [
+   "sudo ez-software install inxi"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the inxi package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "ioping": {
+  "purpose": "Latency monitor (ping for disks)",
+  "quick_start": [
+   "sudo ez-software install ioping"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the ioping package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "iscsi-target": {
+  "purpose": "Share block storage over iSCSI",
+  "quick_start": [
+   "sudo ez-software install iscsi-target"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the targetcli-fb package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "isort": {
+  "purpose": "Python import sorter. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install isort"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the python3-isort package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "isync": {
+  "purpose": "Fast IMAP mail sync. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install isync"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the isync package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "iw": {
+  "purpose": "Wireless device configuration tool",
+  "quick_start": [
+   "sudo ez-software install iw"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the iw package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "jellyfin": {
+  "purpose": "Open-source media server (movies, music, TV)",
+  "quick_start": [
+   "sudo ez-software install jellyfin"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the curl ca-certificates apt-transport-https gnupg package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "jq": {
+  "purpose": "JSON processor for the command line",
+  "quick_start": [
+   "sudo ez-software install jq"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the jq package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "jsonnet": {
+  "purpose": "Data templating language (config)",
+  "quick_start": [
+   "sudo ez-software install jsonnet"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the jsonnet package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "jupyterhub": {
+  "purpose": "Multi-user Jupyter notebook server",
+  "quick_start": [
+   "sudo ez-software install jupyterhub"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pipx package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "k3s": {
+  "purpose": "Lightweight single-binary Kubernetes",
+  "quick_start": [
+   "sudo ez-software install k3s"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the curl ca-certificates package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "kakoune": {
+  "purpose": "Modal editor with selection-first design",
+  "quick_start": [
+   "sudo ez-software install kakoune"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the kakoune package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "kdenlive": {
+  "purpose": "KDE video editor. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install kdenlive"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the kdenlive package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "kdevelop": {
+  "purpose": "KDE IDE for C/C++ and more",
+  "quick_start": [
+   "sudo ez-software install kdevelop"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the kdevelop package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "keepalived": {
+  "purpose": "VRRP failover for virtual IPs",
+  "quick_start": [
+   "sudo ez-software install keepalived"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the keepalived package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "kismet": {
+  "purpose": "Wi-Fi device detector and sniffer (upstream repo)",
+  "quick_start": [
+   "sudo ez-software install kismet"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the curl ca-certificates gnupg package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "kitty": {
+  "purpose": "Fast GPU-accelerated terminal",
+  "quick_start": [
+   "sudo ez-software install kitty"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the kitty package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "krita": {
+  "purpose": "Digital painting and sketching",
+  "quick_start": [
+   "sudo ez-software install krita"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the krita package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "lft": {
+  "purpose": "Advanced traceroute and whoami",
+  "quick_start": [
+   "sudo ez-software install lft"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the lft package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "libvirt": {
+  "purpose": "Virtualization management API and tools",
+  "quick_start": [
+   "sudo ez-software install libvirt"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the libvirt-daemon-system libvirt-clients package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "links2": {
+  "purpose": "Graphics and text mode browser",
+  "quick_start": [
+   "sudo ez-software install links2"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the links2 package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "lintian": {
+  "purpose": "Debian package linter. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install lintian"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the lintian package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "linux-perf": {
+  "purpose": "Linux performance counters (perf)",
+  "quick_start": [
+   "sudo ez-software install linux-perf"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the linux-perf package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "linuxptp": {
+  "purpose": "Precision Time Protocol (PTP)",
+  "quick_start": [
+   "sudo ez-software install linuxptp"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the linuxptp package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "lld": {
+  "purpose": "LLVM fast linker. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install lld"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the lld package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "lldb": {
+  "purpose": "LLVM debugger. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install lldb"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the lldb package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "lmms": {
+  "purpose": "Music production suite. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install lmms"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the lmms package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "lnav": {
+  "purpose": "Log file navigator with parsing",
+  "quick_start": [
+   "sudo ez-software install lnav"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the lnav package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "lsyncd": {
+  "purpose": "Live directory sync (inotify + rsync)",
+  "quick_start": [
+   "sudo ez-software install lsyncd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the lsyncd package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "magic-wormhole": {
+  "purpose": "Secure one-shot file transfer to anyone",
+  "quick_start": [
+   "sudo ez-software install magic-wormhole"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the magic-wormhole package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "mailman3": {
+  "purpose": "Mailing list manager with web UI",
+  "quick_start": [
+   "sudo ez-software install mailman3"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the mailman3 package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "masscan": {
+  "purpose": "Massive IP port scanner (async)",
+  "quick_start": [
+   "sudo ez-software install masscan"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the masscan package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "maxima": {
+  "purpose": "Computer algebra system. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install maxima"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the maxima package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "mediawiki": {
+  "purpose": "The wiki software behind Wikipedia",
+  "quick_start": [
+   "sudo ez-software install mediawiki"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the mediawiki package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "megatools": {
+  "purpose": "MEGA.nz command line tools",
+  "quick_start": [
+   "sudo ez-software install megatools"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the megatools package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "meson-ninja": {
+  "purpose": "Fast modern build system. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install meson-ninja"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the meson ninja-build package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "minio": {
+  "purpose": "S3-compatible object storage (single binary)",
+  "quick_start": [
+   "sudo ez-software install minio"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the curl ca-certificates package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "mixxx": {
+  "purpose": "DJ mixing software. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install mixxx"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the mixxx package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "mkcert": {
+  "purpose": "Local HTTPS certificates with real trust",
+  "quick_start": [
+   "sudo ez-software install mkcert"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the mkcert package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "mlmmj": {
+  "purpose": "Simple mailing list manager",
+  "quick_start": [
+   "sudo ez-software install mlmmj"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the mlmmj package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "mold": {
+  "purpose": "Very fast linker (drop-in for ld)",
+  "quick_start": [
+   "sudo ez-software install mold"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the mold package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "molly-guard": {
+  "purpose": "Guard against wrong-machine reboots",
+  "quick_start": [
+   "sudo ez-software install molly-guard"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the molly-guard package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "mpv": {
+  "purpose": "Best-in-class minimal media player",
+  "quick_start": [
+   "sudo ez-software install mpv"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the mpv package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "multitail": {
+  "purpose": "Multi-window log tailer. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install multitail"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the multitail package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "mydumper": {
+  "purpose": "Fast parallel MySQL dump. Part of the server stacks catalog.",
+  "quick_start": [
+   "sudo ez-software install mydumper"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the mydumper package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "mypaint": {
+  "purpose": "Pressure-sensitive sketching",
+  "quick_start": [
+   "sudo ez-software install mypaint"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the mypaint package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "mypy": {
+  "purpose": "Static type checker for Python",
+  "quick_start": [
+   "sudo ez-software install mypy"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the python3-mypy package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "nagios-core": {
+  "purpose": "Classic IT infrastructure monitoring",
+  "quick_start": [
+   "sudo ez-software install nagios-core"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the nagios3 package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "nautilus": {
+  "purpose": "GNOME file manager. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install nautilus"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the nautilus package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "nemo": {
+  "purpose": "Cinnamon file manager. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install nemo"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the nemo package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "neovim": {
+  "purpose": "Hyperextensible Vim-based editor",
+  "quick_start": [
+   "sudo ez-software install neovim"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the neovim package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "netsurf-gtk": {
+  "purpose": "Very lightweight web browser",
+  "quick_start": [
+   "sudo ez-software install netsurf-gtk"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the netsurf-gtk package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "network-manager": {
+  "purpose": "Full network management daemon",
+  "quick_start": [
+   "sudo ez-software install network-manager"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the network-manager package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "nim": {
+  "purpose": "Compiled systems language with Python-ish syntax",
+  "quick_start": [
+   "sudo ez-software install nim"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the nim package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "nnn": {
+  "purpose": "Blazing fast terminal file manager",
+  "quick_start": [
+   "sudo ez-software install nnn"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the nnn package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "node-red": {
+  "purpose": "Flow-based IoT wiring editor",
+  "quick_start": [
+   "sudo ez-software install node-red"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the nodejs npm package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "notmuch": {
+  "purpose": "Email indexing and searching",
+  "quick_start": [
+   "sudo ez-software install notmuch"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the notmuch package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "nsd": {
+  "purpose": "Authoritative-only DNS name server",
+  "quick_start": [
+   "sudo ez-software install nsd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the nsd package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "ntopng": {
+  "purpose": "Web-based traffic analysis and flows",
+  "quick_start": [
+   "sudo ez-software install ntopng"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the ntopng package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "nuttcp": {
+  "purpose": "Network throughput tester. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install nuttcp"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the nuttcp package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "nwipe": {
+  "purpose": "Secure disk eraser (ncurses)",
+  "quick_start": [
+   "sudo ez-software install nwipe"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the nwipe package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "obs-studio": {
+  "purpose": "Streaming and screen recording studio",
+  "quick_start": [
+   "sudo ez-software install obs-studio"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the obs-studio package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "offlineimap": {
+  "purpose": "Sync mail between IMAP servers",
+  "quick_start": [
+   "sudo ez-software install offlineimap"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the offlineimap package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "openbgpd": {
+  "purpose": "OpenBSD BGP daemon. Part of the network tools catalog.",
+  "quick_start": [
+   "sudo ez-software install openbgpd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the openbgpd package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "openconnect": {
+  "purpose": "Cisco AnyConnect compatible client",
+  "quick_start": [
+   "sudo ez-software install openconnect"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the openconnect package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "openocd": {
+  "purpose": "On-chip debug and JTAG flashing",
+  "quick_start": [
+   "sudo ez-software install openocd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the openocd package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "openscad": {
+  "purpose": "Code-based 3D CAD modeling",
+  "quick_start": [
+   "sudo ez-software install openscad"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the openscad package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "openshot": {
+  "purpose": "Easy video editor. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install openshot"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the openshot package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "opensmtpd": {
+  "purpose": "Simple secure SMTP server. Part of the server stacks catalog.",
+  "quick_start": [
+   "sudo ez-software install opensmtpd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the opensmtpd package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "openvswitch": {
+  "purpose": "Software-defined virtual switching",
+  "quick_start": [
+   "sudo ez-software install openvswitch"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the openvswitch-switch openvswitch-common package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "p0f": {
+  "purpose": "Passive OS fingerprinting. Part of the network tools catalog.",
+  "quick_start": [
+   "sudo ez-software install p0f"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the p0f package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "partclone": {
+  "purpose": "Partition clone and backup tools",
+  "quick_start": [
+   "sudo ez-software install partclone"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the partclone package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "patchutils": {
+  "purpose": "Patch manipulation tools (lsdiff, interdiff)",
+  "quick_start": [
+   "sudo ez-software install patchutils"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the patchutils package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "pavucontrol": {
+  "purpose": "PulseAudio/PipeWire mixer GUI",
+  "quick_start": [
+   "sudo ez-software install pavucontrol"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pavucontrol package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "pbuilder": {
+  "purpose": "Debian package build sandbox",
+  "quick_start": [
+   "sudo ez-software install pbuilder"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pbuilder package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "pcmanfm": {
+  "purpose": "Lightweight file manager. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install pcmanfm"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pcmanfm package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "percona-toolkit": {
+  "purpose": "MySQL/MongoDB admin toolkit",
+  "quick_start": [
+   "sudo ez-software install percona-toolkit"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the percona-toolkit package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "pgbackrest": {
+  "purpose": "PostgreSQL backup and restore",
+  "quick_start": [
+   "sudo ez-software install pgbackrest"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pgbackrest package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "pgloader": {
+  "purpose": "Migrate data into PostgreSQL",
+  "quick_start": [
+   "sudo ez-software install pgloader"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pgloader package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "pipenv": {
+  "purpose": "Python virtualenv workflow manager",
+  "quick_start": [
+   "sudo ez-software install pipenv"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pipenv package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "platformio": {
+  "purpose": "Embedded/IoT build system. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install platformio"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pipx package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "playerctl": {
+  "purpose": "Control media players from CLI",
+  "quick_start": [
+   "sudo ez-software install playerctl"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the playerctl package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "plex": {
+  "purpose": "Personal media streaming server",
+  "quick_start": [
+   "sudo ez-software install plex"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the curl ca-certificates gnupg package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "poetry": {
+  "purpose": "Python dependency and packaging manager",
+  "quick_start": [
+   "sudo ez-software install poetry"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pipx package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "postfixadmin": {
+  "purpose": "Web admin for Postfix mail domains",
+  "quick_start": [
+   "sudo ez-software install postfixadmin"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the postfixadmin package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "powertop": {
+  "purpose": "Power consumption tuner. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install powertop"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the powertop package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "pptpd": {
+  "purpose": "Legacy PPTP VPN server. Part of the network tools catalog.",
+  "quick_start": [
+   "sudo ez-software install pptpd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pptpd package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "proftpd-basic": {
+  "purpose": "Configurable FTP server. Part of the server stacks catalog.",
+  "quick_start": [
+   "sudo ez-software install proftpd-basic"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the proftpd-basic package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "pure-ftpd": {
+  "purpose": "Featureful FTP server. Part of the server stacks catalog.",
+  "quick_start": [
+   "sudo ez-software install pure-ftpd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pure-ftpd package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "pylint": {
+  "purpose": "Python static analysis. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install pylint"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the python3-pylint package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "pytest": {
+  "purpose": "Python testing framework. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install pytest"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the python3-pytest package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "qtcreator": {
+  "purpose": "IDE for Qt and C++. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install qtcreator"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the qtcreator package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "quilt": {
+  "purpose": "Manage stacks of patches. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install quilt"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the quilt package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "qutebrowser": {
+  "purpose": "Keyboard-driven vim-like browser",
+  "quick_start": [
+   "sudo ez-software install qutebrowser"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the qutebrowser package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "r-base": {
+  "purpose": "Statistical computing language",
+  "quick_start": [
+   "sudo ez-software install r-base"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the r-base r-base-dev package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "rabbitmq-server": {
+  "purpose": "AMQP message broker. Part of the server stacks catalog.",
+  "quick_start": [
+   "sudo ez-software install rabbitmq-server"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the rabbitmq-server package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "radare2": {
+  "purpose": "Reverse engineering framework",
+  "quick_start": [
+   "sudo ez-software install radare2"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the radare2 package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "ranger": {
+  "purpose": "Terminal file manager with vim keys",
+  "quick_start": [
+   "sudo ez-software install ranger"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the ranger package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "rawtherapee": {
+  "purpose": "RAW photo editor. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install rawtherapee"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the rawtherapee package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "redmine": {
+  "purpose": "Project tracking with wiki and issues",
+  "quick_start": [
+   "sudo ez-software install redmine"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the redmine package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "redshift": {
+  "purpose": "Color temperature adjuster for night use",
+  "quick_start": [
+   "sudo ez-software install redshift"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the redshift redshift-gtk package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "remind": {
+  "purpose": "Calendar and alarm tool. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install remind"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the remind package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "remmina": {
+  "purpose": "RDP/VNC/SSH remote desktop client",
+  "quick_start": [
+   "sudo ez-software install remmina"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the remmina package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "restic": {
+  "purpose": "Fast, secure, efficient backup",
+  "quick_start": [
+   "sudo ez-software install restic"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the restic package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "rhythmbox": {
+  "purpose": "GNOME music player. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install rhythmbox"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the rhythmbox package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "rng-tools5": {
+  "purpose": "Hardware entropy daemon. Part of the security tools catalog.",
+  "quick_start": [
+   "sudo ez-software install rng-tools5"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the rng-tools5 package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "roundcube": {
+  "purpose": "Browser-based IMAP webmail client",
+  "quick_start": [
+   "sudo ez-software install roundcube"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the roundcube-mysql package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "rsnapshot": {
+  "purpose": "rsync-based snapshot backups",
+  "quick_start": [
+   "sudo ez-software install rsnapshot"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the rsnapshot package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "ruff": {
+  "purpose": "Extremely fast Python linter",
+  "quick_start": [
+   "sudo ez-software install ruff"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pipx package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "s-tui": {
+  "purpose": "CPU stress and monitoring TUI",
+  "quick_start": [
+   "sudo ez-software install s-tui"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pipx package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "scrot": {
+  "purpose": "Command line screen captures",
+  "quick_start": [
+   "sudo ez-software install scrot"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the scrot package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "scrub": {
+  "purpose": "Secure disk wipe with patterns",
+  "quick_start": [
+   "sudo ez-software install scrub"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the scrub package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "shotcut": {
+  "purpose": "Cross-platform video editor",
+  "quick_start": [
+   "sudo ez-software install shotcut"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the shotcut package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "shotwell": {
+  "purpose": "GNOME photo organizer. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install shotwell"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the shotwell package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "sleuthkit": {
+  "purpose": "Forensic disk analysis tools",
+  "quick_start": [
+   "sudo ez-software install sleuthkit"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the sleuthkit package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "smokeping": {
+  "purpose": "Latency probes with graphs",
+  "quick_start": [
+   "sudo ez-software install smokeping"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the smokeping package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "smplayer": {
+  "purpose": "Qt media player with codecs memory",
+  "quick_start": [
+   "sudo ez-software install smplayer"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the smplayer package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "sngrep": {
+  "purpose": "SIP call flow viewer. Part of the network tools catalog.",
+  "quick_start": [
+   "sudo ez-software install sngrep"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the sngrep package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "sphinxsearch": {
+  "purpose": "Full-text search server. Part of the server stacks catalog.",
+  "quick_start": [
+   "sudo ez-software install sphinxsearch"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the sphinxsearch package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "srm": {
+  "purpose": "Secure file deletion. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install srm"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the srm package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "sshuttle": {
+  "purpose": "Poor man VPN over ssh. Part of the network tools catalog.",
+  "quick_start": [
+   "sudo ez-software install sshuttle"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the sshuttle package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "sstp-client": {
+  "purpose": "SSTP VPN client. Part of the network tools catalog.",
+  "quick_start": [
+   "sudo ez-software install sstp-client"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the sstp-client package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "stellarium": {
+  "purpose": "Realistic planetarium. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install stellarium"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the stellarium package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "subversion": {
+  "purpose": "Centralized version control",
+  "quick_start": [
+   "sudo ez-software install subversion"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the subversion libapache2-mod-svn package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "suricata": {
+  "purpose": "IDS/IPS engine with rule sets",
+  "quick_start": [
+   "sudo ez-software install suricata"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the suricata package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "sway": {
+  "purpose": "Wayland tiling compositor (i3 compat)",
+  "quick_start": [
+   "sudo ez-software install sway"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the sway package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "sweethome3d": {
+  "purpose": "Home interior design planner",
+  "quick_start": [
+   "sudo ez-software install sweethome3d"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the sweethome3d package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "sxiv": {
+  "purpose": "Simple X image viewer. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install sxiv"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the sxiv package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "sysbench": {
+  "purpose": "CPU/memory/IO benchmark suite",
+  "quick_start": [
+   "sudo ez-software install sysbench"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the sysbench package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "taskwarrior": {
+  "purpose": "Command line TODO manager. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install taskwarrior"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the taskwarrior package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "tcptraceroute": {
+  "purpose": "Traceroute using TCP SYN packets",
+  "quick_start": [
+   "sudo ez-software install tcptraceroute"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the tcptraceroute package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "tcptrack": {
+  "purpose": "Live TCP connection tracker",
+  "quick_start": [
+   "sudo ez-software install tcptrack"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the tcptrack package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "tftpd-hpa": {
+  "purpose": "Trivial FTP for PXE and firmware",
+  "quick_start": [
+   "sudo ez-software install tftpd-hpa"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the tftpd-hpa package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "thermald": {
+  "purpose": "Thermal management daemon. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install thermald"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the thermald package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "tig": {
+  "purpose": "Text-mode git interface. Part of the development tools catalog.",
+  "quick_start": [
+   "sudo ez-software install tig"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the tig package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "tigervnc": {
+  "purpose": "VNC server and viewer. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install tigervnc"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the tigervnc-standalone tigervnc-viewer package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "tilix": {
+  "purpose": "Tiling terminal emulator. Part of the desktop environments catalog.",
+  "quick_start": [
+   "sudo ez-software install tilix"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the tilix package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "timeshift": {
+  "purpose": "System restore snapshots (like Windows restore)",
+  "quick_start": [
+   "sudo ez-software install timeshift"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the timeshift package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "tiptop": {
+  "purpose": "Hardware performance top. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install tiptop"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the tiptop package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "tlp": {
+  "purpose": "Advanced laptop power management",
+  "quick_start": [
+   "sudo ez-software install tlp"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the tlp tlp-rdw package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "tox": {
+  "purpose": "Test automation across environments",
+  "quick_start": [
+   "sudo ez-software install tox"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pipx package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "traceroute": {
+  "purpose": "Classic route tracing tool",
+  "quick_start": [
+   "sudo ez-software install traceroute"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the traceroute package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "units": {
+  "purpose": "Unit conversion utility. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install units"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the units package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "uv": {
+  "purpose": "Very fast Python package manager",
+  "quick_start": [
+   "sudo ez-software install uv"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pipx package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "valgrind": {
+  "purpose": "Memory and thread error profiler",
+  "quick_start": [
+   "sudo ez-software install valgrind"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the valgrind package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "vde2": {
+  "purpose": "Virtual distributed ethernet",
+  "quick_start": [
+   "sudo ez-software install vde2"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the vde2 package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "vifm": {
+  "purpose": "Vi-style terminal file manager",
+  "quick_start": [
+   "sudo ez-software install vifm"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the vifm package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "volatility3": {
+  "purpose": "Memory forensics framework",
+  "quick_start": [
+   "sudo ez-software install volatility3"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pipx package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "vsftpd": {
+  "purpose": "Classic secure FTP server. Part of the server stacks catalog.",
+  "quick_start": [
+   "sudo ez-software install vsftpd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the vsftpd package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "wapiti": {
+  "purpose": "Web application vulnerability scanner",
+  "quick_start": [
+   "sudo ez-software install wapiti"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the wapiti package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "wavemon": {
+  "purpose": "Terminal Wi-Fi monitor. Part of the network tools catalog.",
+  "quick_start": [
+   "sudo ez-software install wavemon"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the wavemon package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "whatweb": {
+  "purpose": "Website fingerprinting. Part of the security tools catalog.",
+  "quick_start": [
+   "sudo ez-software install whatweb"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the whatweb package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "wipe": {
+  "purpose": "Secure file erase. Part of the system tools catalog.",
+  "quick_start": [
+   "sudo ez-software install wipe"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the wipe package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "wordpress": {
+  "purpose": "Blog and CMS with Apache + MySQL",
+  "quick_start": [
+   "sudo ez-software install wordpress"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the wordpress package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "wpasupplicant": {
+  "purpose": "Wi-Fi WPA/WPA2/WPA3 client",
+  "quick_start": [
+   "sudo ez-software install wpasupplicant"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the wpasupplicant package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "xfce4-goodies": {
+  "purpose": "Extra panel plugins for XFCE",
+  "quick_start": [
+   "sudo ez-software install xfce4-goodies"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the xfce4-goodies package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "xl2tpd": {
+  "purpose": "L2TP daemon (with strongSwan = IPsec/L2TP)",
+  "quick_start": [
+   "sudo ez-software install xl2tpd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the xl2tpd package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "xrdp": {
+  "purpose": "RDP server - remote desktop to Linux",
+  "quick_start": [
+   "sudo ez-software install xrdp"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the xrdp package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "yamllint": {
+  "purpose": "YAML linter and style checker",
+  "quick_start": [
+   "sudo ez-software install yamllint"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the yamllint package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "yara": {
+  "purpose": "Pattern matching for malware research",
+  "quick_start": [
+   "sudo ez-software install yara"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the yara package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "yt-dlp": {
+  "purpose": "Video downloader (youtube-dl fork)",
+  "quick_start": [
+   "sudo ez-software install yt-dlp"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the pipx package(s) from your configured APT repositories. A post-install hook runs automatically; check its output when installing. Generated entry — refine me."
+ },
+ "zabbix-proxy": {
+  "purpose": "Distributed monitoring proxy for Zabbix",
+  "quick_start": [
+   "sudo ez-software install zabbix-proxy"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the zabbix-proxy-pgsql package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "zeek": {
+  "purpose": "Network security monitor (Bro)",
+  "quick_start": [
+   "sudo ez-software install zeek"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the zeek package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "zmap": {
+  "purpose": "Fast single-packet network scanner",
+  "quick_start": [
+   "sudo ez-software install zmap"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the zmap package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
+ },
+ "zookeeperd": {
+  "purpose": "Coordination service for distributed systems",
+  "quick_start": [
+   "sudo ez-software install zookeeperd"
+  ],
+  "configuration": "Ships with distribution defaults; adjust its configuration files after install.",
+  "notes": "Installs the zookeeperd package(s) from your configured APT repositories. No post-install hook; start the tool or its service when you need it. Generated entry — refine me."
  }
 }

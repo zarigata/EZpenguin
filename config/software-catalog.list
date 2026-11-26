@@ -275,3 +275,305 @@ terminator|Terminator terminal|terminator|desktop|Multi-pane terminal emulator|
 gparted-gui|GP partition editor|gparted|desktop|Partition editor GUI|
 ddcutil|ddcutil monitor control|ddcutil|desktop|Control external monitor settings (DDC/CI)|
 needrestart|needrestart checker|needrestart|desktop|Restart services after lib upgrades|
+
+# === 2026-11 expansion: +300 plugins ===
+zabbix-proxy|Zabbix proxy|zabbix-proxy-pgsql|server|Distributed monitoring proxy for Zabbix|
+nagios-core|Nagios Core|nagios3|server|Classic IT infrastructure monitoring|
+icinga2|Icinga 2|icinga2|server|Modern monitoring with Icinga Web compat|
+cacti|Cacti|cacti|server|Network graphing with RRDtool|
+smokeping|SmokePing|smokeping|server|Latency probes with graphs|
+collectd|Collectd|collectd|server|System statistics collection daemon|
+influxdb|InfluxDB|influxdb|server|Time-series database for metrics|
+graphite-web|Graphite|graphite-web|server|Metrics storage and graphing UI|
+awstats|AWStats|awstats|server|Server log file analyzer with reports|
+goaccess|GoAccess|goaccess|server|Real-time terminal web log analyzer|
+arpwatch|arpwatch|arpwatch|server|MAC/IP change watcher (arp spoof alerts)|
+minio|MinIO object storage|curl ca-certificates|server|S3-compatible object storage (single binary)|curl -sSfL https://dl.min.io/server/minio/release/linux-amd64/minio -o /usr/local/bin/minio && chmod +x /usr/local/bin/minio
+etcd|etcd|etcd-server etcd-client|server|Distributed key-value store (Raft)|
+zookeeperd|Apache ZooKeeper|zookeeperd|server|Coordination service for distributed systems|
+rabbitmq-server|RabbitMQ|rabbitmq-server|server|AMQP message broker|
+nsd|NSD|nsd|server|Authoritative-only DNS name server|
+dnsdist|dnsdist|dnsdist|server|DNS load balancer and DoS protector|
+opensmtpd|OpenSMTPD|opensmtpd|server|Simple secure SMTP server|
+mlmmj|mlmmj|mlmmj|server|Simple mailing list manager|
+mailman3|Mailman 3|mailman3|server|Mailing list manager with web UI|
+roundcube|Roundcube webmail|roundcube-mysql|server|Browser-based IMAP webmail client|
+postfixadmin|PostfixAdmin|postfixadmin|server|Web admin for Postfix mail domains|
+cgit|cgit|cgit|server|Fast git repository web frontend|
+fossil|Fossil SCM|fossil|server|Self-contained git-like SCM with web UI|
+subversion|Apache Subversion|subversion libapache2-mod-svn|server|Centralized version control|
+gitolite3|Gitolite|gitolite3|server|Fine-grained git hosting ACLs|
+docker-registry|Docker registry|docker-registry|server|Local container image registry|
+vsftpd|vsftpd|vsftpd|server|Classic secure FTP server|
+pure-ftpd|Pure-FTPd|pure-ftpd|server|Featureful FTP server|
+proftpd-basic|ProFTPD|proftpd-basic|server|Configurable FTP server|
+tftpd-hpa|TFTP server|tftpd-hpa|server|Trivial FTP for PXE and firmware|
+iscsi-target|iSCSI target|targetcli-fb|server|Share block storage over iSCSI|
+libvirt|libvirt (KVM/QEMU)|libvirt-daemon-system libvirt-clients|server|Virtualization management API and tools|
+ganeti|Ganeti|ganeti|server|Cluster-based VM management on KVM/Xen|
+ha-cluster|HA cluster (Pacemaker)|pacemaker corosync|server|High-availability resource clustering|
+keepalived|keepalived|keepalived|server|VRRP failover for virtual IPs|
+k3s|K3s Kubernetes|curl ca-certificates|server|Lightweight single-binary Kubernetes|curl -sSfL https://get.k3s.io -o /tmp/k3s-install.sh && sh /tmp/k3s-install.sh
+ceph|Ceph|ceph|server|Distributed object, block and file storage|
+glusterfs-server|GlusterFS|glusterfs-server|server|Scale-out network filesystem|
+lsyncd|lsyncd|lsyncd|server|Live directory sync (inotify + rsync)|
+bacula-server|Bacula|bacula-server|server|Network backup server with catalog|
+amanda-server|Amanda|amanda-server|server|Enterprise backup server|
+burp|Burp backup|burp|server|Network backup and restore tool|
+jellyfin|Jellyfin|curl ca-certificates apt-transport-https gnupg|server|Open-source media server (movies, music, TV)|curl -sSfL https://repo.jellyfin.org/install-debuntu.sh -o /tmp/jellyfin-install.sh && bash /tmp/jellyfin-install.sh
+plex|Plex media server|curl ca-certificates gnupg|server|Personal media streaming server|curl -sSfL https://downloads.plex.tv/plex-keys/PlexSign.key -o /etc/apt/trusted.gpg.d/PlexSign.asc && echo "deb https://downloads.plex.tv/repo/deb public main" > /etc/apt/sources.list.d/plex.list && apt-get update -qq && apt-get install -y -qq plexmediaserver
+homebridge|Homebridge|nodejs npm|server|HomeKit bridge for non-HomeKit devices|npm install -g homebridge homebridge-config-ui-x
+node-red|Node-RED|nodejs npm|server|Flow-based IoT wiring editor|npm install -g node-red
+home-assistant|Home Assistant|python3-full python3-venv|server|Smart home automation platform|python3 -m venv /opt/hass && /opt/hass/bin/pip install homeassistant
+code-server|code-server (browser VS Code)|curl ca-certificates|server|VS Code running in the browser|curl -fsSL https://code-server.dev/install.sh -o /tmp/cs-install.sh && sh /tmp/cs-install.sh
+jupyterhub|JupyterHub|pipx|server|Multi-user Jupyter notebook server|pipx install jupyterhub
+archivebox|ArchiveBox|pipx|server|Self-hosted web archiving|pipx install archivebox
+asterisk|Asterisk PBX|asterisk|server|Open-source telephony PBX|
+xrdp|xrdp|xrdp|server|RDP server - remote desktop to Linux|
+freeradius|FreeRADIUS|freeradius|server|RADIUS authentication (WiFi, VPN)|
+redmine|Redmine|redmine|server|Project tracking with wiki and issues|
+mediawiki|MediaWiki|mediawiki|server|The wiki software behind Wikipedia|
+dokuwiki|DokuWiki|dokuwiki|server|File-based lightweight wiki|
+wordpress|WordPress|wordpress|server|Blog and CMS with Apache + MySQL|
+ikiwiki|ikiwiki|ikiwiki|server|Wiki compiler (markdown to static)|
+sphinxsearch|Sphinx search|sphinxsearch|server|Full-text search server|
+couchdb|Apache CouchDB|couchdb|server|Document-oriented NoSQL database|
+percona-toolkit|Percona toolkit|percona-toolkit|server|MySQL/MongoDB admin toolkit|
+mydumper|mydumper|mydumper|server|Fast parallel MySQL dump|
+pgloader|pgloader|pgloader|server|Migrate data into PostgreSQL|
+pgbackrest|pgBackRest|pgbackrest|server|PostgreSQL backup and restore|
+barman|barman|barman|server|PostgreSQL backup manager|
+neovim|Neovim|neovim|dev|Hyperextensible Vim-based editor|
+emacs|Emacs|emacs|dev|Extensible editor and lisp environment|
+geany|Geany|geany|dev|Lightweight IDE with plugins|
+codeblocks|Code::Blocks|codeblocks|dev|Cross-platform C/C++ IDE|
+qtcreator|Qt Creator|qtcreator|dev|IDE for Qt and C++|
+kdevelop|KDevelop|kdevelop|dev|KDE IDE for C/C++ and more|
+r-base|R language|r-base r-base-dev|dev|Statistical computing language|
+nim|Nim|nim|dev|Compiled systems language with Python-ish syntax|
+crystal|Crystal|crystal|dev|Compiled Ruby-like language|
+delve|Delve|delve|dev|Debugger for Go|
+lldb|LLDB|lldb|dev|LLVM debugger|
+gdb-multiarch|GDB multiarch|gdb-multiarch|dev|Multi-architecture debugger|
+valgrind|Valgrind|valgrind|dev|Memory and thread error profiler|
+linux-perf|perf|linux-perf|dev|Linux performance counters (perf)|
+bpftrace|bpftrace|bpftrace|dev|eBPF tracing one-liners|
+bpfcc-tools|BCC tools|bpfcc-tools|dev|eBPF instrumentation toolkit|
+openocd|OpenOCD|openocd|dev|On-chip debug and JTAG flashing|
+platformio|PlatformIO|pipx|dev|Embedded/IoT build system|pipx install platformio
+mkcert|mkcert|mkcert|dev|Local HTTPS certificates with real trust|
+ant|Apache Ant|ant|dev|Java build tool|
+bazel|Bazel|bazel-bootstrap|dev|Hermetic build and test system|
+meson-ninja|Meson + Ninja|meson ninja-build|dev|Fast modern build system|
+mold|mold linker|mold|dev|Very fast linker (drop-in for ld)|
+lld|LLD linker|lld|dev|LLVM fast linker|
+ccache|ccache|ccache|dev|Compiler output cache|
+distcc|distcc|distcc|dev|Distributed compilation across hosts|
+bear|bear|bear|dev|Generate compile_commands.json for LSP|
+ccls|ccls|ccls|dev|C/C++ language server|
+clangd|clangd|clangd|dev|C/C++ language server (LLVM)|
+clang-tidy|clang-tidy|clang-tidy|dev|C/C++ static analysis and linting|
+clang-format|clang-format|clang-format|dev|C/C++ code formatter|
+cppcheck|cppcheck|cppcheck|dev|Static analysis for C/C++|
+doxygen|Doxygen|doxygen|dev|Code documentation generator|
+jsonnet|Jsonnet|jsonnet|dev|Data templating language (config)|
+deno|Deno|curl unzip|dev|Secure JavaScript/TypeScript runtime|curl -fsSL https://deno.land/install.sh -o /tmp/deno-install.sh && sh /tmp/deno-install.sh
+bun|bun|curl unzip|dev|Fast all-in-one JavaScript toolkit|curl -fsSL https://bun.sh/install -o /tmp/bun-install.sh && bash /tmp/bun-install.sh
+poetry|Poetry|pipx|dev|Python dependency and packaging manager|pipx install poetry
+uv|uv|pipx|dev|Very fast Python package manager|pipx install uv
+ruff|Ruff|pipx|dev|Extremely fast Python linter|pipx install ruff
+mypy|mypy|python3-mypy|dev|Static type checker for Python|
+black|Black|python3-black|dev|Uncompromising Python formatter|
+isort|isort|python3-isort|dev|Python import sorter|
+flake8|flake8|python3-flake8|dev|Python style and lint checks|
+pylint|pylint|python3-pylint|dev|Python static analysis|
+pytest|pytest|python3-pytest|dev|Python testing framework|
+tox|tox|pipx|dev|Test automation across environments|pipx install tox
+pipenv|pipenv|pipenv|dev|Python virtualenv workflow manager|
+ansible-lint|ansible-lint|ansible-lint|dev|Ansible playbook linter|
+yamllint|yamllint|yamllint|dev|YAML linter and style checker|
+git-lfs|Git LFS|git-lfs|dev|Large file support for git|
+git-crypt|git-crypt|git-crypt|dev|Transparent encryption of git files|
+git-annex|git-annex|git-annex|dev|Manage large files with git|
+git-svn|git-svn|git-svn|dev|SVN bridge for git workflows|
+cvs|CVS|cvs|dev|Concurrent versions system (legacy)|
+tig|tig|tig|dev|Text-mode git interface|
+gitk|gitk|gitk|dev|Git history visualizer (Tcl/Tk)|
+gh|GitHub CLI|gh|dev|Official GitHub command line|
+glab|GitLab CLI|curl|dev|GitLab command line (MR, issues)|curl -sSfL https://gitlab.com/gitlab-org/cli/-/raw/main/scripts/install.sh -o /tmp/glab-install.sh && sh /tmp/glab-install.sh
+hub|hub|hub|dev|GitHub wrapper for git|
+patchutils|patchutils|patchutils|dev|Patch manipulation tools (lsdiff, interdiff)|
+quilt|quilt|quilt|dev|Manage stacks of patches|
+devscripts|devscripts|devscripts|dev|Debian packaging helper tools|
+pbuilder|pbuilder|pbuilder|dev|Debian package build sandbox|
+lintian|lintian|lintian|dev|Debian package linter|
+frr|FRRouting|frr|network|BGP, OSPF, ISIS routing suite|
+bird2|BIRD 2|bird2|network|BGP/OSPF routing daemon|
+openbgpd|OpenBGPD|openbgpd|network|OpenBSD BGP daemon|
+openvswitch|Open vSwitch|openvswitch-switch openvswitch-common|network|Software-defined virtual switching|
+vde2|VDE 2|vde2|network|Virtual distributed ethernet|
+tcptraceroute|tcptraceroute|tcptraceroute|network|Traceroute using TCP SYN packets|
+lft|lft|lft|network|Advanced traceroute and whoami|
+traceroute|traceroute|traceroute|network|Classic route tracing tool|
+masscan|masscan|masscan|network|Massive IP port scanner (async)|
+zmap|zmap|zmap|network|Fast single-packet network scanner|
+arp-scan|arp-scan|arp-scan|network|LAN host discovery via ARP|
+arping|arping|arping|network|Send ARP requests to a host|
+dhcping|dhcping|dhcping|network|Probe DHCP server responses|
+etherape|EtherApe|etherape|network|Graphical network monitor|
+p0f|p0f|p0f|network|Passive OS fingerprinting|
+tcptrack|tcptrack|tcptrack|network|Live TCP connection tracker|
+openconnect|OpenConnect|openconnect|network|Cisco AnyConnect compatible client|
+sstp-client|sstp-client|sstp-client|network|SSTP VPN client|
+pptpd|PPTP server|pptpd|network|Legacy PPTP VPN server|
+xl2tpd|xl2tpd|xl2tpd|network|L2TP daemon (with strongSwan = IPsec/L2TP)|
+sshuttle|sshuttle|sshuttle|network|Poor man VPN over ssh|
+coturn|coturn|coturn|network|TURN/STUN server for WebRTC|
+dante-server|dante (SOCKS)|dante-server|network|SOCKSv4/v5 proxy server|
+sngrep|sngrep|sngrep|network|SIP call flow viewer|
+network-manager|NetworkManager|network-manager|network|Full network management daemon|
+wpasupplicant|wpa_supplicant|wpasupplicant|network|Wi-Fi WPA/WPA2/WPA3 client|
+iw|iw|iw|network|Wireless device configuration tool|
+wavemon|wavemon|wavemon|network|Terminal Wi-Fi monitor|
+can-utils|can-utils|can-utils|network|SocketCAN bus utilities|
+linuxptp|linuxptp|linuxptp|network|Precision Time Protocol (PTP)|
+chrony|chrony|chrony|network|NTP time sync daemon (drift-proof)|
+suricata|Suricata|suricata|security|IDS/IPS engine with rule sets|
+zeek|Zeek|zeek|security|Network security monitor (Bro)|
+ntopng|ntopng|ntopng|security|Web-based traffic analysis and flows|
+aircrack-ng|Aircrack-ng|aircrack-ng|security|Wi-Fi security auditing suite|
+kismet|Kismet|curl ca-certificates gnupg|security|Wi-Fi device detector and sniffer (upstream repo)|curl -sSL https://www.kismetwireless.net/repos/kismet-release.gpg.key -o /etc/apt/trusted.gpg.d/kismet.asc && echo "deb https://www.kismetwireless.net/repo/debian bookworm main" > /etc/apt/sources.list.d/kismet.list && apt-get update -qq && apt-get install -y -qq kismet
+radare2|radare2|radare2|security|Reverse engineering framework|
+binwalk|binwalk|binwalk|security|Firmware analysis and extraction|
+sleuthkit|Sleuth Kit|sleuthkit|security|Forensic disk analysis tools|
+volatility3|Volatility 3|pipx|security|Memory forensics framework|pipx install volatility3
+wapiti|Wapiti|wapiti|security|Web application vulnerability scanner|
+whatweb|WhatWeb|whatweb|security|Website fingerprinting|
+dnsrecon|dnsrecon|dnsrecon|security|DNS enumeration and recon|
+fierce|fierce|fierce|security|DNS reconnaissance tool|
+cewl|CeWL|cewl|security|Custom wordlist generator from sites|
+crunch|crunch|crunch|security|Wordlist generator|
+hashid|hashid|hashid|security|Hash type identifier|
+yara|YARA|yara|security|Pattern matching for malware research|
+firejail|Firejail|firejail|security|Application sandboxing|
+rng-tools5|rng-tools|rng-tools5|security|Hardware entropy daemon|
+ranger|ranger|ranger|tools|Terminal file manager with vim keys|
+nnn|nnn|nnn|tools|Blazing fast terminal file manager|
+vifm|vifm|vifm|tools|Vi-style terminal file manager|
+jq|jq|jq|tools|JSON processor for the command line|
+datamash|datamash|datamash|tools|Text and stats one-liners|
+bc|bc|bc|tools|Arbitrary precision calculator|
+units|units|units|tools|Unit conversion utility|
+asciinema|asciinema|asciinema|tools|Terminal session recorder|
+kakoune|Kakoune|kakoune|tools|Modal editor with selection-first design|
+maxima|Maxima|maxima|tools|Computer algebra system|
+gnuplot|gnuplot|gnuplot|tools|Plotting and graphing tool|
+graphviz|Graphviz|graphviz|tools|Graph visualization (dot)|
+nuttcp|nuttcp|nuttcp|tools|Network throughput tester|
+collectl|collectl|collectl|tools|All-in-one performance data collector|
+tiptop|tiptop|tiptop|tools|Hardware performance top|
+s-tui|s-tui|pipx|tools|CPU stress and monitoring TUI|pipx install s-tui
+sysbench|sysbench|sysbench|tools|CPU/memory/IO benchmark suite|
+ioping|ioping|ioping|tools|Latency monitor (ping for disks)|
+disktype|disktype|disktype|tools|Disk and image format identifier|
+partclone|Partclone|partclone|tools|Partition clone and backup tools|
+fsarchiver|fsarchiver|fsarchiver|tools|Filesystem archiver with compression|
+borgbackup|BorgBackup|borgbackup|tools|Deduplicating encrypted backup|
+borgmatic|borgmatic|pipx|tools|Declarative wrapper for Borg|pipx install borgmatic
+restic|restic|restic|tools|Fast, secure, efficient backup|
+rsnapshot|rsnapshot|rsnapshot|tools|rsync-based snapshot backups|
+timeshift|Timeshift|timeshift|tools|System restore snapshots (like Windows restore)|
+direnv|direnv|direnv|tools|Per-directory environment variables|
+entr|entr|entr|tools|Run commands when files change|
+taskwarrior|Taskwarrior|taskwarrior|tools|Command line TODO manager|
+remind|remind|remind|tools|Calendar and alarm tool|
+magic-wormhole|magic-wormhole|magic-wormhole|tools|Secure one-shot file transfer to anyone|
+yt-dlp|yt-dlp|pipx|tools|Video downloader (youtube-dl fork)|pipx install yt-dlp
+megatools|megatools|megatools|tools|MEGA.nz command line tools|
+offlineimap|offlineimap|offlineimap|tools|Sync mail between IMAP servers|
+isync|isync (mbsync)|isync|tools|Fast IMAP mail sync|
+notmuch|notmuch|notmuch|tools|Email indexing and searching|
+multitail|multitail|multitail|tools|Multi-window log tailer|
+lnav|lnav|lnav|tools|Log file navigator with parsing|
+scrub|scrub|scrub|tools|Secure disk wipe with patterns|
+nwipe|nwipe|nwipe|tools|Secure disk eraser (ncurses)|
+srm|srm|srm|tools|Secure file deletion|
+wipe|wipe|wipe|tools|Secure file erase|
+attr|attr|attr|tools|Extended attribute tools|
+acl|ACL tools|acl|tools|POSIX access control list tools|
+powertop|PowerTOP|powertop|tools|Power consumption tuner|
+cpufrequtils|cpufrequtils|cpufrequtils|tools|CPU frequency scaling control|
+thermald|thermald|thermald|tools|Thermal management daemon|
+tlp|TLP|tlp tlp-rdw|tools|Advanced laptop power management|
+acpi|acpi|acpi|tools|Battery and thermal info from ACPI|
+gpm|gpm|gpm|tools|Console mouse support|
+etckeeper|etckeeper|etckeeper|tools|Keep /etc in git automatically|
+molly-guard|molly-guard|molly-guard|tools|Guard against wrong-machine reboots|
+deborphan|deborphan|deborphan|tools|Find orphaned packages|
+debsums|debsums|debsums|tools|Verify installed files against packages|
+apticron|apticron|apticron|tools|Email notifications for apt updates|
+inxi|inxi|inxi|tools|Full hardware and system report|
+cpufetch|cpufetch|cpufetch|tools|CPU architecture info tool|
+cpu-x|CPU-X|cpu-x|tools|Hardware info TUI/GUI (like CPU-Z)|
+chromium|Chromium|chromium|desktop|Open-source Chrome browser|
+epiphany|GNOME Web|epiphany-browser|desktop|Simple GNOME browser|
+falkon|Falkon|falkon|desktop|KDE Qt web browser|
+qutebrowser|qutebrowser|qutebrowser|desktop|Keyboard-driven vim-like browser|
+netsurf-gtk|NetSurf|netsurf-gtk|desktop|Very lightweight web browser|
+links2|links2|links2|desktop|Graphics and text mode browser|
+inkscape|Inkscape|inkscape|desktop|Professional vector graphics editor|
+krita|Krita|krita|desktop|Digital painting and sketching|
+mypaint|MyPaint|mypaint|desktop|Pressure-sensitive sketching|
+darktable|darktable|darktable|desktop|Photo workflow and RAW editing|
+rawtherapee|RawTherapee|rawtherapee|desktop|RAW photo editor|
+digikam|digiKam|digikam|desktop|Advanced photo library manager|
+shotwell|Shotwell|shotwell|desktop|GNOME photo organizer|
+gthumb|gThumb|gthumb|desktop|Image viewer and organizer|
+eog|Eye of GNOME|eog|desktop|Simple image viewer|
+feh|feh|feh|desktop|Fast lightweight image viewer|
+sxiv|sxiv|sxiv|desktop|Simple X image viewer|
+mpv|mpv|mpv|desktop|Best-in-class minimal media player|
+smplayer|SMPlayer|smplayer|desktop|Qt media player with codecs memory|
+celluloid|Celluloid|celluloid|desktop|GTK frontend for mpv|
+audacious|Audacious|audacious|desktop|Lightweight audio player|
+clementine|Clementine|clementine|desktop|Music library and playlist player|
+rhythmbox|Rhythmbox|rhythmbox|desktop|GNOME music player|
+cmus|cmus|cmus|desktop|Terminal music player|
+audacity|Audacity|audacity|desktop|Audio editor and recorder|
+ardour|Ardour|ardour|desktop|Professional digital audio workstation|
+lmms|LMMS|lmms|desktop|Music production suite|
+hydrogen|Hydrogen|hydrogen|desktop|Advanced drum machine|
+mixxx|Mixxx|mixxx|desktop|DJ mixing software|
+obs-studio|OBS Studio|obs-studio|desktop|Streaming and screen recording studio|
+kdenlive|Kdenlive|kdenlive|desktop|KDE video editor|
+openshot|OpenShot|openshot|desktop|Easy video editor|
+shotcut|Shotcut|shotcut|desktop|Cross-platform video editor|
+blender|Blender|blender|desktop|3D creation suite (model, render, animate)|
+freecad|FreeCAD|freecad|desktop|Parametric 3D CAD modeler|
+openscad|OpenSCAD|openscad|desktop|Code-based 3D CAD modeling|
+sweethome3d|Sweet Home 3D|sweethome3d|desktop|Home interior design planner|
+stellarium|Stellarium|stellarium|desktop|Realistic planetarium|
+kitty|kitty|kitty|desktop|Fast GPU-accelerated terminal|
+guake|Guake|guake|desktop|Drop-down terminal (Quake style)|
+tilix|Tilix|tilix|desktop|Tiling terminal emulator|
+sway|sway|sway|desktop|Wayland tiling compositor (i3 compat)|
+xfce4-goodies|XFCE goodies|xfce4-goodies|desktop|Extra panel plugins for XFCE|
+arandr|arandr|arandr|desktop|Screen layout editor|
+flameshot|Flameshot|flameshot|desktop|Featureful screenshot tool|
+scrot|scrot|scrot|desktop|Command line screen captures|
+copyq|CopyQ|copyq|desktop|Advanced clipboard manager|
+redshift|redshift|redshift redshift-gtk|desktop|Color temperature adjuster for night use|
+brightnessctl|brightnessctl|brightnessctl|desktop|Screen brightness control|
+playerctl|playerctl|playerctl|desktop|Control media players from CLI|
+blueman|Blueman|blueman|desktop|Bluetooth manager GUI|
+pavucontrol|pavucontrol|pavucontrol|desktop|PulseAudio/PipeWire mixer GUI|
+easyeffects|EasyEffects|easyeffects|desktop|Audio effects for PipeWire|
+remmina|Remmina|remmina|desktop|RDP/VNC/SSH remote desktop client|
+tigervnc|TigerVNC|tigervnc-standalone tigervnc-viewer|desktop|VNC server and viewer|
+filezilla|FileZilla|filezilla|desktop|FTP/SFTP GUI client|
+nautilus|GNOME Files|nautilus|desktop|GNOME file manager|
+nemo|Nemo|nemo|desktop|Cinnamon file manager|
+pcmanfm|PCManFM|pcmanfm|desktop|Lightweight file manager|
+fonts-firacode|FiraCode font|fonts-firacode|desktop|Coding font with ligatures|
+fonts-jetbrainsmono|JetBrains Mono font|fonts-jetbrainsmono|desktop|Coding font by JetBrains|
+fish|Friendly interactive shell|fish|tools|User-friendly shell with autosuggestions|
